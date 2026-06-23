@@ -1,0 +1,22 @@
+aws_region     = "ap-southeast-1"
+app_name       = "haithichdi-frontend"
+app_description = "Hai Thich Di frontend managed by Terraform."
+
+repository_url = "https://github.com/danhuynh1912/haithichdi-nextjs.git"
+branch_name    = "main"
+branch_stage   = "PRODUCTION"
+
+next_public_api_base_url   = "https://api.example.com"
+server_api_base_url        = "https://api.example.com"
+next_public_site_url       = "https://haithichdi.com"
+next_public_media_base_url = "https://media.example.com"
+
+additional_branch_environment_variables = {
+  AMPLIFY_ENABLE_DEBUG_OUTPUT = "true"
+}
+
+tags = {
+  Project   = "haithichdi"
+  Service   = "frontend"
+  ManagedBy = "terraform"
+}
