@@ -28,6 +28,7 @@ function parseRemotePattern(urlValue: string | undefined): RemotePattern | null 
 const envRemotePatterns = [
   parseRemotePattern(process.env.NEXT_PUBLIC_API_BASE_URL),
   parseRemotePattern(process.env.NEXT_PUBLIC_MEDIA_BASE_URL),
+  parseRemotePattern(process.env.NEXT_PUBLIC_CDN_BASE_URL),
 ].filter((pattern): pattern is NonNullable<typeof pattern> => Boolean(pattern));
 
 const nextConfig: NextConfig = {
