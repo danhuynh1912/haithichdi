@@ -1,0 +1,509 @@
+{
+  "common": {
+    "brand": "Hải Thích Đi",
+    "brandFull": "Hải Thích Đi Travel",
+    "tagline": "TREKKING - KẾT NỐI - THIỆN NGUYỆN",
+    "back": "Quay lại",
+    "details": "Chi tiết",
+    "seeAll": "Xem tất cả",
+    "seeMore": "Xem thêm",
+    "retry": "Tải lại",
+    "close": "Đóng",
+    "noImage": "No Image",
+    "updating": "Đang cập nhật",
+    "notAvailable": "Không có",
+    "copied": "Đã copy",
+    "copyAria": "Copy {label}",
+    "slotsLeft": "Còn {count} chỗ",
+    "tourCount": "{count} tours",
+    "exploreAllTours": "Khám phá tất cả tour trekking",
+    "hotBadge": "Hot"
+  },
+
+  "nav": {
+    "home": "Trang chủ",
+    "locations": "Cung nổi bật",
+    "tours": "Tours",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ",
+    "myBookings": "Tours bạn đã đặt",
+    "myBookingsShort": "Tours đã đặt",
+    "greeting": "Xin chào, <name>Trekker</name>",
+    "language": "Ngôn ngữ",
+    "switchTo": "Chuyển sang {language}"
+  },
+
+  "footer": {
+    "description": "Chúng tôi tạo ra những hành trình trekking thật, nơi bạn vừa chinh phục giới hạn của bản thân, vừa kết nối cộng đồng và để lại giá trị tích cực trên từng cung đường.",
+    "contactHeading": "Thông tin liên hệ",
+    "socialHeading": "Mạng xã hội",
+    "hotline": "Hotline",
+    "email": "Email",
+    "facebook": "Facebook: Hải Thích Đi",
+    "tiktok": "TikTok: Hải Thích Đi",
+    "rights": "© {year} Hải Thích Đi Travel. All rights reserved."
+  },
+
+  "home": {
+    "hero": {
+      "eyebrow": "Vietnam",
+      "title": "HẢI THÍCH ĐI",
+      "description": "Chúng tôi không đưa bạn đi du lịch. Chúng tôi đưa bạn bước ra khỏi vùng an toàn, chạm đến những đỉnh núi cao nhất Việt Nam và chạm đến chính mình."
+    },
+    "mobile": {
+      "searchPlaceholder": "Tìm kiếm tour hoặc địa điểm...",
+      "hotLocationsHeading": "Cung trekking hot",
+      "upcomingToursHeading": "Tours sắp diễn ra",
+      "emptyLocations": "Chưa có địa điểm.",
+      "emptyTours": "Chưa có tour nổi bật.",
+      "footerNote": "Hải Thích Đi • Trekking, Kết nối, Thiện nguyện"
+    },
+    "intro": {
+      "eyebrow": "Về chúng tôi",
+      "title": "Hải Thích Đi là ai?",
+      "lead": "Hải Thích Đi được sinh ra từ những bước chân đầu tiên trên núi, nơi mà mỗi hành trình không chỉ là leo lên một đỉnh cao, mà là hành trình vượt qua chính mình.",
+      "highlight": "Chúng tôi tin rằng: Ai cũng có một giới hạn nhưng rất ít người dám bước ra để chạm vào nó.",
+      "listIntro": "Hải Thích Đi không hướng đến những chuyến du lịch nghỉ dưỡng. Chúng tôi tạo ra những trải nghiệm thật:",
+      "listItems": [
+        "Leo những cung đường khó.",
+        "Chạm vào thiên nhiên hoang sơ.",
+        "Kết nối những con người xa lạ thành một đội."
+      ],
+      "outro": "Với đội ngũ leader giàu kinh nghiệm, am hiểu địa hình và luôn đặt sự an toàn lên hàng đầu, Hải Thích Đi đồng hành cùng bạn trên từng bước chân, từ lúc còn nghi ngờ bản thân cho đến khi đứng trên đỉnh.",
+      "quote": "👉 “Mình làm được rồi.”",
+      "stats": [
+        { "label": "Trekkers đã đồng hành", "value": "5000+" },
+        { "label": "Hành trình tổ chức", "value": "120+" },
+        { "label": "Đánh giá trung bình", "value": "4.9/5" }
+      ],
+      "keywords": [
+        {
+          "title": "Trekking",
+          "body": "Chinh phục cung khó, vượt giới hạn thật sự bằng thể lực và tinh thần."
+        },
+        {
+          "title": "Kết nối",
+          "body": "Từ người lạ thành đồng đội, đồng hành cùng nhau trên mọi đoạn dốc."
+        },
+        {
+          "title": "Thiện nguyện",
+          "body": "Mỗi chuyến đi đều có giá trị để lại cho cộng đồng địa phương."
+        }
+      ]
+    },
+    "values": {
+      "evidenceLabel": "Dẫn chứng thực tế",
+      "journeyBadge": "Hải Thích Đi Journey",
+      "keywordHighlight": "Keyword Highlight",
+      "trekking": {
+        "eyebrow": "Trekking",
+        "title": "Chinh phục giới hạn thật sự",
+        "intro": "Chúng tôi không tổ chức những chuyến đi cho có trải nghiệm. Hải Thích Đi lựa chọn những cung đường có độ thử thách thật để bạn cảm nhận rõ hành trình vượt giới hạn.",
+        "bullets": [
+          "Lộ trình theo cấp độ: người mới, trung cấp, nâng cao.",
+          "Các cung trekking tiêu biểu: Tà Xùa, Phu Sa Phìn, Fansipan, rừng rêu Samu.",
+          "Leader đi cùng có kinh nghiệm địa hình, xử lý tình huống thực tế.",
+          "Briefing trước chuyến đi về thể lực, kỹ năng và chuẩn bị cá nhân.",
+          "Tỷ lệ khách từng nghĩ không leo được nhưng vẫn lên đỉnh rất cao."
+        ],
+        "outro": "Không phải ai cũng khỏe từ đầu, nhưng ai cũng có thể mạnh hơn sau chuyến đi.",
+        "imageAlt": "Trekking vượt giới hạn cùng Hải Thích Đi",
+        "ctaLabel": "Xem cung trekking",
+        "difficulty": "Người mới + trung cấp"
+      },
+      "connection": {
+        "eyebrow": "Kết nối",
+        "title": "Từ người lạ thành đồng đội",
+        "intro": "Điều đặc biệt nhất của Hải Thích Đi không nằm ở cung đường, mà nằm ở con người. Bạn có thể đi một mình, nhưng không bao giờ một mình trong hành trình.",
+        "bullets": [
+          "90% khách đi một mình nhưng khi về đều có thêm bạn.",
+          "Trong hành trình, cả đoàn chia nước, đồ ăn và kéo nhau qua đoạn khó.",
+          "Sau tour, nhiều nhóm vẫn giữ liên lạc và rủ nhau đi tiếp.",
+          "Văn hóa đoàn: không bỏ lại ai phía sau.",
+          "Kết nối sâu với đồng bào vùng cao, porter và người dẫn đường địa phương."
+        ],
+        "outro": "Không chỉ là đi cùng nhau, mà là hiểu nhau hơn giữa người thành phố và người vùng cao.",
+        "imageAlt": "Kết nối giữa những người đồng hành trong chuyến trek",
+        "ctaLabel": "Khám phá lịch tour",
+        "difficulty": "Mở rộng cộng đồng"
+      },
+      "charity": {
+        "eyebrow": "Thiện nguyện",
+        "title": "Đi để lại giá trị",
+        "intro": "Một chuyến đi trọn vẹn không chỉ là bạn nhận được gì, mà còn là bạn để lại điều gì cho nơi mình đi qua.",
+        "bullets": [
+          "Kết hợp tặng quà cho trẻ em vùng cao trong một số hành trình.",
+          "Ưu tiên dùng dịch vụ địa phương: porter, homestay, thực phẩm bản địa.",
+          "Hỗ trợ người dân qua du lịch bền vững.",
+          "Giữ ý thức bảo vệ môi trường: không xả rác, thu gom rác trên đường trek.",
+          "Nhiều đoàn chủ động quyên góp thêm sau chuyến đi."
+        ],
+        "outro": "Mỗi bước chân không chỉ in dấu trên núi mà còn để lại giá trị ở nơi bạn đi qua.",
+        "imageAlt": "Tinh thần thiện nguyện trong hành trình trekking",
+        "ctaLabel": "Xem hành trình ý nghĩa",
+        "difficulty": "Du lịch bền vững"
+      }
+    },
+    "featuredRoutes": {
+      "eyebrow": "Tour trekking nổi bật",
+      "title": "Những cung đường không dành cho người chỉ muốn “đi chơi”",
+      "mainRouteLabel": "Main Route",
+      "suitableFor": "Phù hợp: {audience}.",
+      "suitableForUpdating": "Phù hợp: Đang cập nhật.",
+      "viewSchedule": "Xem lịch tour {route}",
+      "noAudienceDescription": "Chưa có mô tả đối tượng phù hợp cho section này.",
+      "noRoutesForAudience": "Chưa có route nào cho nhóm đối tượng này.",
+      "loadError": "Không tải được dữ liệu cung nổi bật. Vui lòng thử lại sau.",
+      "empty": "Chưa có dữ liệu cung nổi bật để hiển thị trên homepage."
+    }
+  },
+
+  "about": {
+    "eyebrow": "Về chúng tôi",
+    "title": "Trekking. Kết nối. Thiện nguyện.",
+    "lead": "Hành trình Hải Thích Đi được viết từ những biển mây, bếp lửa đêm và những cái ôm tạm biệt ở bản làng.",
+    "story": [
+      "Ngày trước, mình chỉ đơn giản là một người mê núi, mê rừng, mê cái cảm giác hít căng lồng ngực bầu không khí trong lành và thả hồn theo những biển mây trôi lững lờ. Rồi mình chợt nghĩ: Nếu chỉ mình mình được thấy thì… uổng quá. Giá mà có thêm nhiều người cùng đi, cùng trải nghiệm thì tuyệt biết bao!",
+      "Từ ý nghĩ đó, mình bắt đầu hành trình dẫn tour trekking. Với mình, trekking không chỉ là đi bộ trên những con đường mòn gập ghềnh, mà còn là hành trình kết nối những tâm hồn. Nơi mà ta có thể tạm quên deadline, gác lại phố thị ồn ào, chỉ còn tiếng cười vang quanh đống lửa, những câu hát ngẫu hứng và những câu chuyện thật lòng chưa từng dám kể.",
+      "Và mình tin, giá trị của một chuyến đi không chỉ nằm ở cảnh đẹp. Thỉnh thoảng, chúng mình mang theo vài món quà nhỏ gửi tặng các em nhỏ vùng cao như chút bánh kẹo, quyển vở,... để san sẻ niềm vui.",
+      "Nhưng quan trọng hơn, chính những chuyến trekking còn mở ra cơ hội để bà con trên bản có thêm việc làm, thêm nguồn thu nhập sau vụ mùa vất vả. Họ trở thành những người porter âm thầm gùi đồ, khéo léo nấu nướng, kiên nhẫn dẫn đường… không chỉ giúp chuyến đi trọn vẹn hơn, mà còn để lại trong chúng mình sự biết ơn và những kỷ niệm khó quên.",
+      "💚 Với mình, một chuyến đi trọn vẹn phải có đủ ba điều: Trekking – Kết nối – Thiện nguyện. Và mình tin, nếu bạn đồng hành cùng Hải Thích Đi, bạn sẽ không chỉ thấy thiên nhiên hùng vĩ hơn, tâm hồn mình rộng mở hơn, mà còn mang về một góc nhìn mới về con người, về cuộc sống, và có khi… về chính bản thân mình."
+    ],
+    "pills": ["Trekking", "Kết nối", "Thiện nguyện"],
+    "imageAlt": "Hải Thích Đi trekking",
+    "quote": "“Mỗi hành trình là một sợi dây kết nối mới.”",
+    "statLabel": "Đoàn đã đồng hành",
+    "statValue": "5000+ trekkers"
+  },
+
+  "leaders": {
+    "default": {
+      "eyebrow": "Team",
+      "title": "Leaders của Hải Thích Đi",
+      "description": "Những người giữ nhịp cho hành trình, đảm bảo an toàn và lan tỏa năng lượng tích cực cho cả đoàn.",
+      "helperText": "Chạm để xem profile chi tiết"
+    },
+    "home": {
+      "eyebrow": "Đội ngũ dẫn đoàn",
+      "title": "Leaders - Trái tim của mỗi hành trình",
+      "description": "Không chỉ dẫn đường, leaders của Hải Thích Đi là những người giữ nhịp đoàn, truyền năng lượng và đảm bảo an toàn trên từng chặng trek.",
+      "helperText": "Mở profile để xem thế mạnh của từng leader"
+    },
+    "loading": "Đang tải danh sách leaders...",
+    "roleFallback": "Leader",
+    "locationFallback": "Việt Nam",
+    "highlightFallback": "Luôn đặt trải nghiệm và an toàn của đoàn lên trước.",
+    "strengthsFallback": ["An toàn", "Xử lý tình huống", "Truyền cảm hứng"],
+    "modal": {
+      "closeAria": "Đóng chi tiết leader",
+      "highlightFallback": "Lan tỏa năng lượng tích cực, bảo vệ an toàn và cảm xúc của cả đoàn.",
+      "bioFallback": "Leader của Hải Thích Đi, yêu rừng núi, giỏi điều phối nhịp đoàn và luôn dành thời gian lắng nghe từng thành viên.",
+      "strengthsHeading": "Strengths",
+      "strengthsFallback": [
+        "Thể lực",
+        "An toàn",
+        "Kết nối",
+        "Ghi hình",
+        "Xử lý tình huống"
+      ],
+      "emailHeading": "Email",
+      "emailFallback": "hello@haithichdi.vn",
+      "joinedHeading": "Gia nhập"
+    },
+    "samples": [
+      {
+        "fullName": "Nguyễn Thị Kiều Trinh",
+        "role": "Trek Leader",
+        "relationship": "Single",
+        "dob": "13/05/1998",
+        "highlight": "Hơn 5 năm dẫn đoàn, mạnh thể lực, xử lý tình huống nhanh nhạy và luôn giữ không khí vui vẻ.",
+        "bio": "Một trong những nữ leader sở hữu thể lực tốt và khả năng ứng biến mượt mà, luôn quan tâm và giữ tinh thần đoàn.",
+        "strengths": [
+          "Thể lực bền bỉ",
+          "Kĩ năng quay/chụp",
+          "Khả năng dẫn đoàn",
+          "Xử lý tình huống",
+          "Hài hước, kết nối"
+        ]
+      },
+      {
+        "fullName": "Nguyễn Minh",
+        "role": "Route Architect",
+        "relationship": "Married",
+        "dob": "04/11/1992",
+        "highlight": "Thiết kế cung đường tối ưu và đảm bảo an toàn cho từng đoàn.",
+        "bio": "Đam mê bản đồ, luôn thử nghiệm lộ trình mới để giữ an toàn và trải nghiệm trọn vẹn.",
+        "strengths": ["Định tuyến", "An toàn", "Sơ cứu", "Logistics"]
+      },
+      {
+        "fullName": "Hoàng Lan",
+        "role": "Community Host",
+        "relationship": "Single",
+        "dob": "22/08/1995",
+        "highlight": "Kết nối với cộng đồng địa phương và đem đến trải nghiệm văn hóa.",
+        "bio": "Luôn mỉm cười, luôn lắng nghe; người khiến mọi cuộc trò chuyện quanh lửa trại trở nên đáng nhớ.",
+        "strengths": ["Giao tiếp bản địa", "Ẩm thực địa phương", "Gắn kết đội"]
+      }
+    ]
+  },
+
+  "moments": {
+    "default": {
+      "eyebrow": "Khoảnh khắc",
+      "title": "Những khung hình yêu thích",
+      "description": "Chọn layout so le như Pinterest để giữ nhịp tự do, cảm giác phiêu lưu đúng chất trekking."
+    },
+    "home": {
+      "eyebrow": "Khoảnh khắc đáng nhớ",
+      "title": "Khoảnh khắc đáng nhớ",
+      "description": "Giữ lại những khoảnh khắc thật nhất trên đường trek, từ bình minh trên đỉnh đến nụ cười cuối ngày."
+    },
+    "swipeHint": "Lướt để xem thêm",
+    "loadError": "Không tải được gallery khoảnh khắc. Vui lòng thử lại sau.",
+    "empty": "Chưa có ảnh tour nào để hiển thị trong gallery."
+  },
+
+  "locations": {
+    "eyebrow": "Hải Thích đi",
+    "title": "CÁC CUNG NỔI BẬT",
+    "elevation": "{value}M ABOVE SEA LEVEL",
+    "backgroundAlt": "Background",
+    "modal": {
+      "closeAria": "Đóng chi tiết cung",
+      "sectionLabel": "Các cung",
+      "quotationTitle": "Quotation - {name}",
+      "quotationEmpty": "Chưa có file quotation cho địa điểm này.",
+      "quotationMobileCta": "Xem lịch trình và báo giá",
+      "upcomingTours": "Tours sắp tới",
+      "noTours": "Hiện chưa có tour cho cung đường này."
+    }
+  },
+
+  "tours": {
+    "searchPlaceholder": "Tìm tour theo tên...",
+    "loading": "Đang tải tours...",
+    "empty": "Không tìm thấy tour phù hợp.",
+    "modeLocation": "Tìm theo cung",
+    "modeTour": "Tìm theo tour",
+    "filters": {
+      "locationHeading": "Tours theo location",
+      "sortHeading": "Sắp xếp",
+      "upcoming": "Tours sắp diễn ra",
+      "upcomingAria": "Bật tắt bộ lọc tours sắp diễn ra"
+    },
+    "hotPanel": {
+      "title": "Tours sắp diễn ra",
+      "loading": "Đang tải...",
+      "error": "Không tải được danh sách tour nổi bật.",
+      "dateTbd": "TBD"
+    }
+  },
+
+  "booking": {
+    "trail": "Booking tour {location}",
+    "notFound": "Không tìm thấy tour hoặc tour đã ngừng hoạt động.",
+    "summaryFallback": "Hành trình chinh phục cung đường trekking đầy thử thách và đáng nhớ.",
+    "durationDays": "{count} ngày",
+    "descriptionHeading": "Description",
+    "descriptionHint": "Thông tin chi tiết hành trình ở dạng markdown.",
+    "priceLabel": "Giá tour",
+    "priceOnRequest": "Liên hệ",
+    "itineraryHeading": "Itinerary",
+    "itineraryHint": "Mặc định mở Day 0, bấm vào tiêu đề để xem chi tiết từng ngày.",
+    "itineraryEmpty": "Lịch trình đang được cập nhật.",
+    "itineraryDayEmpty": "Nội dung ngày này đang được cập nhật.",
+    "itineraryDayZeroTitle": "Day 0 - Chuẩn bị trước hành trình",
+    "itineraryDate": "Ngày {date}",
+    "markdownEmpty": "Thông tin đang được cập nhật.",
+    "relatedHeading": "Các tours bạn có thể thích",
+    "relatedHint": "Gợi ý thêm các hành trình đang mở đăng ký.",
+    "relatedEmpty": "Chưa có tour liên quan để gợi ý.",
+    "relatedCta": "Đăng ký tour này",
+    "relatedDateTbd": "Đang cập nhật lịch",
+    "form": {
+      "title": "Đăng ký ngay",
+      "subtitle": "Để lại thông tin, đội ngũ {location} sẽ liên hệ xác nhận.",
+      "submit": "Đăng ký ngay",
+      "submitting": "Đang gửi...",
+      "success": "Đăng ký thành công! Đang chuyển sang màn hình xác nhận...",
+      "missingFields": "Vui lòng điền đủ Họ tên, SĐT, Tên in huy chương, Ngày sinh, CCCD.",
+      "fullName": "Họ và tên",
+      "fullNamePlaceholder": "Nguyễn Văn A",
+      "medalName": "Tên in trên huy chương",
+      "medalNamePlaceholder": "VD: NGUYEN VAN A",
+      "phone": "Số điện thoại",
+      "phonePlaceholder": "09xx xxx xxx",
+      "dob": "Ngày tháng năm sinh",
+      "email": "Email (tuỳ chọn)",
+      "emailPlaceholder": "you@example.com",
+      "citizenId": "Căn cước công dân",
+      "citizenIdPlaceholder": "012345678901",
+      "note": "Ghi chú",
+      "notePlaceholder": "Yêu cầu đặc biệt..."
+    }
+  },
+
+  "bookingSuccess": {
+    "trail": "Booking successful",
+    "back": "Quay lại booking",
+    "eyebrow": "Booking successful",
+    "title": "Cảm ơn {name}, bạn đã đặt tour thành công.",
+    "nameFallback": "bạn",
+    "description": "Yêu cầu của bạn đã được ghi nhận. Đội ngũ vận hành sẽ xác nhận trong thời gian sớm nhất để chốt lịch trình.",
+    "bookingCode": "Mã booking #{id}",
+    "locationFallback": "Tour trekking",
+    "scheduleTbd": "Lịch trình sẽ được gửi khi xác nhận booking",
+    "steps": [
+      {
+        "title": "Bước 1",
+        "description": "Nhân viên tư vấn gọi điện xác nhận thông tin."
+      },
+      {
+        "title": "Bước 2",
+        "description": "Gửi lại lịch trình và thông tin cần chuẩn bị."
+      },
+      {
+        "title": "Bước 3",
+        "description": "Hoàn tất giữ chỗ và nhận hướng dẫn trước chuyến đi."
+      }
+    ],
+    "actionEyebrow": "Action",
+    "actionTitle": "Sẵn sàng cho hành trình tiếp theo?",
+    "actionDescription": "Bạn có thể tiếp tục khám phá thêm tour khác hoặc xem lại các booking đã tạo.",
+    "actionMyBookings": "Xem tours đã đặt",
+    "actionMoreTours": "Khám phá thêm tours",
+    "actionBookAgain": "Đặt thêm cho tour này",
+    "actionHome": "Về trang chủ",
+    "readingStorage": "Đang đọc thông tin booking...",
+    "notFoundTitle": "Không tìm thấy booking trong trình duyệt của bạn.",
+    "notFoundDescription": "Hãy tạo booking mới hoặc truy cập lại từ thiết bị đã từng đặt tour.",
+    "notFoundCta": "Đi đến danh sách tour",
+    "loadingDetail": "Đang tải chi tiết booking #{id}...",
+    "loadErrorTitle": "Không thể tải chi tiết booking #{id}.",
+    "loadErrorDescription": "Vui lòng thử tải lại trang hoặc vào mục Tours bạn đã đặt."
+  },
+
+  "myBookings": {
+    "trail": "Tours bạn đã đặt",
+    "back": "Quay về tours",
+    "eyebrow": "My Bookings",
+    "title": "Tour bạn đã đặt",
+    "description": "Theo dõi trạng thái từng booking và mở chi tiết đơn ngay trong một màn hình.",
+    "viewCard": "Card",
+    "viewList": "List",
+    "temporaryNotice": "Thông tin ở đây đang được lưu tạm thời, hãy đăng nhập để luôn theo dõi lịch sử đặt tours.",
+    "emptyTitleMobile": "Bạn chưa đặt tour nào",
+    "emptyTitle": "Chưa có booking nào trên thiết bị này",
+    "emptyDescription": "Khi bạn đặt tour thành công, mã booking sẽ được lưu tự động để theo dõi trạng thái ngay tại đây.",
+    "emptyCtaMobile": "Hãy đặt ngay",
+    "emptyCta": "Đi đến danh sách tours",
+    "loadError": "Không thể tải danh sách booking. Vui lòng thử lại.",
+    "count": "{count, plural, other {# booking}}",
+    "missingCount": "{count} booking không còn khả dụng",
+    "bookingCode": "Booking #{id}",
+    "createdAt": "Tạo ngày {date}",
+    "scheduleTbd": "Đang cập nhật lịch trình",
+    "modal": {
+      "closeAria": "Đóng chi tiết booking",
+      "eyebrow": "Booking detail",
+      "code": "Mã #{id}",
+      "createdHeading": "Thời điểm tạo booking",
+      "fullName": "Họ và tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "medalName": "Tên in huy chương",
+      "citizenId": "CCCD",
+      "dob": "Ngày sinh",
+      "note": "Ghi chú",
+      "noteEmpty": "Không có ghi chú"
+    }
+  },
+
+  "bookingStatus": {
+    "prefix": "Trạng thái",
+    "pending": "Chờ xác nhận",
+    "confirmed": "Đã xác nhận",
+    "cancelled": "Đã hủy"
+  },
+
+  "bookingErrors": {
+    "TOUR_FULL": "Tour đã hết chỗ.",
+    "TOUR_INACTIVE": "Tour hiện không nhận đặt chỗ.",
+    "TOUR_NOT_FOUND": "Không tìm thấy tour.",
+    "PHONE_DUPLICATE": "Số điện thoại đã đăng ký tour này.",
+    "MEDAL_NAME_REQUIRED": "Vui lòng nhập tên in trên huy chương.",
+    "DOB_REQUIRED": "Vui lòng nhập ngày sinh.",
+    "CITIZEN_ID_REQUIRED": "Vui lòng nhập số căn cước công dân.",
+    "FULL_NAME_REQUIRED": "Vui lòng nhập họ tên.",
+    "PHONE_REQUIRED": "Vui lòng nhập số điện thoại.",
+    "UNKNOWN": "Đặt tour thất bại. Vui lòng thử lại."
+  },
+
+  "pdf": {
+    "empty": "Chưa có file thông tin cho mục này.",
+    "cta": "Xem chi tiết thông tin",
+    "mobileHint": "Bản xem nhanh đã được tối ưu cho điện thoại. Nhấn bên dưới để xem đầy đủ.",
+    "openNewTab": "Mở tab mới nếu chưa hiển thị",
+    "closeAria": "Đóng chi tiết thông tin",
+    "detailTitle": "{title} - Chi tiết",
+    "thumbnailAlt": "{title} thumbnail"
+  },
+
+  "featureInProgress": {
+    "title": "Đang phát triển",
+    "message": "Tính năng này đang phát triển",
+    "closeAria": "Đóng thông báo"
+  },
+
+  "chat": {
+    "name": "Haithichdi AI",
+    "openAria": "Mở chat AI",
+    "closeAria": "Đóng chat",
+    "expandAria": "Mở rộng",
+    "collapseAria": "Thu nhỏ",
+    "dismissAria": "Đóng",
+    "sendAria": "Gửi",
+    "placeholder": "Hỏi về tour...",
+    "welcome": "Xin chào! Tôi có thể giúp bạn tìm hiểu về các tour trekking của Haithichdi.",
+    "error": "Xin lỗi, có lỗi xảy ra."
+  },
+
+  "metadata": {
+    "siteDescription": "Hải Thích Đi - Chuyên tour trekking Việt Nam, khám phá thiên nhiên và văn hóa địa phương bền vững.",
+    "home": {
+      "title": "Trang chủ",
+      "description": "Hải Thích Đi - Chuyên tour trekking khám phá thiên nhiên Việt Nam. Trải nghiệm hành trình kết nối và thiện nguyện cùng chúng tôi."
+    },
+    "about": {
+      "title": "Về chúng tôi",
+      "description": "Hải Thích Đi - Hành trình trekking, kết nối và thiện nguyện. Gặp đội ngũ leader và xem những khoảnh khắc đáng nhớ."
+    },
+    "locations": {
+      "title": "Các cung trekking nổi bật",
+      "description": "Khám phá các cung đường trekking nổi bật cùng Hải Thích Đi, đầy đủ thông tin địa điểm và tour sắp diễn ra."
+    },
+    "tours": {
+      "title": "Tours",
+      "description": "Danh sách tour trekking Hải Thích Đi với bộ lọc địa điểm và tìm kiếm."
+    },
+    "myBookings": {
+      "title": "Tours bạn đã đặt",
+      "description": "Theo dõi danh sách tour đã booking, xem trạng thái xác nhận và chi tiết từng booking."
+    },
+    "contact": {
+      "title": "Liên hệ",
+      "description": "Liên hệ Hải Thích Đi để được tư vấn cung trekking phù hợp với bạn."
+    },
+    "tourBooking": {
+      "title": "Đăng ký tour {tour}",
+      "titleFallback": "Đăng ký tour #{id}",
+      "description": "Đăng ký tour {tour} - {location} cùng Hải Thích Đi.",
+      "descriptionNoLocation": "Đăng ký tour {tour} cùng Hải Thích Đi.",
+      "descriptionFallback": "Đăng ký tour trekking cùng Hải Thích Đi."
+    },
+    "bookingSuccess": {
+      "title": "Booking tour #{id} thành công",
+      "description": "Đăng ký tour thành công. Đội ngũ Hải Thích Đi sẽ sớm liên hệ để xác nhận thông tin của bạn."
+    }
+  }
+}

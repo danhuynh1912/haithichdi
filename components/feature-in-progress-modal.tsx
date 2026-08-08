@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import FullscreenModalShell from '@/components/fullscreen-modal-shell';
 
 interface FeatureInProgressModalProps {
@@ -12,20 +13,22 @@ interface FeatureInProgressModalProps {
 export default function FeatureInProgressModal({
   open,
   onClose,
-  title = 'Đang phát triển',
-  message = 'Tính năng này đang phát triển',
+  title,
+  message,
 }: FeatureInProgressModalProps) {
+  const t = useTranslations('featureInProgress');
+
   return (
     <FullscreenModalShell
       open={open}
       onClose={onClose}
-      closeAriaLabel='Đóng thông báo'
+      closeAriaLabel={t('closeAria')}
       containerClassName='h-full w-full flex items-center justify-center p-4'
       contentClassName='h-auto w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-black/90 text-white'
     >
       <div className='p-6 pt-14 text-center'>
-        <h3 className='text-xl font-black tracking-tight'>{title}</h3>
-        <p className='mt-2 text-sm text-neutral-300'>{message}</p>
+        <h3 className='text-xl font-black tracking-tight'>{title ?? t('title')}</h3>
+        <p className='mt-2 text-sm text-neutral-300'>{message ?? t('message')}</p>
       </div>
     </FullscreenModalShell>
   );

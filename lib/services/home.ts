@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import type { Locale } from '@/i18n/routing';
 import { resolveMediaUrl } from '@/lib/media';
 
 export interface HomeFeaturedRouteAudience {
@@ -62,8 +63,10 @@ interface RawMomentImage extends Omit<HomeMomentsGalleryImage, 'image_url'> {
 }
 
 export const homeService = {
-  getFeaturedRoutes: async (): Promise<HomeFeaturedRoutesResponse> => {
-    const { data, error } = await supabase.rpc('home_featured_routes');
+  getFeaturedRoutes: async (locale: Locale): Promise<HomeFeaturedRoutesResponse> => {
+    const { data, error } = await supabase.rpc('home_featured_routes', {
+      p_locale: locale,
+    });
     if (error) throw new Error(error.message);
     const payload = data as {
       routes: RawFeaturedRoute[];
@@ -82,8 +85,10 @@ export const homeService = {
       highlight_audience: payload.highlight_audience,
     };
   },
-  getMomentsGallery: async (): Promise<HomeMomentsGalleryResponse> => {
-    const { data, error } = await supabase.rpc('home_moments_gallery');
+  getMomentsGallery: async (locale: Locale): Promise<HomeMomentsGalleryResponse> => {
+    const { data, error } = await supabase.rpc('home_moments_gallery', {
+      p_locale: locale,
+    });
     if (error) throw new Error(error.message);
     const payload = data as { images: RawMomentImage[] };
     return {

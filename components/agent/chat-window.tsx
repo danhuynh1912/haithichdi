@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Expand, Minimize2, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { type ChatTurn, streamAgentChat } from '@/lib/services/agent';
@@ -34,6 +35,7 @@ export default function ChatWindow({
   isFullscreen,
   className,
 }: ChatWindowProps) {
+  const t = useTranslations('chat');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -92,7 +94,7 @@ export default function ChatWindow({
         onMessagesChange((prev) =>
           prev.map((m) =>
             m.id === assistantId
-              ? { ...m, content: m.content || 'Xin lỗi, có lỗi xảy ra.', isStreaming: false }
+              ? { ...m, content: m.content || t('error'), isStreaming: false }
               : m,
           ),
         );
@@ -121,7 +123,7 @@ export default function ChatWindow({
       <div className='flex items-center justify-between gap-2 border-b border-white/10 px-4 py-3 shrink-0'>
         <div className='flex items-center gap-2'>
           <span className='h-2 w-2 rounded-full bg-[#d00600] animate-pulse' />
-          <span className='text-sm font-semibold tracking-wide'>Haithichdi AI</span>
+          <span className='text-sm font-semibold tracking-wide'>{t('name')}</span>
         </div>
         <div className='flex items-center gap-1'>
           {isFullscreen ? (
@@ -129,7 +131,7 @@ export default function ChatWindow({
               <button
                 onClick={onCollapse}
                 className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
-                aria-label='Thu nhỏ'
+                aria-label={t('collapseAria')}
               >
                 <Minimize2 size={15} />
               </button>
@@ -139,7 +141,7 @@ export default function ChatWindow({
               <button
                 onClick={onExpand}
                 className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
-                aria-label='Mở rộng'
+                aria-label={t('expandAria')}
               >
                 <Expand size={15} />
               </button>
@@ -148,7 +150,7 @@ export default function ChatWindow({
           <button
             onClick={onClose}
             className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
-            aria-label='Đóng'
+            aria-label={t('dismissAria')}
           >
             <X size={15} />
           </button>
@@ -160,7 +162,7 @@ export default function ChatWindow({
         {messages.length === 0 && (
           <div className='flex h-full items-center justify-center text-center'>
             <p className='text-sm text-white/40 leading-relaxed px-4'>
-              Xin chào! Tôi có thể giúp bạn tìm hiểu về các tour trekking của Haithichdi.
+              {t('welcome')}
             </p>
           </div>
         )}
@@ -185,7 +187,7 @@ export default function ChatWindow({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder='Hỏi về tour...'
+          placeholder={t('placeholder')}
           rows={1}
           disabled={isLoading}
           className='flex-1 resize-none bg-white/5 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus:ring-1 focus:ring-[#d00600]/60 max-h-28 overflow-y-auto disabled:opacity-50'
@@ -195,7 +197,7 @@ export default function ChatWindow({
           type='submit'
           disabled={isLoading || !input.trim()}
           className='shrink-0 h-9 w-9 rounded-xl bg-[#d00600] flex items-center justify-center text-white disabled:opacity-40 hover:bg-[#b00500] transition-colors'
-          aria-label='Gửi'
+          aria-label={t('sendAria')}
         >
           <Send size={14} />
         </button>

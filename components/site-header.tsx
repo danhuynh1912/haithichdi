@@ -1,18 +1,21 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { TicketCheck } from 'lucide-react';
+import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import {
   hasStoredBookingIds,
   subscribeBookingIdsChanged,
 } from '@/lib/services/booking-storage';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
+import LanguageSwitcher from '@/components/language-switcher';
 
 export default function SiteHeader() {
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
   const pathname = usePathname() || '/';
   const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
@@ -62,12 +65,12 @@ export default function SiteHeader() {
     >
       <Link
         href='/'
-        aria-label='Hải Thích Đi'
+        aria-label={tCommon('brand')}
         className='inline-flex items-center shrink-0'
       >
         <Image
           src='/haithichdi-logo-white.png'
-          alt='Hải Thích Đi'
+          alt={tCommon('brand')}
           width={2366}
           height={2366}
           priority
@@ -77,24 +80,28 @@ export default function SiteHeader() {
       <div className='flex items-center gap-4'>
         {isMobile && (
           <p className='text-[11px] leading-tight text-right text-neutral-300 md:hidden'>
-            Xin chào, <span className='font-semibold text-white'>Trekker</span>
+            {t.rich('greeting', {
+              name: (chunks) => (
+                <span className='font-semibold text-white'>{chunks}</span>
+              ),
+            })}
           </p>
         )}
         <nav className='hidden md:flex gap-8 lg:gap-12 text-sm lg:text-base'>
           <Link href='/' className={navItemClass(isHomeActive)}>
-            Trang chủ
+            {t('home')}
           </Link>
           <Link href='/locations' className={navItemClass(isLocationsActive)}>
-            Cung nổi bật
+            {t('locations')}
           </Link>
           <Link href='/tours' className={navItemClass(isToursActive)}>
-            Tours
+            {t('tours')}
           </Link>
           <Link href='/#about-us' className={navItemClass(isAboutActive)}>
-            Về chúng tôi
+            {t('about')}
           </Link>
           <Link href='/#site-footer' className={navItemClass(isContactActive)}>
-            Liên hệ
+            {t('contact')}
           </Link>
           {showBookedToursItem && (
             <Link
@@ -102,10 +109,11 @@ export default function SiteHeader() {
               className={cn(navItemClass(isBookingsActive), 'inline-flex items-center gap-2')}
             >
               <TicketCheck size={16} />
-              Tours bạn đã đặt
+              {t('myBookings')}
             </Link>
           )}
         </nav>
+        <LanguageSwitcher />
       </div>
     </header>
   );

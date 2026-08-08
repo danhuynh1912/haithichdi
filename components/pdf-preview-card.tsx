@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { FileText } from 'lucide-react';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
 import {
@@ -26,10 +27,11 @@ export default function PdfPreviewCard({
   title,
   className,
   frameClassName,
-  emptyMessage = 'Chưa có file thông tin cho mục này.',
+  emptyMessage,
   thumbnailUrl,
-  mobileCtaLabel = 'Xem chi tiết thông tin',
+  mobileCtaLabel,
 }: PdfPreviewCardProps) {
+  const t = useTranslations('pdf');
   const isMobile = useIsMobile();
   const [isViewerOpen, setIsViewerOpen] = useState(false);
 
@@ -59,7 +61,7 @@ export default function PdfPreviewCard({
               <div className='relative w-full aspect-[16/9] bg-black'>
                 <Image
                   src={thumbSrc}
-                  alt={`${title} thumbnail`}
+                  alt={t('thumbnailAlt', { title })}
                   fill
                   unoptimized={thumbIsRemote}
                   className='object-cover'
@@ -68,10 +70,7 @@ export default function PdfPreviewCard({
             ) : (
               <div className='flex-1 min-h-[220px] px-6 py-8 flex flex-col items-center justify-center gap-3 text-center text-neutral-400'>
                 <FileText className='text-[#d00600]' size={32} />
-                <p className='text-sm'>
-                  Bản xem nhanh đã được tối ưu cho điện thoại. Nhấn bên dưới để xem
-                  đầy đủ.
-                </p>
+                <p className='text-sm'>{t('mobileHint')}</p>
               </div>
             )
           ) : (
@@ -84,7 +83,7 @@ export default function PdfPreviewCard({
         ) : (
           <div className='w-full h-full min-h-[220px] flex flex-col items-center justify-center gap-3 text-neutral-400 px-6 py-8 text-center'>
             <FileText className='text-[#d00600]' size={32} />
-            <p>{emptyMessage}</p>
+            <p>{emptyMessage ?? t('empty')}</p>
           </div>
         )}
 
@@ -95,7 +94,7 @@ export default function PdfPreviewCard({
                 onClick={() => setIsViewerOpen(true)}
                 className='inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white transition-colors'
               >
-                {mobileCtaLabel}
+                {mobileCtaLabel ?? t('cta')}
               </button>
             ) : (
               <a
@@ -104,7 +103,7 @@ export default function PdfPreviewCard({
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white transition-colors'
               >
-                Xem chi tiết thông tin
+                {t('cta')}
               </a>
             )}
           </div>
@@ -114,14 +113,14 @@ export default function PdfPreviewCard({
       <FullscreenModalShell
         open={Boolean(isMobile && isViewerOpen && mobileViewerUrl)}
         onClose={() => setIsViewerOpen(false)}
-        closeAriaLabel='Đóng chi tiết thông tin'
+        closeAriaLabel={t('closeAria')}
         contentClassName='bg-black text-white'
       >
         {mobileViewerUrl && (
           <div className='relative h-full w-full'>
             <iframe
               src={mobileViewerUrl}
-              title={`${title} - Chi tiết`}
+              title={t('detailTitle', { title })}
               className='w-full h-full border-0'
             />
             {viewerUrl && (
@@ -131,7 +130,7 @@ export default function PdfPreviewCard({
                 rel='noopener noreferrer'
                 className='absolute left-3 bottom-3 rounded-full border border-white/20 bg-black/70 px-3 py-1.5 text-[11px] text-white'
               >
-                Mở tab mới nếu chưa hiển thị
+                {t('openNewTab')}
               </a>
             )}
           </div>

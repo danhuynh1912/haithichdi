@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import { motion } from 'motion/react';
+import { useFormatter, useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { leaderService, type Leader } from '@/lib/services/leader';
-import { homeService, type HomeMomentsGalleryImage } from '@/lib/services/home';
+import { type Leader } from '@/lib/services/leader';
+import { type HomeMomentsGalleryImage } from '@/lib/services/home';
+import { useLeadersQuery, useMomentsGalleryQuery } from '@/lib/services/queries';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import FullscreenModalShell from '@/components/fullscreen-modal-shell';
@@ -26,99 +27,73 @@ type LeaderCard = Leader & {
   location?: string | null;
 };
 
-type LeadersShowcaseSectionProps = {
+/**
+ * Which copy set the section renders. Both variants share the same markup —
+ * only the headline block differs, so the strings stay in one catalogue.
+ */
+type SectionVariant = 'default' | 'home';
+
+type SectionProps = {
   id?: string;
   className?: string;
-  eyebrow?: string;
-  title?: string;
-  description?: string;
-  helperText?: string;
+  variant?: SectionVariant;
 };
 
-type MomentsGallerySectionProps = {
-  id?: string;
-  className?: string;
-  eyebrow?: string;
-  title?: string;
-  description?: string;
+/** Shape of one entry under `leaders.samples`. */
+type LeaderSample = {
+  fullName: string;
+  role: string;
+  relationship: string;
+  dob: string;
+  highlight: string;
+  bio: string;
+  strengths: string[];
 };
 
-const fallbackLeaders: LeaderCard[] = [
-  {
-    id: -1,
-    username: 'kieu.trinh',
-    first_name: 'Nguyễn Thị',
-    last_name: 'Kiều Trinh',
-    full_name: 'Nguyễn Thị Kiều Trinh',
-    avatar_url:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
-    role_label: 'Trek Leader',
-    relationship: 'Single',
-    dob: '13/05/1998',
-    highlight:
-      'Hơn 5 năm dẫn đoàn, mạnh thể lực, xử lý tình huống nhanh nhạy và luôn giữ không khí vui vẻ.',
-    strengths: [
-      'Thể lực bền bỉ',
-      'Kĩ năng quay/chụp',
-      'Khả năng dẫn đoàn',
-      'Xử lý tình huống',
-      'Hài hước, kết nối',
-    ],
-    bio: 'Một trong những nữ leader sở hữu thể lực tốt và khả năng ứng biến mượt mà, luôn quan tâm và giữ tinh thần đoàn.',
-  },
-  {
-    id: -2,
-    username: 'minh.trek',
-    first_name: 'Nguyễn',
-    last_name: 'Minh',
-    full_name: 'Nguyễn Minh',
-    avatar_url:
-      'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
-    role_label: 'Route Architect',
-    relationship: 'Married',
-    dob: '04/11/1992',
-    strengths: ['Định tuyến', 'An toàn', 'Sơ cứu', 'Logistics'],
-    highlight: 'Thiết kế cung đường tối ưu và đảm bảo an toàn cho từng đoàn.',
-    bio: 'Đam mê bản đồ, luôn thử nghiệm lộ trình mới để giữ an toàn và trải nghiệm trọn vẹn.',
-  },
-  {
-    id: -3,
-    username: 'lan.hoang',
-    first_name: 'Hoàng',
-    last_name: 'Lan',
-    full_name: 'Hoàng Lan',
-    avatar_url:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80&sat=-40',
-    role_label: 'Community Host',
-    relationship: 'Single',
-    dob: '22/08/1995',
-    strengths: ['Giao tiếp bản địa', 'Ẩm thực địa phương', 'Gắn kết đội'],
-    highlight: 'Kết nối với cộng đồng địa phương và đem đến trải nghiệm văn hóa.',
-    bio: 'Luôn mỉm cười, luôn lắng nghe; người khiến mọi cuộc trò chuyện quanh lửa trại trở nên đáng nhớ.',
-  },
+/** Stand-ins shown while the profiles table is still empty. */
+const SAMPLE_AVATARS = [
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80&sat=-40',
 ];
 
 export function LeadersShowcaseSection({
   id,
   className,
-  eyebrow = 'Team',
-  title = 'Leaders của Hải Thích Đi',
-  description = 'Những người giữ nhịp cho hành trình, đảm bảo an toàn và lan tỏa năng lượng tích cực cho cả đoàn.',
-  helperText = 'Chạm để xem profile chi tiết',
-}: LeadersShowcaseSectionProps) {
-  const { data: leaders = [], isLoading: leadersLoading } = useQuery({
-    queryKey: ['leaders'],
-    queryFn: leaderService.getLeaders,
-  });
+  variant = 'default',
+}: SectionProps) {
+  const t = useTranslations('leaders');
+  const tCommon = useTranslations('common');
+
+  const { data: leaders = [], isLoading: leadersLoading } = useLeadersQuery();
+
+  const roleFallback = t('roleFallback');
+  const samples = t.raw('samples') as LeaderSample[];
 
   const mergedLeaders = useMemo<LeaderCard[]>(() => {
-    if (leaders.length === 0) return fallbackLeaders;
+    if (leaders.length === 0) {
+      return samples.map((sample, index) => ({
+        id: -(index + 1),
+        username: '',
+        first_name: '',
+        last_name: '',
+        full_name: sample.fullName,
+        avatar_url: SAMPLE_AVATARS[index] ?? SAMPLE_AVATARS[0],
+        role_label: sample.role,
+        relationship: sample.relationship,
+        dob: sample.dob,
+        highlight: sample.highlight,
+        bio: sample.bio,
+        strengths: sample.strengths,
+      }));
+    }
+
     return leaders.map((leader) => ({
       ...leader,
-      role_label: leader.display_role || 'Leader',
+      role_label: leader.display_role || roleFallback,
       avatar_url: leader.full_avatar_url || leader.avatar_url,
     }));
-  }, [leaders]);
+  }, [leaders, samples, roleFallback]);
 
   const [selectedLeader, setSelectedLeader] = useState<LeaderCard | null>(null);
 
@@ -135,18 +110,24 @@ export function LeadersShowcaseSection({
         <div className='relative max-w-[1400px] mx-auto px-4 sm:px-8 space-y-10'>
           <div className='flex flex-col md:flex-row md:items-end md:justify-between gap-6'>
             <div>
-              <p className='text-xs uppercase tracking-[0.25em] text-red-200'>{eyebrow}</p>
-              <h2 className='text-2xl sm:text-3xl lg:text-4xl font-black mt-2'>{title}</h2>
-              <p className='text-neutral-300 mt-3 max-w-2xl'>{description}</p>
+              <p className='text-xs uppercase tracking-[0.25em] text-red-200'>
+                {t(`${variant}.eyebrow`)}
+              </p>
+              <h2 className='text-2xl sm:text-3xl lg:text-4xl font-black mt-2'>
+                {t(`${variant}.title`)}
+              </h2>
+              <p className='text-neutral-300 mt-3 max-w-2xl'>
+                {t(`${variant}.description`)}
+              </p>
             </div>
             <div className='inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 sm:px-4 py-2 text-xs sm:text-sm text-neutral-200'>
               <Heart className='w-4 h-4 text-red-400' />
-              <span>{helperText}</span>
+              <span>{t(`${variant}.helperText`)}</span>
             </div>
           </div>
 
           {leadersLoading ? (
-            <p className='text-neutral-400 text-sm'>Đang tải danh sách leaders...</p>
+            <p className='text-neutral-400 text-sm'>{t('loading')}</p>
           ) : (
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5'>
               {mergedLeaders.map((leader, idx) => (
@@ -171,27 +152,25 @@ export function LeadersShowcaseSection({
                     <AvatarBubble name={leader.full_name} src={leader.avatar_url} />
                     <div className='flex-1'>
                       <p className='text-xs uppercase tracking-[0.2em] text-red-200'>
-                        {leader.role_label || 'Leader'}
+                        {leader.role_label || roleFallback}
                       </p>
                       <p className='text-lg font-semibold leading-tight'>{leader.full_name}</p>
                       <p className='text-xs text-neutral-400 flex items-center gap-1 mt-1'>
                         <MapPin className='w-3 h-3' />
-                        {leader.location || 'Việt Nam'}
+                        {leader.location || t('locationFallback')}
                       </p>
                     </div>
                     <ArrowUpRight className='w-4 h-4 text-red-300 opacity-0 group-hover:opacity-100 transition-opacity' />
                   </div>
 
                   <p className='text-sm text-neutral-200 mt-4 line-clamp-3'>
-                    {leader.highlight ||
-                      leader.bio ||
-                      'Luôn đặt trải nghiệm và an toàn của đoàn lên trước.'}
+                    {leader.highlight || leader.bio || t('highlightFallback')}
                   </p>
 
                   <div className='mt-4 flex flex-wrap gap-2'>
                     {(leader.strengths && leader.strengths.length > 0
                       ? leader.strengths
-                      : ['An toàn', 'Xử lý tình huống', 'Truyền cảm hứng']
+                      : (t.raw('strengthsFallback') as string[])
                     )
                       .slice(0, 4)
                       .map((strength) => (
@@ -212,7 +191,7 @@ export function LeadersShowcaseSection({
                       }}
                       className='inline-flex items-center gap-1.5 text-xs font-semibold text-red-200 active:text-red-100 transition-colors'
                     >
-                      Chi tiết
+                      {tCommon('details')}
                       <ArrowUpRight className='w-3.5 h-3.5' />
                     </button>
                   </div>
@@ -230,15 +209,11 @@ export function LeadersShowcaseSection({
 export function MomentsGallerySection({
   id,
   className,
-  eyebrow = 'Khoảnh khắc',
-  title = 'Những khung hình yêu thích',
-  description = 'Chọn layout so le như Pinterest để giữ nhịp tự do, cảm giác phiêu lưu đúng chất trekking.',
-}: MomentsGallerySectionProps) {
-  const { data, isPending, isError } = useQuery({
-    queryKey: ['home', 'moments-gallery'],
-    queryFn: homeService.getMomentsGallery,
-    staleTime: 60_000,
-  });
+  variant = 'default',
+}: SectionProps) {
+  const t = useTranslations('moments');
+
+  const { data, isPending, isError } = useMomentsGalleryQuery();
 
   const galleryImages = data?.images ?? [];
 
@@ -254,13 +229,19 @@ export function MomentsGallerySection({
       <div className='relative max-w-6xl mx-auto px-4 sm:px-8 space-y-10'>
         <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
           <div>
-            <p className='text-xs uppercase tracking-[0.25em] text-red-200'>{eyebrow}</p>
-            <h2 className='text-2xl sm:text-3xl lg:text-4xl font-black mt-2'>{title}</h2>
-            <p className='text-neutral-300 mt-3 max-w-2xl'>{description}</p>
+            <p className='text-xs uppercase tracking-[0.25em] text-red-200'>
+              {t(`${variant}.eyebrow`)}
+            </p>
+            <h2 className='text-2xl sm:text-3xl lg:text-4xl font-black mt-2'>
+              {t(`${variant}.title`)}
+            </h2>
+            <p className='text-neutral-300 mt-3 max-w-2xl'>
+              {t(`${variant}.description`)}
+            </p>
           </div>
           <div className='inline-flex items-center gap-2 text-xs text-neutral-300 bg-white/5 border border-white/10 px-3 py-2 rounded-full'>
             <Camera className='w-4 h-4 text-red-300' />
-            <span>Lướt để xem thêm</span>
+            <span>{t('swipeHint')}</span>
           </div>
         </div>
 
@@ -279,7 +260,7 @@ export function MomentsGallerySection({
               >
                 <Image
                   src={img.image_url || '/images/haithichdi1.jpg'}
-                  alt={getMomentAltText(img)}
+                  alt={getMomentLabel(img)}
                   width={img.width || 900}
                   height={img.height || 1200}
                   className='w-full h-auto object-cover'
@@ -294,9 +275,7 @@ export function MomentsGallerySection({
           </div>
         ) : (
           <div className='rounded-3xl border border-white/10 bg-white/5 px-4 py-6 text-sm text-neutral-400'>
-            {isError
-              ? 'Không tải được gallery khoảnh khắc. Vui lòng thử lại sau.'
-              : 'Chưa có ảnh tour nào để hiển thị trong gallery.'}
+            {isError ? t('loadError') : t('empty')}
           </div>
         )}
       </div>
@@ -322,10 +301,7 @@ function MomentsGalleryLoadingState() {
   );
 }
 
-function getMomentAltText(image: HomeMomentsGalleryImage) {
-  return image.caption.trim() || image.tour_title.trim() || image.location_name.trim();
-}
-
+/** Caption comes from the DB; fall back to the tour and then the location. */
 function getMomentLabel(image: HomeMomentsGalleryImage) {
   return image.caption.trim() || image.tour_title.trim() || image.location_name.trim();
 }
@@ -337,11 +313,14 @@ function LeaderModal({
   leader: LeaderCard | null;
   onClose: () => void;
 }) {
+  const t = useTranslations('leaders');
+  const format = useFormatter();
+
   return (
     <FullscreenModalShell
       open={Boolean(leader)}
       onClose={onClose}
-      closeAriaLabel='Đóng chi tiết leader'
+      closeAriaLabel={t('modal.closeAria')}
       backdropClassName='bg-black/80 backdrop-blur-md'
       containerClassName='h-full w-full md:flex md:items-center md:justify-center md:p-6'
       contentClassName='h-full w-full overflow-y-auto bg-gradient-to-br from-[#101010] to-[#0a0a0a] border border-white/10 rounded-none shadow-2xl md:h-auto md:max-h-[90vh] md:max-w-5xl md:w-[90vw] md:rounded-3xl'
@@ -362,7 +341,7 @@ function LeaderModal({
             <div className='absolute inset-0 bg-gradient-to-t from-black to-transparent' />
             <div className='absolute bottom-4 left-4 right-4'>
               <p className='text-xs uppercase tracking-[0.2em] text-red-200'>
-                {leader.role_label || 'Leader'}
+                {leader.role_label || t('roleFallback')}
               </p>
               <p className='text-2xl font-semibold'>{leader.full_name}</p>
               <div className='flex flex-wrap gap-3 text-xs text-neutral-200 mt-2'>
@@ -385,25 +364,21 @@ function LeaderModal({
           <div className='p-6 sm:p-8 space-y-4'>
             <div className='flex items-center gap-3 text-sm text-red-200'>
               <Flame className='w-4 h-4' />
-              <span>
-                {leader.highlight ||
-                  'Lan tỏa năng lượng tích cực, bảo vệ an toàn và cảm xúc của cả đoàn.'}
-              </span>
+              <span>{leader.highlight || t('modal.highlightFallback')}</span>
             </div>
 
             <div className='text-neutral-200 text-sm leading-relaxed space-y-3'>
-              <p>
-                {leader.bio ||
-                  'Leader của Hải Thích Đi, yêu rừng núi, giỏi điều phối nhịp đoàn và luôn dành thời gian lắng nghe từng thành viên.'}
-              </p>
+              <p>{leader.bio || t('modal.bioFallback')}</p>
             </div>
 
             <div>
-              <p className='text-xs uppercase tracking-[0.25em] text-red-200'>Strengths</p>
+              <p className='text-xs uppercase tracking-[0.25em] text-red-200'>
+                {t('modal.strengthsHeading')}
+              </p>
               <div className='mt-3 flex flex-wrap gap-2'>
                 {(leader.strengths && leader.strengths.length > 0
                   ? leader.strengths
-                  : ['Thể lực', 'An toàn', 'Kết nối', 'Ghi hình', 'Xử lý tình huống']
+                  : (t.raw('modal.strengthsFallback') as string[])
                 ).map((item) => (
                   <span
                     key={item}
@@ -418,14 +393,20 @@ function LeaderModal({
 
             <div className='grid grid-cols-2 gap-3 text-sm text-neutral-300'>
               <div className='rounded-2xl border border-white/5 bg-white/5 px-3 py-3'>
-                <p className='text-xs uppercase tracking-[0.2em] text-red-200'>Email</p>
-                <p className='font-medium mt-1'>{leader.email || 'hello@haithichdi.vn'}</p>
+                <p className='text-xs uppercase tracking-[0.2em] text-red-200'>
+                  {t('modal.emailHeading')}
+                </p>
+                <p className='font-medium mt-1'>
+                  {leader.email || t('modal.emailFallback')}
+                </p>
               </div>
               <div className='rounded-2xl border border-white/5 bg-white/5 px-3 py-3'>
-                <p className='text-xs uppercase tracking-[0.2em] text-red-200'>Gia nhập</p>
+                <p className='text-xs uppercase tracking-[0.2em] text-red-200'>
+                  {t('modal.joinedHeading')}
+                </p>
                 <p className='font-medium mt-1'>
                   {leader.date_joined
-                    ? new Date(leader.date_joined).toLocaleDateString('vi-VN')
+                    ? format.dateTime(new Date(leader.date_joined), 'date')
                     : '—'}
                 </p>
               </div>

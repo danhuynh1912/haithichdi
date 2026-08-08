@@ -1,6 +1,7 @@
 'use client';
 
 import { type ReactNode, useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { X } from 'lucide-react';
@@ -28,11 +29,12 @@ export default function FullscreenModalShell({
   containerClassName,
   contentClassName,
   showCloseButton = true,
-  closeAriaLabel = 'Đóng',
+  closeAriaLabel,
   closeButtonClassName,
   disableBackdropClose = false,
   contentKey,
 }: FullscreenModalShellProps) {
+  const t = useTranslations('common');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export default function FullscreenModalShell({
               {showCloseButton && (
                 <button
                   onClick={onClose}
-                  aria-label={closeAriaLabel}
+                  aria-label={closeAriaLabel ?? t('close')}
                   className={cn(
                     'absolute top-4 right-4 z-[110] h-10 w-10 rounded-full border border-white/20 bg-black/50 text-white flex items-center justify-center hover:border-[#d00600]/70 hover:text-[#ffcfcc] transition-colors',
                     closeButtonClassName,

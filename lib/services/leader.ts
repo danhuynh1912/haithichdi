@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import type { Locale } from '@/i18n/routing';
 import { resolveMediaUrl } from '@/lib/media';
 
 export interface Leader {
@@ -59,16 +60,13 @@ function mapLeader(raw: RawProfile): Leader {
 }
 
 export const leaderService = {
-  getLeaders: async (): Promise<Leader[]> => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select(
-        'id, full_name, avatar_path, avatar_url, bio, display_role, strengths, highlight, location, relationship_status, date_of_birth, years_experience, created_at',
-      )
-      .eq('role', 'leader')
-      .eq('is_active', true)
-      .order('created_at');
+  getLeaders: async (locale: Locale): Promise<Leader[]> => {
+    // `leaders_list` resolves the `_en` fallback in SQL and already filters to
+    // active leaders — the previous PostgREST select did neither.
+    const { data, error } = await supabase.rpc('leaders_list', {
+      p_locale: locale,
+    });
     if (error) throw new Error(error.message);
-    return (data as RawProfile[]).map(mapLeader);
+    return ((data as RawProfile[]) ?? []).map(mapLeader);
   },
 };
