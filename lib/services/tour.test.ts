@@ -18,7 +18,7 @@ describe('tourService', () => {
   it('calls search_tours with normalized filter/search/sort params', async () => {
     mockedRpc.mockResolvedValueOnce({ data: [], error: null } as never);
 
-    await tourService.getTours({
+    await tourService.getTours('en', {
       locationIds: [1, 2],
       search: '  ky quan san  ',
       sortUpcoming: true,
@@ -28,29 +28,32 @@ describe('tourService', () => {
       p_search: 'ky quan san',
       p_location_ids: [1, 2],
       p_ordering: 'start_date',
+      p_locale: 'en',
     });
   });
 
   it('passes nulls to search_tours when no filters are given', async () => {
     mockedRpc.mockResolvedValueOnce({ data: [], error: null } as never);
 
-    await tourService.getTours();
+    await tourService.getTours('vi');
 
     expect(mockedRpc).toHaveBeenCalledWith('search_tours', {
       p_search: null,
       p_location_ids: null,
       p_ordering: 'start_date',
+      p_locale: 'vi',
     });
   });
 
   it('calls related_tours with tour id and limit', async () => {
     mockedRpc.mockResolvedValueOnce({ data: [], error: null } as never);
 
-    await tourService.getRelatedTours(11, 6);
+    await tourService.getRelatedTours(11, 'en', 6);
 
     expect(mockedRpc).toHaveBeenCalledWith('related_tours', {
       p_tour_id: 11,
       p_limit: 6,
+      p_locale: 'en',
     });
   });
 
@@ -82,10 +85,14 @@ describe('tourService', () => {
     expect(response).toEqual({ id: 99, status: 'pending' });
   });
 
-  it('translates a TOUR_FULL error into a Vietnamese message', async () => {
+  it.each([
+    ['TOUR_FULL', 'TOUR_FULL'],
+    ['duplicate key: PHONE_DUPLICATE', 'PHONE_DUPLICATE'],
+    ['something unexpected', 'UNKNOWN'],
+  ])('maps rpc error %s to the %s code', async (message, expectedCode) => {
     mockedRpc.mockResolvedValueOnce({
       data: null,
-      error: { message: 'TOUR_FULL' },
+      error: { message },
     } as never);
 
     await expect(
@@ -97,6 +104,6 @@ describe('tourService', () => {
         dob: '1998-05-23',
         citizen_id: '012345678901',
       }),
-    ).rejects.toThrow('Tour đã hết chỗ.');
+    ).rejects.toMatchObject({ code: expectedCode });
   });
 });

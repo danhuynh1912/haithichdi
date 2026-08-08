@@ -5,8 +5,7 @@
  * resolution here means components are untouched by the AWS→Supabase swap.
  */
 import { resolveMediaUrl } from '@/lib/media';
-import { Location } from '@/app/locations/types';
-import { TourListItem } from '@/app/tours/types';
+import { Location, TourListItem } from '@/lib/types';
 
 export interface RawLocation {
   id: number;

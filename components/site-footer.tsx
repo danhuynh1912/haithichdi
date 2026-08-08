@@ -1,6 +1,7 @@
 'use client';
 
 import { Copy, Facebook, Mail, Phone, Ticket } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
 
 const HOTLINE = '0336594797';
@@ -28,6 +29,8 @@ function CopyableContactLine({
   value,
   Icon,
   copiedField,
+  copyAriaLabel,
+  copiedLabel,
   onCopy,
 }: {
   field: Exclude<CopyField, null>;
@@ -35,6 +38,8 @@ function CopyableContactLine({
   value: string;
   Icon: ComponentType<{ className?: string }>;
   copiedField: CopyField;
+  copyAriaLabel: string;
+  copiedLabel: string;
   onCopy: (field: Exclude<CopyField, null>, value: string) => void;
 }) {
   return (
@@ -45,7 +50,7 @@ function CopyableContactLine({
       </span>
       <button
         type='button'
-        aria-label={`Copy ${label}`}
+        aria-label={copyAriaLabel}
         onClick={() => onCopy(field, value)}
         className='inline-flex h-6 w-6 items-center justify-center rounded-md border border-white/15 bg-white/5 text-neutral-200 hover:border-red-400/50 hover:text-white transition-colors'
       >
@@ -57,7 +62,7 @@ function CopyableContactLine({
           aria-live='polite'
           className='w-max pointer-events-none absolute left-full top-1/2 ml-2 -translate-y-1/2 rounded-full border border-emerald-300/40 bg-emerald-400/12 px-2 py-0.5 text-[10px] font-medium text-emerald-200'
         >
-          Đã copy
+          {copiedLabel}
         </span>
       ) : null}
     </div>
@@ -65,6 +70,8 @@ function CopyableContactLine({
 }
 
 export default function SiteFooter() {
+  const t = useTranslations('footer');
+  const tCommon = useTranslations('common');
   const [copiedField, setCopiedField] = useState<CopyField>(null);
   const copyTimeoutRef = useRef<number | null>(null);
 
@@ -114,39 +121,46 @@ export default function SiteFooter() {
         <section className='space-y-4'>
           <p className='inline-flex items-center gap-2 rounded-full border border-red-400/35 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-red-100'>
             <Ticket className='h-4 w-4 text-red-300' />
-            Hải Thích Đi
+            {tCommon('brand')}
           </p>
-          <h2 className='text-3xl font-black'>Hải Thích Đi Travel</h2>
+          <h2 className='text-3xl font-black'>{tCommon('brandFull')}</h2>
           <p className='max-w-xl text-sm leading-relaxed text-neutral-300'>
-            Chúng tôi tạo ra những hành trình trekking thật, nơi bạn vừa chinh phục giới hạn
-            của bản thân, vừa kết nối cộng đồng và để lại giá trị tích cực trên từng cung đường.
+            {t('description')}
           </p>
         </section>
 
         <section className='space-y-4'>
-          <h3 className='text-sm uppercase tracking-[0.2em] text-red-200'>Thông tin liên hệ</h3>
+          <h3 className='text-sm uppercase tracking-[0.2em] text-red-200'>
+            {t('contactHeading')}
+          </h3>
           <div className='space-y-3 text-sm text-neutral-200'>
             <CopyableContactLine
               field='phone'
-              label='Hotline'
+              label={t('hotline')}
               value={HOTLINE}
               Icon={Phone}
               copiedField={copiedField}
+              copyAriaLabel={tCommon('copyAria', { label: t('hotline') })}
+              copiedLabel={tCommon('copied')}
               onCopy={handleCopy}
             />
             <CopyableContactLine
               field='email'
-              label='Email'
+              label={t('email')}
               value={EMAIL}
               Icon={Mail}
               copiedField={copiedField}
+              copyAriaLabel={tCommon('copyAria', { label: t('email') })}
+              copiedLabel={tCommon('copied')}
               onCopy={handleCopy}
             />
           </div>
         </section>
 
         <section className='space-y-4'>
-          <h3 className='text-sm uppercase tracking-[0.2em] text-red-200'>Mạng xã hội</h3>
+          <h3 className='text-sm uppercase tracking-[0.2em] text-red-200'>
+            {t('socialHeading')}
+          </h3>
           <div className='space-y-3 text-sm text-neutral-200'>
             <a
               href='https://www.facebook.com/haithichdi'
@@ -155,7 +169,7 @@ export default function SiteFooter() {
               className='inline-flex items-center gap-2 hover:text-red-200 transition-colors'
             >
               <Facebook className='h-4 w-4 text-red-300' />
-              Facebook: Hải Thích Đi
+              {t('facebook')}
             </a>
             <a
               href='https://www.tiktok.com/@haithichdii'
@@ -171,14 +185,15 @@ export default function SiteFooter() {
               >
                 <path d='M19.59 6.69a4.83 4.83 0 0 0-3.77-1.52h-.67a4.26 4.26 0 0 0-3.18 1.47 4.27 4.27 0 0 0-3.19-1.47h-.67a4.83 4.83 0 0 0-3.77 1.52 4.83 4.83 0 0 0-1.52 3.77v2.89a4.83 4.83 0 0 0 1.52 3.77 4.83 4.83 0 0 0 3.77 1.52h.67a4.27 4.27 0 0 0 3.19-1.47 4.26 4.26 0 0 0 3.18 1.47h.67a4.83 4.83 0 0 0 3.77-1.52 4.83 4.83 0 0 0 1.52-3.77v-2.89a4.83 4.83 0 0 0-1.52-3.77Zm-6.4 8.03a2.63 2.63 0 1 1 0-5.26 2.63 2.63 0 0 1 0 5.26Z' />
               </svg>
-              TikTok: Hải Thích Đi
+              {t('tiktok')}
             </a>
           </div>
         </section>
       </div>
 
       <div className='relative border-t border-white/10 px-4 py-4 text-center text-xs text-neutral-500 sm:px-8'>
-        © {new Date().getFullYear()} Hải Thích Đi Travel. All rights reserved.
+        {/* String, not number — ICU would otherwise group it as "2.026". */}
+        {t('rights', { year: String(new Date().getFullYear()) })}
       </div>
     </footer>
   );

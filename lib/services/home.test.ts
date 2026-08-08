@@ -21,9 +21,9 @@ describe('homeService', () => {
       error: null,
     } as never);
 
-    const response = await homeService.getFeaturedRoutes();
+    const response = await homeService.getFeaturedRoutes('vi');
 
-    expect(mockedRpc).toHaveBeenCalledWith('home_featured_routes');
+    expect(mockedRpc).toHaveBeenCalledWith('home_featured_routes', { p_locale: 'vi' });
     expect(response).toEqual({ routes: [], highlight_audience: null });
   });
 
@@ -47,7 +47,7 @@ describe('homeService', () => {
       error: null,
     } as never);
 
-    const response = await homeService.getFeaturedRoutes();
+    const response = await homeService.getFeaturedRoutes('vi');
 
     // CDN base is unset in tests → falls back to a root-relative path
     expect(response.routes[0].image_url).toBe('/locations/images/fan.jpg');
@@ -59,9 +59,9 @@ describe('homeService', () => {
       error: null,
     } as never);
 
-    const response = await homeService.getMomentsGallery();
+    const response = await homeService.getMomentsGallery('vi');
 
-    expect(mockedRpc).toHaveBeenCalledWith('home_moments_gallery');
+    expect(mockedRpc).toHaveBeenCalledWith('home_moments_gallery', { p_locale: 'vi' });
     expect(response).toEqual({ images: [] });
   });
 });

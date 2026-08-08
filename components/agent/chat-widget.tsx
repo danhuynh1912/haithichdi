@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { useTranslations } from 'next-intl';
 import { BotMessageSquare } from 'lucide-react';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
 import FullscreenModalShell from '@/components/fullscreen-modal-shell';
 import ChatWindow, { type Message } from './chat-window';
 
 export default function ChatWidget() {
+  const t = useTranslations('chat');
   const [isOpen, setIsOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -46,7 +48,7 @@ export default function ChatWidget() {
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 22 }}
             onClick={isOpen ? handleClose : handleOpen}
-            aria-label={isOpen ? 'Đóng chat' : 'Mở chat AI'}
+            aria-label={isOpen ? t('closeAria') : t('openAria')}
             className={`fixed right-6 z-[9998] h-14 w-14 rounded-full bg-[#d00600] text-white shadow-lg shadow-black/40 flex items-center justify-center hover:bg-[#b00500] transition-colors ${buttonBottom}`}
           >
             <motion.div

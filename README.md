@@ -17,7 +17,8 @@ This is not a generic UI showcase. It is a product-focused frontend connected to
 Key engineering signals:
 - Clear layering: `UI -> hooks -> services -> API client`.
 - Server state handled with TanStack React Query (cache, loading, error).
-- SEO-first approach with reusable metadata helpers and dynamic metadata for booking pages.
+- SEO-first approach with reusable metadata helpers, dynamic metadata for booking pages, and per-locale canonical/hreflang.
+- Full vi/en internationalisation with a single-source-of-truth message catalogue guarded by a CI check.
 - URL-driven state (`/locations?name=...`) for deep-linking and refresh-safe UX.
 - Modern form handling with `useActionState` and `useFormStatus`.
 - Intentional motion and responsive UX for desktop and mobile.
@@ -45,13 +46,15 @@ Key engineering signals:
 
 ## 4. Tech Stack
 
-- Framework: `Next.js 15.5.6` (App Router)
+- Framework: `Next.js 16` (App Router)
 - Language: `TypeScript`
 - UI: `Tailwind CSS v4`, Radix primitives, custom components
 - Data access: `Axios` + `@tanstack/react-query`
 - Motion: `motion`
 - Icons: `lucide-react`
 - SEO: Metadata helpers in `lib/seo.ts`
+- i18n: `next-intl` with the locale in the URL (`vi` default, `/en` prefixed)
+- Tests: `Vitest` + Testing Library
 
 ## 5. Architecture Overview
 
@@ -71,21 +74,36 @@ All API calls go through service modules to keep components clean and improve te
 
 ```text
 frontend/
+  proxy.ts                        # next-intl locale routing (Next 16 middleware)
+  messages/
+    vi.json                       # SSOT for Vietnamese copy (reference catalogue)
+    en.json                       # English copy, key-for-key with vi.json
+  i18n/
+    routing.ts                    # locales, default, prefix strategy, path helpers
+    navigation.ts                 # locale-aware Link / useRouter / usePathname
+    request.ts                    # per-request config (messages, formats, TZ)
+    formats.ts                    # shared date/number presets
   app/
-    page.tsx                      # Home
-    locations/                    # Location listing + detail modal
-    tours/                        # Filter/search/sort tours
-    tour-booking/[tourId]/        # Booking flow
-    about/                        # Story + leaders
-    contact/
+    [locale]/
+      page.tsx                    # Home
+      locations/                  # Location listing + detail modal
+      tours/                      # Filter/search/sort tours
+      tour-booking/[tourId]/      # Booking flow
+      about/                      # Story + leaders
+      contact/
+    sitemap.ts                    # both locales + hreflang alternates
+    robots.ts
   components/
     site-header.tsx
+    language-switcher.tsx
     ui/*                          # reusable primitives
   lib/
     api.ts                        # axios instance
+    types.ts                      # shared domain shapes
     services/                     # API service layer
     hooks/                        # reusable hooks
-    seo.ts                        # metadata helpers
+    services/queries.ts           # locale-bound React Query hooks (SSOT for keys)
+    seo.ts                        # locale-aware metadata helpers
     utils.ts
   hooks/
     use-media-query.ts
@@ -164,17 +182,83 @@ This starts `frontend`, `backend`, `db`, `minio`, and `minio-init`.
 - `npm run build`: production build
 - `npm run start`: run production server
 - `npm run lint`: lint with ESLint
+- `npm run test` / `npm run test:run`: Vitest in watch / CI mode
+- `npm run i18n:check`: assert every locale catalogue matches `messages/vi.json`
+  key-for-key, including ICU placeholders
 
-## 12. Engineering Notes
+## 12. Internationalisation (vi / en)
+
+Built on `next-intl` with the locale in the URL.
+
+**Routing.** `i18n/routing.ts` is the single source of truth: `vi` is the default
+and keeps its bare paths (`/tours`), `en` is prefixed (`/en/tours`). Locale
+auto-detection is **off** on purpose — with an `as-needed` prefix, detecting from
+`Accept-Language` would make `/tours` serve two different languages from one URL,
+which breaks canonical tags and CDN caching. Every URL maps to exactly one
+language; the header switcher is how readers change locale.
+
+**Copy.** All user-facing strings live in `messages/*.json` and nowhere else.
+`messages/vi.json` is the reference catalogue — it types every `t()` call via
+`global.d.ts`, so an unknown key is a TypeScript error, and `npm run i18n:check`
+fails the build if `en.json` drifts from it.
+
+Consequently the service layer carries **no** user-facing text: `lib/services/booking.ts`
+exposes a status *tone*, `lib/services/tour.ts` throws a `BookingError` carrying a
+*code*, and the UI translates both (`bookingStatus.*`, `bookingErrors.*`).
+
+**Navigation.** Always import `Link`, `useRouter`, `usePathname` and `redirect`
+from `@/i18n/navigation` — they carry the active locale prefix automatically.
+Importing from `next/link` or `next/navigation` silently drops the locale.
+
+**Formatting.** Dates and prices go through `useFormatter()` with the presets in
+`i18n/formats.ts`, so `2.999.999 ₫` (vi) and `₫2,999,999` (en) come from one place.
+
+**SEO.** `lib/seo.ts` emits a self-referential canonical plus `hreflang`
+alternates for every locale; `app/sitemap.ts` emits one entry per page × locale
+with the same alternates, and `app/robots.ts` blocks the private routes in every
+locale.
+
+**Database content.** Translatable columns have a suffixed sibling — `title` holds
+Vietnamese, `title_en` holds English (`supabase/migrations/0006_i18n_columns.sql`).
+An empty sibling means "not translated yet" and falls back to the base column, so
+a half-translated tour renders Vietnamese for the fields nobody has got to.
+
+**The fallback is resolved in SQL, not in React.** Every read RPC takes
+`p_locale` and returns one already-chosen string per field
+(`supabase/migrations/0007_i18n_rpc.sql`), so components read `tour.title` and
+never learn the convention exists. `p_locale` defaults to `'vi'`, which is what
+makes the migration safe to apply before the frontend passes a locale.
+
+**Query keys must carry the locale.** `lib/services/queries.ts` binds the active
+locale to both the request and the React Query cache key. Prefer adding a hook
+there over calling `useQuery` with a service function directly — a key missing
+its locale serves the previous language's rows after a switch, with no refetch
+and nothing visibly broken.
+
+### Adding a locale
+
+1. Add the code to `routing.locales` and the `LOCALE_TAG` / `OG_LOCALE` /
+   `LOCALE_LABEL` maps in `i18n/routing.ts`.
+2. Copy `messages/vi.json` to `messages/<code>.json` and translate it.
+3. Run `npm run i18n:check`.
+
+Nothing else needs touching — the switcher, sitemap, robots and hreflang maps all
+derive from `routing.locales`.
+
+## 13. Engineering Notes
 
 - Sticky header with blur keeps navigation stable during scroll.
 - Background blur and transition effects reinforce brand atmosphere.
 - React Query caching reduces duplicate requests and improves perceived performance.
-- `PageTransition` component exists but is currently disabled in `app/layout.tsx`.
+- `PageTransition` component exists but is currently disabled in the root layout.
+- `test-utils.tsx` exposes `renderIntl()`, which wraps components in the real
+  message catalogue so tests assert against shipped copy, not stubs.
 
-## 13. Current Gaps / Next Improvements
+## 14. Current Gaps / Next Improvements
 
-- No automated tests yet (unit/integration/e2e).
+- The `_en` columns exist but are empty — English visitors see Vietnamese tour
+  content until someone fills them in. The admin list flags which tours still lack
+  a translation.
 - No route-level error boundary strategy yet.
-- No i18n implementation yet (currently Vietnamese-first product copy).
+- Test coverage is limited to view models, services and a few components.
 - Could add booking funnel analytics for conversion insights.
