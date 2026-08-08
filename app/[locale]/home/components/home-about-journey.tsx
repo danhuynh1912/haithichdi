@@ -36,12 +36,7 @@ const KEYWORD_ICONS: ComponentType<{ className?: string }>[] = [
 const VALUE_SECTIONS = [
   { key: 'trekking', image: '/images/tachinhu1.jpg', locationName: 'Ta Xua' },
   { key: 'connection', image: '/images/haithichdi1.jpg', locationName: 'Ky Quan San' },
-  {
-    key: 'charity',
-    image:
-      'https://images.unsplash.com/photo-1469571486292-b53601020f45?auto=format&fit=crop&w=1600&q=80',
-    locationName: 'Nhiu Co San',
-  },
+  { key: 'charity', image: '/images/thien-nguyen.jpg', locationName: 'Nhiu Co San' },
 ] as const;
 
 type KeywordCard = { title: string; body: string };
