@@ -187,7 +187,7 @@
     "statLabel": "Đoàn đã đồng hành",
     "statValue": "5000+ trekkers"
   },
-  "leaders": {
+  "team": {
     "default": {
       "eyebrow": "Team",
       "title": "Leaders của Hải Thích Đi",
@@ -200,7 +200,6 @@
       "description": "Không chỉ dẫn đường, leaders của Hải Thích Đi là những người giữ nhịp đoàn, truyền năng lượng và đảm bảo an toàn trên từng chặng trek.",
       "helperText": "Mở profile để xem thế mạnh của từng leader"
     },
-    "loading": "Đang tải danh sách leaders...",
     "roleFallback": "Leader",
     "locationFallback": "Việt Nam",
     "highlightFallback": "Luôn đặt trải nghiệm và an toàn của đoàn lên trước.",

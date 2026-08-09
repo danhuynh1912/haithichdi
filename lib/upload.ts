@@ -17,7 +17,7 @@ export type MediaPrefix =
 
 /**
  * Upload a file to S3 via presigned URL.
- * Requires an authenticated Supabase session (admin/leader).
+ * Requires an authenticated Supabase session (admin only).
  * Returns the S3 key stored in the DB.
  */
 export async function uploadMedia(

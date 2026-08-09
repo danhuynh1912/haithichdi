@@ -187,7 +187,7 @@
     "statLabel": "Trekkers who joined us",
     "statValue": "5000+ trekkers"
   },
-  "leaders": {
+  "team": {
     "default": {
       "eyebrow": "Team",
       "title": "The leaders of Hải Thích Đi",
@@ -200,7 +200,6 @@
       "description": "More than guides: our leaders set the pace, carry the energy and keep every stage of the trek safe.",
       "helperText": "Open a profile to see each leader's strengths"
     },
-    "loading": "Loading leaders...",
     "roleFallback": "Leader",
     "locationFallback": "Vietnam",
     "highlightFallback": "Always puts the group's experience and safety first.",

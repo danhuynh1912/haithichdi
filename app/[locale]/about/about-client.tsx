@@ -7,7 +7,7 @@ import { BadgeCheck, Sparkles, Users } from 'lucide-react';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import {
-  LeadersShowcaseSection,
+  TeamShowcaseSection,
   MomentsGallerySection,
 } from '@/features/about/about-shared-sections';
 
@@ -15,7 +15,7 @@ export default function AboutClient() {
   return (
     <main className='bg-elev-0 text-ink-1 overflow-hidden'>
       <StorySection />
-      <LeadersShowcaseSection />
+      <TeamShowcaseSection />
       <MomentsGallerySection />
     </main>
   );

@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import type { Locale } from '@/i18n/routing';
 import { bookingService } from './booking';
 import { homeService } from './home';
-import { leaderService } from './leader';
 import { locationService } from './location';
 import { tourService, type TourQueryParams } from './tour';
 
@@ -34,7 +33,6 @@ export const queryKeys = {
     ['tour-related', locale, tourId] as const,
   featuredRoutes: (locale: Locale) => ['home-featured-routes', locale] as const,
   momentsGallery: (locale: Locale) => ['home-moments-gallery', locale] as const,
-  leaders: (locale: Locale) => ['leaders', locale] as const,
   bookingsByIds: (locale: Locale, ids: number[]) =>
     ['bookings-by-ids', locale, ids.join(',')] as const,
   bookingDetail: (locale: Locale, bookingId: number | null) =>
@@ -109,14 +107,6 @@ export function useMomentsGalleryQuery() {
     queryKey: queryKeys.momentsGallery(locale),
     queryFn: () => homeService.getMomentsGallery(locale),
     staleTime: 60_000,
-  });
-}
-
-export function useLeadersQuery() {
-  const locale = useLocale();
-  return useQuery({
-    queryKey: queryKeys.leaders(locale),
-    queryFn: () => leaderService.getLeaders(locale),
   });
 }
 

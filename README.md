@@ -89,7 +89,7 @@ frontend/
       locations/                  # Location listing + detail modal
       tours/                      # Filter/search/sort tours
       tour-booking/[tourId]/      # Booking flow
-      about/                      # Story + leaders
+      about/                      # Story + team
       contact/
     sitemap.ts                    # both locales + hreflang alternates
     robots.ts
@@ -115,7 +115,6 @@ frontend/
 - `GET /api/tours/?location_id=1,2&search=...&ordering=start_date`
 - `GET /api/tours/:id/`
 - `GET /api/locations/`
-- `GET /api/leaders/`
 - `POST /api/bookings/`
 
 Booking request payload:
