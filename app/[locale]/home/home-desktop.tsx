@@ -100,7 +100,7 @@ export default function HomeDesktop() {
             </motion.div>
           </div>
           <HotTours className='mt-16 max-w-[500px] w-[500px]' />
-          <div className='pointer-events-none absolute h-[420px] bottom-0 left-0 right-0 bg-gradient-to-b from-black/0 to-elev-2' />
+          <div className='pointer-events-none absolute h-[420px] bottom-0 left-0 right-0 bg-[image:var(--hero-fade)]' />
         </div>
       </section>
 
