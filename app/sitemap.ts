@@ -51,23 +51,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select('id, updated_at')
     .eq('is_active', true);
 
+  // `/tours/:id` is not a route — the tour detail page lives under
+  // /tour-booking/:id. Every tour URL in this sitemap used to 404.
   const tourPages: Entry[] = (tours ?? []).map((tour) => ({
-    path: `/tours/${tour.id}`,
+    path: `/tour-booking/${tour.id}`,
     lastModified: new Date(tour.updated_at ?? now),
     changeFrequency: 'weekly',
     priority: 0.85,
   }));
 
-  const { data: locations } = await supabase
-    .from('locations')
-    .select('id, updated_at');
-
-  const locationPages: Entry[] = (locations ?? []).map((loc) => ({
-    path: `/locations/${loc.id}`,
-    lastModified: new Date(loc.updated_at ?? now),
-    changeFrequency: 'monthly',
-    priority: 0.7,
-  }));
+  // There is no per-location route: /locations is a single carousel screen and
+  // a route is opened as `?name=<slug>` on it, which is not its own document.
+  const locationPages: Entry[] = [];
 
   // Published only — the RLS policy on `blogs` already hides drafts from the
   // anon key, but the filter keeps that intent visible here too.
