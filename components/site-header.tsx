@@ -86,6 +86,7 @@ export default function SiteHeader() {
     pathname === '/tours' ||
     pathname.startsWith('/tours/') ||
     pathname.startsWith('/tour-booking/');
+  const isBlogActive = pathname === '/blog' || pathname.startsWith('/blog/');
   const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
   const isContactActive = pathname === '/contact' || pathname.startsWith('/contact/');
   const isBookingsActive = pathname === '/my-bookings' || pathname.startsWith('/my-bookings/');
@@ -151,6 +152,9 @@ export default function SiteHeader() {
           </Link>
           <Link href='/tours' className={navItemClass(isToursActive)}>
             {t('tours')}
+          </Link>
+          <Link href='/blog' className={navItemClass(isBlogActive)}>
+            {t('blog')}
           </Link>
           <Link href='/#about-us' className={navItemClass(isAboutActive)}>
             {t('about')}

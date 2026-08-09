@@ -32,7 +32,8 @@
     "switchTo": "Chuyển sang {language}",
     "theme": "Giao diện",
     "switchToLight": "Chuyển sang giao diện sáng",
-    "switchToDark": "Chuyển sang giao diện tối"
+    "switchToDark": "Chuyển sang giao diện tối",
+    "blog": "Blog"
   },
   "footer": {
     "description": "Chúng tôi tạo ra những hành trình trekking thật, nơi bạn vừa chinh phục giới hạn của bản thân, vừa kết nối cộng đồng và để lại giá trị tích cực trên từng cung đường.",
@@ -318,6 +319,21 @@
       "dateTbd": "TBD"
     }
   },
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Chuyện đường dài",
+    "description": "Kinh nghiệm, thiết bị và những cung đường chúng tôi đã đi qua.",
+    "searchLabel": "Tìm bài viết",
+    "searchPlaceholder": "Tìm theo tiêu đề…",
+    "tagsHeading": "Chủ đề",
+    "clearTags": "Bỏ lọc",
+    "tagsAndHint": "Bài viết phải có tất cả chủ đề đã chọn.",
+    "loading": "Đang tải…",
+    "empty": "Chưa có bài viết nào khớp.",
+    "backToList": "Tất cả bài viết",
+    "error": "Không tải được danh sách bài viết.",
+    "retry": "Thử lại"
+  },
   "booking": {
     "trail": "Booking tour {location}",
     "notFound": "Không tìm thấy tour hoặc tour đã ngừng hoạt động.",
@@ -515,6 +531,10 @@
     "bookingSuccess": {
       "title": "Booking tour #{id} thành công",
       "description": "Đăng ký tour thành công. Đội ngũ Hải Thích Đi sẽ sớm liên hệ để xác nhận thông tin của bạn."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Kinh nghiệm trekking, thiết bị và review cung đường từ Hải Thích Đi."
     }
   }
 }

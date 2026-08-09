@@ -32,7 +32,8 @@
     "switchTo": "Switch to {language}",
     "theme": "Theme",
     "switchToLight": "Switch to light theme",
-    "switchToDark": "Switch to dark theme"
+    "switchToDark": "Switch to dark theme",
+    "blog": "Blog"
   },
   "footer": {
     "description": "We build real trekking journeys where you push past your own limits, connect with a community, and leave something positive behind on every trail.",
@@ -318,6 +319,21 @@
       "dateTbd": "TBD"
     }
   },
+  "blog": {
+    "eyebrow": "Blog",
+    "title": "Stories from the trail",
+    "description": "Experience, gear, and the routes we have walked.",
+    "searchLabel": "Search posts",
+    "searchPlaceholder": "Search by title…",
+    "tagsHeading": "Topics",
+    "clearTags": "Clear",
+    "tagsAndHint": "A post must carry every selected topic.",
+    "loading": "Loading…",
+    "empty": "No posts match yet.",
+    "backToList": "All posts",
+    "error": "Could not load the posts.",
+    "retry": "Try again"
+  },
   "booking": {
     "trail": "Booking {location} tour",
     "notFound": "This tour doesn't exist or is no longer active.",
@@ -515,6 +531,10 @@
     "bookingSuccess": {
       "title": "Tour #{id} booked",
       "description": "Your booking is in. The Hải Thích Đi team will be in touch shortly to confirm your details."
+    },
+    "blog": {
+      "title": "Blog",
+      "description": "Trekking experience, gear and route reviews from Hải Thích Đi."
     }
   }
 }

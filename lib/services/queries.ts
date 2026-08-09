@@ -7,6 +7,7 @@ import { bookingService } from './booking';
 import { homeService } from './home';
 import { locationService } from './location';
 import { tourService, type TourQueryParams } from './tour';
+import { blogService, type BlogQueryParams } from './blog';
 
 /**
  * Every server-state read in the app, with the active locale already bound —
@@ -37,6 +38,10 @@ export const queryKeys = {
     ['bookings-by-ids', locale, ids.join(',')] as const,
   bookingDetail: (locale: Locale, bookingId: number | null) =>
     ['booking-detail', locale, bookingId] as const,
+  blogTags: (locale: Locale) => ['blog-tags', locale] as const,
+  blogPosts: (locale: Locale, filter: BlogQueryParams) =>
+    ['blog-posts', locale, filter] as const,
+  blogPost: (locale: Locale, slug: string) => ['blog-post', locale, slug] as const,
 };
 
 export function useLocationsQuery() {
@@ -125,5 +130,34 @@ export function useBookingDetailQuery(bookingId: number | null) {
     queryKey: queryKeys.bookingDetail(locale, bookingId),
     queryFn: () => bookingService.getBookingDetail(bookingId!, locale),
     enabled: bookingId !== null,
+  });
+}
+
+export function useBlogTagsQuery() {
+  const locale = useLocale();
+  return useQuery({
+    queryKey: queryKeys.blogTags(locale),
+    queryFn: () => blogService.getTags(locale),
+    staleTime: 60_000,
+  });
+}
+
+export function useBlogPostsQuery(params: BlogQueryParams) {
+  const locale = useLocale();
+  return useQuery({
+    queryKey: queryKeys.blogPosts(locale, params),
+    queryFn: () => blogService.getPosts(locale, params),
+    // Typing in the search box walks through keys; holding the previous rows
+    // keeps the list from blanking between them.
+    placeholderData: (previous) => previous,
+  });
+}
+
+export function useBlogPostQuery(slug: string) {
+  const locale = useLocale();
+  return useQuery({
+    queryKey: queryKeys.blogPost(locale, slug),
+    queryFn: () => blogService.getPost(locale, slug),
+    enabled: Boolean(slug),
   });
 }

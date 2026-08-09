@@ -41,6 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/', lastModified: now, changeFrequency: 'daily', priority: 1.0 },
     { path: '/tours', lastModified: now, changeFrequency: 'daily', priority: 0.9 },
     { path: '/locations', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { path: '/blog', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { path: '/about', lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { path: '/contact', lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
   ];
@@ -68,5 +69,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return expand([...staticPages, ...tourPages, ...locationPages]);
+  // Published only — the RLS policy on `blogs` already hides drafts from the
+  // anon key, but the filter keeps that intent visible here too.
+  const { data: posts } = await supabase
+    .from('blogs')
+    .select('slug, updated_at')
+    .eq('status', 'published');
+
+  const blogPages: Entry[] = (posts ?? []).map((post) => ({
+    path: `/blog/${post.slug}`,
+    lastModified: new Date(post.updated_at ?? now),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }));
+
+  return expand([...staticPages, ...tourPages, ...locationPages, ...blogPages]);
 }
