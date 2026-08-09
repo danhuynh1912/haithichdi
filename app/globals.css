@@ -106,30 +106,11 @@
     0 14px 34px -12px rgba(18, 18, 22, 0.24);
   --shadow-brand: 0 20px 60px -35px rgba(208, 6, 0, 0.45);
 
-  /* Fade at the foot of the hero photo, landing on --elev-2 so the section
-     below continues it seamlessly.
-
-     The stops describe an ease-in rather than a straight ramp. A linear fade to
-     a near-white canvas is already half-opaque at the halfway mark, which turns
-     the lower third of a dark photo into a large glare band. Holding the fade
-     back and accelerating late keeps the same smooth landing while confining
-     the bright part to the last quarter.
-
-     The intermediate stops spell out --elev-2's channels rather than deriving
-     them with color-mix: Lightning CSS downlevels color-mix by dropping the mix
-     entirely, and the fallback it emits is opaque from the first stop — worse
-     than the ramp this replaces. Keep these in step with --elev-2, whose exact
-     value the final stop still reads. */
-  --hero-fade: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(248, 247, 245, 0.04) 40%,
-    rgba(248, 247, 245, 0.14) 58%,
-    rgba(248, 247, 245, 0.32) 72%,
-    rgba(248, 247, 245, 0.58) 84%,
-    rgba(248, 247, 245, 0.82) 93%,
-    var(--elev-2) 100%
-  );
+  /* No fade at the foot of the hero in light: the photo meets the section
+     below directly. Any ramp here lands on a near-white canvas, and even an
+     eased one washes out the lower part of a dark photograph. Dark keeps its
+     fade — see the .dark block, where it lands on near-black instead. */
+  --hero-fade: none;
 
   /* shadcn/ui compatibility layer */
   --background: var(--elev-1);

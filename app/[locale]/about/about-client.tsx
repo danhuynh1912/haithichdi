@@ -6,16 +6,12 @@ import { useTranslations } from 'next-intl';
 import { BadgeCheck, Sparkles, Users } from 'lucide-react';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import {
-  TeamShowcaseSection,
-  MomentsGallerySection,
-} from '@/features/about/about-shared-sections';
+import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 
 export default function AboutClient() {
   return (
     <main className='bg-elev-0 text-ink-1 overflow-hidden'>
       <StorySection />
-      <TeamShowcaseSection />
       <MomentsGallerySection />
     </main>
   );
