@@ -37,13 +37,13 @@ export default function LocationDetailModal({
       open={Boolean(location)}
       onClose={onClose}
       closeAriaLabel={t('closeAria')}
-      contentClassName='text-white h-full w-full overflow-y-auto'
+      contentClassName='text-ink-1 h-full w-full overflow-y-auto'
       contentKey={location?.id}
     >
       {location && (
         isMobile ? (
           <div className='w-full min-h-full p-4'>
-            <div className='w-full overflow-hidden rounded-3xl border border-white/10 bg-neutral-900 shadow-2xl'>
+            <div className='w-full overflow-hidden rounded-3xl border border-line bg-elev-2 shadow-[var(--shadow-strong)]'>
               <PdfPreviewCard
                 pdfUrl={pdfUrl}
                 title={t('quotationTitle', { name: location.name })}
@@ -55,28 +55,28 @@ export default function LocationDetailModal({
 
               <div className='p-4'>
                 <p
-                  className={`text-red-500 font-bold uppercase text-xs mb-2 ${
+                  className={`text-brand font-bold uppercase text-xs mb-2 ${
                     compact ? 'tracking-[0.1em]' : 'tracking-[0.2em]'
                   }`}
                 >
                   {t('sectionLabel')}
                 </p>
-                <h2 className='text-xl font-black uppercase tracking-tight text-white mb-2'>
+                <h2 className='text-xl font-black uppercase tracking-tight text-ink-1 mb-2'>
                   {location.name}
                 </h2>
-                <p className='text-neutral-400 text-xs leading-relaxed mb-4'>
+                <p className='text-ink-4 text-xs leading-relaxed mb-4'>
                   {location.description}
                 </p>
 
                 <div className='flex items-center justify-between mb-3 gap-3'>
-                  <h3 className='text-white font-bold text-base flex items-center gap-2'>
+                  <h3 className='text-ink-1 font-bold text-base flex items-center gap-2'>
                     {t('upcomingTours')}
-                    <span className='px-2 py-0.5 bg-red-600/20 text-red-500 text-[10px] rounded-full uppercase tracking-widest'>
+                    <span className='px-2 py-0.5 bg-brand/20 text-brand text-[10px] rounded-full uppercase tracking-widest'>
                       {tCommon('tourCount', { count: tours.length })}
                     </span>
                   </h3>
                   <button
-                    className={`text-neutral-500 hover:text-red-500 text-xs font-bold flex items-center gap-1 uppercase transition-colors cursor-pointer ${
+                    className={`text-ink-5 hover:text-brand text-xs font-bold flex items-center gap-1 uppercase transition-colors cursor-pointer ${
                       compact ? 'tracking-[0.1em]' : 'tracking-[0.2em]'
                     }`}
                   >
@@ -87,7 +87,7 @@ export default function LocationDetailModal({
                 {loading ? (
                   <div className='space-y-3'>
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className='h-20 bg-white/5 rounded-2xl animate-pulse' />
+                      <div key={i} className='h-20 bg-surface rounded-2xl animate-pulse' />
                     ))}
                   </div>
                 ) : tours.length > 0 ? (
@@ -95,25 +95,25 @@ export default function LocationDetailModal({
                     {tours.map((tour) => (
                       <div
                         key={tour.id}
-                        className='group bg-white/5 hover:bg-white/10 p-4 rounded-2xl border border-white/5 cursor-pointer flex justify-between items-center transition-colors'
+                        className='group bg-surface hover:bg-surface-2 p-4 rounded-2xl border border-line/60 cursor-pointer flex justify-between items-center transition-colors'
                         onClick={() => router.push(`/tour-booking/${tour.id}`)}
                       >
                         <div className='flex flex-col gap-1.5'>
-                          <h4 className='font-bold text-sm text-white group-hover:text-red-500 transition-colors uppercase tracking-wide'>
+                          <h4 className='font-bold text-sm text-ink-1 group-hover:text-brand transition-colors uppercase tracking-wide'>
                             {tour.title}
                           </h4>
-                          <div className='flex items-center gap-4 text-xs text-neutral-400'>
+                          <div className='flex items-center gap-4 text-xs text-ink-4'>
                             <span className='flex items-center gap-1.5'>
-                              <Calendar size={14} className='text-red-600' />
+                              <Calendar size={14} className='text-brand' />
                               {formatDateDdMm(tour.start_date)}
                             </span>
                             <span className='flex items-center gap-1.5'>
-                              <Users size={14} className='text-red-600' />
+                              <Users size={14} className='text-brand' />
                               {tCommon('slotsLeft', { count: tour.slots_left })}
                             </span>
                           </div>
                         </div>
-                        <div className='p-2 rounded-full bg-white/5 group-hover:bg-red-600 group-hover:text-white transition-colors text-neutral-500'>
+                        <div className='p-2 rounded-full bg-surface group-hover:bg-brand group-hover:text-brand-ink transition-colors text-ink-5'>
                           <MoveRight size={18} />
                         </div>
                       </div>
@@ -121,7 +121,7 @@ export default function LocationDetailModal({
                   </div>
                 ) : (
                   <div className='py-10 text-center'>
-                    <p className='text-neutral-500 italic'>
+                    <p className='text-ink-5 italic'>
                       {t('noTours')}
                     </p>
                   </div>
@@ -140,33 +140,33 @@ export default function LocationDetailModal({
             />
 
             {/* Right: Tours list */}
-            <div className='w-full md:w-[30%] bg-neutral-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden md:max-h-[75vh]'>
-              <div className='p-3 md:p-6 border-b border-white/5'>
+            <div className='w-full md:w-[30%] bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] flex flex-col overflow-hidden md:max-h-[75vh]'>
+              <div className='p-3 md:p-6 border-b border-line/60'>
                 <p
-                  className={`text-red-500 font-bold uppercase text-xs mb-2 ${
+                  className={`text-brand font-bold uppercase text-xs mb-2 ${
                     compact ? 'tracking-[0.1em]' : 'tracking-[0.2em]'
                   }`}
                 >
                   {t('sectionLabel')}
                 </p>
-                <h2 className='text-xl md:text-3xl font-black uppercase tracking-tight text-white mb-3'>
+                <h2 className='text-xl md:text-3xl font-black uppercase tracking-tight text-ink-1 mb-3'>
                   {location.name}
                 </h2>
-                <p className='text-neutral-400 text-xs md:text-sm leading-relaxed line-clamp-3'>
+                <p className='text-ink-4 text-xs md:text-sm leading-relaxed line-clamp-3'>
                   {location.description}
                 </p>
               </div>
 
               <div className='flex-1 overflow-y-visible md:overflow-y-auto p-3 md:p-6 custom-scrollbar'>
                 <div className='md:flex items-center justify-between mb-4 gap-3'>
-                  <h3 className='text-white font-bold text-base md:text-lg flex items-center gap-2 mb-2 md:mb-0'>
+                  <h3 className='text-ink-1 font-bold text-base md:text-lg flex items-center gap-2 mb-2 md:mb-0'>
                     {t('upcomingTours')}
-                    <span className='px-2 py-0.5 bg-red-600/20 text-red-500 text-[10px] rounded-full uppercase tracking-widest'>
+                    <span className='px-2 py-0.5 bg-brand/20 text-brand text-[10px] rounded-full uppercase tracking-widest'>
                       {tCommon('tourCount', { count: tours.length })}
                     </span>
                   </h3>
                   <button
-                    className={`text-neutral-500 hover:text-red-500 text-xs font-bold flex items-center gap-1 uppercase transition-colors cursor-pointer ${
+                    className={`text-ink-5 hover:text-brand text-xs font-bold flex items-center gap-1 uppercase transition-colors cursor-pointer ${
                       compact ? 'tracking-[0.1em]' : 'tracking-[0.2em]'
                     }`}
                   >
@@ -177,7 +177,7 @@ export default function LocationDetailModal({
                 {loading ? (
                   <div className='space-y-3'>
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className='h-20 bg-white/5 rounded-2xl animate-pulse' />
+                      <div key={i} className='h-20 bg-surface rounded-2xl animate-pulse' />
                     ))}
                   </div>
                 ) : tours.length > 0 ? (
@@ -185,25 +185,25 @@ export default function LocationDetailModal({
                     {tours.map((tour) => (
                       <div
                         key={tour.id}
-                        className='group bg-white/5 hover:bg-white/10 p-4 rounded-2xl border border-white/5 cursor-pointer flex justify-between items-center transition-colors'
+                        className='group bg-surface hover:bg-surface-2 p-4 rounded-2xl border border-line/60 cursor-pointer flex justify-between items-center transition-colors'
                         onClick={() => router.push(`/tour-booking/${tour.id}`)}
                       >
                         <div className='flex flex-col gap-1.5'>
-                          <h4 className='font-bold text-sm md:text-base text-white group-hover:text-red-500 transition-colors uppercase tracking-wide'>
+                          <h4 className='font-bold text-sm md:text-base text-ink-1 group-hover:text-brand transition-colors uppercase tracking-wide'>
                             {tour.title}
                           </h4>
-                          <div className='flex items-center gap-4 text-xs text-neutral-400'>
+                          <div className='flex items-center gap-4 text-xs text-ink-4'>
                             <span className='flex items-center gap-1.5'>
-                              <Calendar size={14} className='text-red-600' />
+                              <Calendar size={14} className='text-brand' />
                               {formatDateDdMm(tour.start_date)}
                             </span>
                             <span className='flex items-center gap-1.5'>
-                              <Users size={14} className='text-red-600' />
+                              <Users size={14} className='text-brand' />
                               {tCommon('slotsLeft', { count: tour.slots_left })}
                             </span>
                           </div>
                         </div>
-                        <div className='p-2 rounded-full bg-white/5 group-hover:bg-red-600 group-hover:text-white transition-colors text-neutral-500'>
+                        <div className='p-2 rounded-full bg-surface group-hover:bg-brand group-hover:text-brand-ink transition-colors text-ink-5'>
                           <MoveRight size={18} />
                         </div>
                       </div>
@@ -211,7 +211,7 @@ export default function LocationDetailModal({
                   </div>
                 ) : (
                   <div className='py-10 text-center'>
-                    <p className='text-neutral-500 italic'>
+                    <p className='text-ink-5 italic'>
                       {t('noTours')}
                     </p>
                   </div>

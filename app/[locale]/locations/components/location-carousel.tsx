@@ -97,7 +97,7 @@ export default function LocationCarousel({
         >
           <button
             onClick={handlePrev}
-            className={`cursor-pointer rounded-full border border-white/40 bg-white/5 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 text-white/90 ${
+            className={`cursor-pointer rounded-full border border-line-4 bg-surface flex items-center justify-center hover:bg-surface-inverse hover:text-surface-inverse-foreground transition-all duration-300 text-ink-1/90 ${
               compact ? 'w-8 h-8' : 'w-9 h-9 md:w-14 md:h-14'
             }`}
           >
@@ -112,14 +112,14 @@ export default function LocationCarousel({
               className='text-center'
             >
               <h2
-                className={`font-black text-white uppercase mb-1 ${
+                className={`font-black text-ink-1 uppercase mb-1 ${
                   compact ? 'text-xl tracking-tight' : 'text-4xl tracking-wider'
                 }`}
               >
                 {locations[activeIndex].name}
               </h2>
               <p
-                className={`text-red-500 font-medium ${
+                className={`text-brand font-medium ${
                   compact ? 'text-[10px] tracking-[0.12em]' : 'tracking-widest'
                 }`}
               >
@@ -131,7 +131,7 @@ export default function LocationCarousel({
 
           <button
             onClick={handleNext}
-            className={`cursor-pointer rounded-full border border-white/40 bg-white/5 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-300 text-white/90 ${
+            className={`cursor-pointer rounded-full border border-line-4 bg-surface flex items-center justify-center hover:bg-surface-inverse hover:text-surface-inverse-foreground transition-all duration-300 text-ink-1/90 ${
               compact ? 'w-8 h-8' : 'w-9 h-9 md:w-14 md:h-14'
             }`}
           >
@@ -148,11 +148,11 @@ export default function LocationCarousel({
               className={`h-1 transition-all duration-300 rounded-full cursor-pointer ${
                 index === activeIndex
                   ? compact
-                    ? 'w-6 bg-red-600'
-                    : 'w-8 bg-red-600'
+                    ? 'w-6 bg-brand'
+                    : 'w-8 bg-brand'
                   : compact
-                    ? 'w-3 bg-white/20'
-                    : 'w-4 bg-white/20'
+                    ? 'w-3 bg-surface-3'
+                    : 'w-4 bg-surface-3'
               }`}
             />
           ))}

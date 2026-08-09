@@ -9,7 +9,7 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
   return chunks.map((chunk, index) => {
     if (chunk.startsWith('**') && chunk.endsWith('**')) {
       return (
-        <strong key={`${keyPrefix}-strong-${index}`} className='font-semibold text-white'>
+        <strong key={`${keyPrefix}-strong-${index}`} className='font-semibold text-ink-1'>
           {chunk.slice(2, -2)}
         </strong>
       );
@@ -17,7 +17,7 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
 
     if (chunk.startsWith('*') && chunk.endsWith('*')) {
       return (
-        <em key={`${keyPrefix}-italic-${index}`} className='italic text-neutral-100'>
+        <em key={`${keyPrefix}-italic-${index}`} className='italic text-ink-2'>
           {chunk.slice(1, -1)}
         </em>
       );
@@ -44,7 +44,7 @@ export function MarkdownArticle({
     if (paragraphLines.length === 0) return;
     const content = paragraphLines.join(' ');
     blocks.push(
-      <p key={`paragraph-${blocks.length}`} className='text-sm md:text-base leading-relaxed text-neutral-300'>
+      <p key={`paragraph-${blocks.length}`} className='text-sm md:text-base leading-relaxed text-ink-3'>
         {renderInlineMarkdown(content, `paragraph-${blocks.length}`)}
       </p>,
     );
@@ -55,7 +55,7 @@ export function MarkdownArticle({
     if (listLines.length === 0) return;
     const keyBase = `list-${blocks.length}`;
     blocks.push(
-      <ul key={keyBase} className='space-y-2 pl-5 list-disc text-sm md:text-base text-neutral-200'>
+      <ul key={keyBase} className='space-y-2 pl-5 list-disc text-sm md:text-base text-ink-2'>
         {listLines.map((line, index) => (
           <li key={`${keyBase}-item-${index}`} className='leading-relaxed'>
             {renderInlineMarkdown(line, `${keyBase}-item-${index}`)}
@@ -86,7 +86,7 @@ export function MarkdownArticle({
     if (line.startsWith('### ')) {
       flushParagraph();
       blocks.push(
-        <h4 key={`heading3-${blocks.length}`} className='text-lg font-semibold text-white pt-2'>
+        <h4 key={`heading3-${blocks.length}`} className='text-lg font-semibold text-ink-1 pt-2'>
           {renderInlineMarkdown(line.slice(4), `heading3-${blocks.length}`)}
         </h4>,
       );
@@ -96,7 +96,7 @@ export function MarkdownArticle({
     if (line.startsWith('## ')) {
       flushParagraph();
       blocks.push(
-        <h3 key={`heading2-${blocks.length}`} className='text-xl md:text-2xl font-bold text-white pt-2'>
+        <h3 key={`heading2-${blocks.length}`} className='text-xl md:text-2xl font-bold text-ink-1 pt-2'>
           {renderInlineMarkdown(line.slice(3), `heading2-${blocks.length}`)}
         </h3>,
       );
@@ -106,7 +106,7 @@ export function MarkdownArticle({
     if (line.startsWith('# ')) {
       flushParagraph();
       blocks.push(
-        <h2 key={`heading1-${blocks.length}`} className='text-2xl md:text-3xl font-black text-white pt-2'>
+        <h2 key={`heading1-${blocks.length}`} className='text-2xl md:text-3xl font-black text-ink-1 pt-2'>
           {renderInlineMarkdown(line.slice(2), `heading1-${blocks.length}`)}
         </h2>,
       );
@@ -121,7 +121,7 @@ export function MarkdownArticle({
 
   if (blocks.length === 0) {
     return (
-      <p className='text-sm md:text-base text-neutral-400'>
+      <p className='text-sm md:text-base text-ink-4'>
         {emptyMessage ?? t('markdownEmpty')}
       </p>
     );

@@ -45,7 +45,7 @@ export default function ToursClient({
 
   return (
     <main
-      className={`min-h-screen bg-black text-white px-4 md:px-8 ${
+      className={`min-h-screen bg-elev-0 text-ink-1 px-4 md:px-8 ${
         layout === 'embedded' ? 'pt-4 pb-6' : 'pt-24 pb-16'
       }`}
     >
@@ -62,7 +62,7 @@ export default function ToursClient({
           <TourSearchBar value={search} onChange={setSearch} />
 
           {toursLoading || locationsLoading ? (
-            <div className='text-neutral-400 text-sm'>{t('loading')}</div>
+            <div className='text-ink-4 text-sm'>{t('loading')}</div>
           ) : (
             content
           )}
@@ -81,7 +81,7 @@ function ToursList({
 }) {
   if (!tours.length) {
     return (
-      <div className='text-neutral-400 text-sm bg-white/5 border border-white/10 rounded-3xl p-8 text-center'>
+      <div className='text-ink-4 text-sm bg-surface border border-line rounded-3xl p-8 text-center'>
         {emptyMessage}
       </div>
     );

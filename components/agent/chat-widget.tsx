@@ -49,7 +49,7 @@ export default function ChatWidget() {
             transition={{ type: 'spring', stiffness: 300, damping: 22 }}
             onClick={isOpen ? handleClose : handleOpen}
             aria-label={isOpen ? t('closeAria') : t('openAria')}
-            className={`fixed right-6 z-[9998] h-14 w-14 rounded-full bg-[#d00600] text-white shadow-lg shadow-black/40 flex items-center justify-center hover:bg-[#b00500] transition-colors ${buttonBottom}`}
+            className={`fixed right-6 z-[9998] h-14 w-14 rounded-full bg-brand text-brand-ink shadow-[var(--shadow-soft)] flex items-center justify-center hover:bg-brand-strong transition-colors ${buttonBottom}`}
           >
             <motion.div
               animate={{ rotate: isOpen ? 45 : 0 }}

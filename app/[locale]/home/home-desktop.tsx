@@ -7,6 +7,7 @@ import { useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
 import HotTours from '@/components/hot-tours/hot-tours';
 import { ANIMATION_EASE } from '@/lib/constants';
+import { useSiteHeroRef } from '@/lib/hooks/use-site-hero';
 import {
   HomeAboutJourneySection,
   HomeFeaturedRoutesSection,
@@ -17,13 +18,19 @@ import {
 } from '@/features/about/about-shared-sections';
 
 export default function HomeDesktop() {
+  const heroRef = useSiteHeroRef<HTMLElement>();
   const router = useRouter();
   const t = useTranslations('home.hero');
   const tCommon = useTranslations('common');
 
   return (
-    <main className='bg-[#0d0d0d] text-white'>
-      <section className='relative min-h-screen overflow-hidden'>
+    <main className='bg-elev-1 text-ink-1'>
+      {/* Hero copy sits on the video, so it stays white in both themes; the
+          ref tells SiteHeader it is floating over media. */}
+      <section
+        ref={heroRef}
+        className='relative min-h-screen overflow-hidden text-white'
+      >
         <video
           autoPlay
           loop
@@ -98,7 +105,7 @@ export default function HomeDesktop() {
             </motion.div>
           </div>
           <HotTours className='mt-16 max-w-[500px] w-[500px]' />
-          <div className='pointer-events-none absolute h-[420px] bottom-0 left-0 right-0 bg-gradient-to-b from-black/0 to-[#111111]' />
+          <div className='pointer-events-none absolute h-[420px] bottom-0 left-0 right-0 bg-gradient-to-b from-black/0 to-elev-2' />
         </div>
       </section>
 
@@ -106,12 +113,12 @@ export default function HomeDesktop() {
       <LeadersShowcaseSection
         id='leaders'
         variant='home'
-        className='bg-gradient-to-b from-[#0f0f0f] via-[#121212] to-[#171717]'
+        className='bg-gradient-to-b from-elev-1 via-elev-2 to-elev-4'
       />
       <HomeFeaturedRoutesSection />
       <MomentsGallerySection
         variant='home'
-        className='bg-gradient-to-b from-[#101010] via-[#131313] to-[#181818]'
+        className='bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4'
       />
     </main>
   );

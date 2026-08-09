@@ -28,24 +28,24 @@ function FilterSidebarBase({
   return (
     <aside
       className={cn(
-        'w-full md:w-72 bg-neutral-900/80 border border-white/10 rounded-3xl p-4 md:p-6 flex flex-col gap-6 md:sticky top-28 h-fit',
+        'w-full md:w-72 bg-elev-2/80 backdrop-blur-sm border border-line rounded-3xl p-4 md:p-6 flex flex-col gap-6 md:sticky top-28 h-fit',
         className,
       )}
     >
       <div className='space-y-3'>
-        <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-white'>
+        <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
           {t('locationHeading')}
         </h3>
         <div className='space-y-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar'>
           {locations.map((loc) => (
             <label
               key={loc.id}
-              className='flex items-center gap-3 text-sm text-neutral-300 cursor-pointer hover:text-white'
+              className='flex items-center gap-3 text-sm text-ink-3 cursor-pointer hover:text-ink-1'
             >
               <Checkbox
                 checked={selectedIds.includes(loc.id)}
                 onCheckedChange={() => onToggle(loc.id)}
-                className='cursor-pointer border-white/40 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600'
+                className='cursor-pointer border-line-4 data-[state=checked]:bg-brand data-[state=checked]:border-brand'
               />
               <span className='flex-1'>{loc.name}</span>
             </label>
@@ -54,11 +54,11 @@ function FilterSidebarBase({
       </div>
 
       <div className='space-y-3'>
-        <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-white'>
+        <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
           {t('sortHeading')}
         </h3>
-        <div className='w-full rounded-2xl border border-white/10 bg-white/5 px-3 py-2.5 flex items-center justify-between gap-3'>
-          <span className='text-sm text-neutral-200'>{t('upcoming')}</span>
+        <div className='w-full rounded-2xl border border-line bg-surface px-3 py-2.5 flex items-center justify-between gap-3'>
+          <span className='text-sm text-ink-2'>{t('upcoming')}</span>
           <button
             type='button'
             role='switch'
@@ -68,8 +68,8 @@ function FilterSidebarBase({
             className={cn(
               'tap-bg-only relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border transition-colors duration-200 ease-out',
               sortUpcoming
-                ? 'border-red-400/70 bg-red-600/80'
-                : 'border-white/25 bg-white/10',
+                ? 'border-brand/70 bg-brand/80'
+                : 'border-line-3 bg-surface-2',
             )}
           >
             <span

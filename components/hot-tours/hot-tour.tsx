@@ -54,9 +54,11 @@ const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
       [tour.start_date, tour.end_date, tbdLabel],
     );
     return (
+      // A deliberately light card on the hero video in both themes —
+      // `theme-light` keeps the buttons inside it on the light palette.
       <div
         ref={ref}
-        className={`bg-white flex gap-4 rounded-2xl text-black p-6 shadow-lg ${
+        className={`theme-light bg-white flex gap-4 rounded-2xl text-black p-6 shadow-lg ${
           className ?? ''
         }`}
         {...props}
@@ -76,9 +78,9 @@ const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
         <div className='flex flex-col gap-1 pt-2'>
           <h1 className='text-xl font-bold leading-tight'>{tour.title}</h1>
 
-          {/* <p className='text-sm text-gray-600'>{locationName}</p> */}
+          {/* <p className='text-sm text-ink-4'>{locationName}</p> */}
 
-          <div className='flex gap-1 items-center text-sm text-gray-500'>
+          <div className='flex gap-1 items-center text-sm text-ink-5'>
             <Calendar size={14} />
             <p>{dateRange}</p>
           </div>

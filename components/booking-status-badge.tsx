@@ -10,11 +10,11 @@ import {
 
 const STATUS_BADGE_CLASS: Record<BookingStatusTone, string> = {
   warning:
-    'border-amber-400/45 bg-amber-500/12 text-amber-200 shadow-[inset_0_0_0_1px_rgba(208,6,0,0.16)]',
+    'border-amber-500/45 bg-amber-500/12 text-amber-700 dark:text-amber-200 shadow-[inset_0_0_0_1px_var(--brand-tint)]',
   success:
-    'border-emerald-400/45 bg-emerald-500/12 text-emerald-200 shadow-[inset_0_0_0_1px_rgba(46,211,125,0.2)]',
+    'border-success-line bg-success-tint text-success-soft shadow-[inset_0_0_0_1px_var(--success-tint)]',
   danger:
-    'border-red-400/45 bg-red-500/12 text-red-200 shadow-[inset_0_0_0_1px_rgba(208,6,0,0.25)]',
+    'border-brand/45 bg-brand/12 text-brand-soft shadow-[inset_0_0_0_1px_var(--brand-line)]',
 };
 
 interface BookingStatusBadgeProps {

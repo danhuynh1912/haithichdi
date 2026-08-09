@@ -63,7 +63,7 @@ export default function BookingSuccessClient({
   const resolvedTourId = booking?.tour.id ?? fallbackTourId;
 
   const mainContent = (
-    <section className='relative rounded-[2rem] border border-white/15 bg-black/60 backdrop-blur-xl overflow-hidden'>
+    <section className='relative rounded-[2rem] border border-line-2 bg-well-2 backdrop-blur-xl overflow-hidden'>
       <div className='pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(208,6,0,0.3),transparent_48%)]' />
       <div className='relative grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 p-6 md:p-10'>
         <div className='flex flex-col gap-6'>
@@ -75,22 +75,22 @@ export default function BookingSuccessClient({
               transition={{ duration: 0.35, ease: 'easeOut' }}
             >
               <motion.div
-                className='absolute inset-0 rounded-full border border-[#2ed37d]/70 shadow-[0_0_0_1px_rgba(208,6,0,0.25),0_0_36px_rgba(46,211,125,0.25)]'
+                className='absolute inset-0 rounded-full border border-success/70 shadow-[0_0_0_1px_var(--brand-line),0_0_36px_var(--success-tint)]'
                 animate={{ scale: [1, 1.28, 1], opacity: [0.65, 0.15, 0.65] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               />
-              <div className='absolute inset-[10px] rounded-full bg-gradient-to-br from-[#39dd88] via-[#1fbf69] to-[#149a55] ring-1 ring-[#d00600]/35 flex items-center justify-center shadow-[0_0_40px_rgba(46,211,125,0.45)]'>
+              <div className='absolute inset-[10px] rounded-full bg-gradient-to-br from-success via-success to-success ring-1 ring-brand/35 flex items-center justify-center shadow-[0_0_40px_var(--success-line)]'>
                 <CheckCircle2 size={28} className='text-white' />
               </div>
             </motion.div>
 
-            <p className='text-xs uppercase tracking-[0.34em] font-semibold bg-gradient-to-r from-[#89f7bc] via-[#37d07d] to-[#d00600] bg-clip-text text-transparent'>
+            <p className='text-xs uppercase tracking-[0.34em] font-semibold bg-gradient-to-r from-success-soft via-success to-brand bg-clip-text text-transparent'>
               {t('eyebrow')}
             </p>
             <h1 className='text-3xl md:text-5xl font-black leading-[1.05] tracking-tight'>
               {t('title', { name: displayName })}
             </h1>
-            <p className='text-neutral-300 text-sm md:text-base max-w-2xl'>
+            <p className='text-ink-3 text-sm md:text-base max-w-2xl'>
               {t('description')}
             </p>
           </div>
@@ -124,40 +124,40 @@ export default function BookingSuccessClient({
           </div>
         </div>
 
-        <aside className='rounded-3xl border border-white/10 bg-white/[0.03] p-5 md:p-6 flex flex-col gap-4 self-start'>
-          <p className='text-xs uppercase tracking-[0.28em] text-neutral-500'>
+        <aside className='rounded-3xl border border-line bg-surface p-5 md:p-6 flex flex-col gap-4 self-start'>
+          <p className='text-xs uppercase tracking-[0.28em] text-ink-5'>
             {t('actionEyebrow')}
           </p>
           <h2 className='text-2xl font-black tracking-tight'>
             {t('actionTitle')}
           </h2>
-          <p className='text-sm text-neutral-400'>{t('actionDescription')}</p>
+          <p className='text-sm text-ink-4'>{t('actionDescription')}</p>
 
           <div className='flex flex-col gap-3 pt-1'>
             <Link
               href='/my-bookings'
-              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-emerald-400/45 bg-emerald-500/12 text-emerald-100 hover:bg-emerald-500/20 transition-colors'
+              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-success-line bg-success-tint text-success-soft hover:bg-success-tint transition-colors'
             >
               {t('actionMyBookings')}
               <ArrowRight size={18} />
             </Link>
             <Link
               href='/tours'
-              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 bg-[#d00600] text-white font-semibold hover:bg-[#a90500] transition-colors'
+              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 bg-brand text-brand-ink font-semibold hover:bg-brand-strong transition-colors'
             >
               {t('actionMoreTours')}
               <ArrowRight size={18} />
             </Link>
             <Link
               href={`/tour-booking/${resolvedTourId}`}
-              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-white/20 text-white hover:border-[#d00600]/60 hover:text-[#ffd0ce] transition-colors'
+              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-line-3 text-ink-1 hover:border-brand/60 hover:text-brand-soft transition-colors'
             >
               {t('actionBookAgain')}
               <Ticket size={18} />
             </Link>
             <Link
               href='/'
-              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-white/20 text-white hover:border-white/40 transition-colors'
+              className='inline-flex items-center justify-between gap-3 rounded-2xl px-4 py-3 border border-line-3 text-ink-1 hover:border-line-4 transition-colors'
             >
               {t('actionHome')}
               <Home size={18} />
@@ -169,11 +169,11 @@ export default function BookingSuccessClient({
   );
 
   return (
-    <main className='relative min-h-screen overflow-hidden text-white pt-24 px-4 md:px-8 pb-12'>
+    <main className='relative min-h-screen overflow-hidden bg-elev-1 text-ink-1 pt-24 px-4 md:px-8 pb-12'>
       <BackgroundBlur imageUrl={booking?.tour.location.full_image_url || null} />
       <div className='pointer-events-none absolute inset-0 -z-10'>
-        <div className='absolute -top-28 right-[-10%] h-[320px] w-[320px] rounded-full bg-[#d00600]/20 blur-3xl' />
-        <div className='absolute bottom-[-120px] left-[-12%] h-[360px] w-[360px] rounded-full bg-white/5 blur-3xl' />
+        <div className='absolute -top-28 right-[-10%] h-[320px] w-[320px] rounded-full bg-brand/20 blur-3xl' />
+        <div className='absolute bottom-[-120px] left-[-12%] h-[360px] w-[360px] rounded-full bg-surface blur-3xl' />
       </div>
 
       <div className='w-full max-w-[1120px] mx-auto flex flex-col gap-6'>
@@ -184,24 +184,24 @@ export default function BookingSuccessClient({
         />
 
         {!isStorageReady && (
-          <div className='rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-10 text-center text-neutral-300'>
+          <div className='rounded-3xl border border-line bg-surface px-6 py-10 text-center text-ink-3'>
             {t('readingStorage')}
           </div>
         )}
 
         {isStorageReady && latestBookingId === null && (
-          <div className='rounded-3xl border border-red-500/30 bg-red-500/10 px-6 py-8 flex flex-col gap-4'>
-            <p className='inline-flex items-center gap-2 text-red-200 font-semibold'>
+          <div className='rounded-3xl border border-brand/30 bg-brand/10 px-6 py-8 flex flex-col gap-4'>
+            <p className='inline-flex items-center gap-2 text-brand-soft font-semibold'>
               <CircleAlert size={18} />
               {t('notFoundTitle')}
             </p>
-            <p className='text-sm text-neutral-300'>
+            <p className='text-sm text-ink-3'>
               {t('notFoundDescription')}
             </p>
             <div className='flex flex-wrap gap-3'>
               <Link
                 href='/tours'
-                className='inline-flex items-center gap-2 rounded-xl bg-[#d00600] px-4 py-2 text-white hover:bg-[#a90500] transition-colors'
+                className='inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-brand-ink hover:bg-brand-strong transition-colors'
               >
                 {t('notFoundCta')}
                 <ArrowRight size={16} />
@@ -211,17 +211,17 @@ export default function BookingSuccessClient({
         )}
 
         {isStorageReady && latestBookingId !== null && bookingPending && (
-          <div className='rounded-3xl border border-white/10 bg-white/[0.03] px-6 py-10 text-center text-neutral-300'>
+          <div className='rounded-3xl border border-line bg-surface px-6 py-10 text-center text-ink-3'>
             {t('loadingDetail', { id: latestBookingId })}
           </div>
         )}
 
         {isStorageReady && latestBookingId !== null && bookingError && (
-          <div className='rounded-3xl border border-red-500/30 bg-red-500/10 px-6 py-8 flex flex-col gap-3'>
-            <p className='text-red-200 font-semibold'>
+          <div className='rounded-3xl border border-brand/30 bg-brand/10 px-6 py-8 flex flex-col gap-3'>
+            <p className='text-brand-soft font-semibold'>
               {t('loadErrorTitle', { id: latestBookingId })}
             </p>
-            <p className='text-sm text-neutral-300'>
+            <p className='text-sm text-ink-3'>
               {t('loadErrorDescription')}
             </p>
           </div>
@@ -243,8 +243,8 @@ function StatusChip({
   label: string;
 }) {
   return (
-    <div className='inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-neutral-200'>
-      <span className='text-[#d00600]'>{icon}</span>
+    <div className='inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-4 py-2 text-sm text-ink-2'>
+      <span className='text-brand'>{icon}</span>
       <span>{label}</span>
     </div>
   );
@@ -260,12 +260,12 @@ function NextStepCard({
   description: string;
 }) {
   return (
-    <div className='rounded-2xl border border-white/10 bg-white/[0.03] p-4 flex flex-col gap-2'>
-      <div className='inline-flex w-fit items-center gap-2 rounded-full border border-[#d00600]/40 bg-[#d00600]/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] uppercase text-[#ffb0ac]'>
+    <div className='rounded-2xl border border-line bg-surface p-4 flex flex-col gap-2'>
+      <div className='inline-flex w-fit items-center gap-2 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-semibold tracking-[0.2em] uppercase text-brand-soft-2'>
         {icon}
         {title}
       </div>
-      <p className='text-sm text-neutral-300 leading-relaxed'>{description}</p>
+      <p className='text-sm text-ink-3 leading-relaxed'>{description}</p>
     </div>
   );
 }

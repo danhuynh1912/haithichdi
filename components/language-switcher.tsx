@@ -27,7 +27,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
       role='group'
       aria-label={t('language')}
       className={cn(
-        'inline-flex items-center rounded-full border border-white/15 bg-white/5 p-0.5 text-[11px] font-semibold',
+        'inline-flex items-center rounded-full border border-line-2 bg-surface p-0.5 text-[11px] font-semibold',
         isPending && 'opacity-60',
         className,
       )}
@@ -51,8 +51,8 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
             className={cn(
               'rounded-full px-2.5 py-1 transition-colors',
               isActive
-                ? 'bg-[#d00600] text-white'
-                : 'text-neutral-300 hover:text-white hover:bg-white/10',
+                ? 'bg-brand text-brand-ink'
+                : 'text-ink-3 hover:text-ink-1 hover:bg-surface-2',
             )}
           >
             {LOCALE_LABEL[locale]}

@@ -17,13 +17,13 @@ export default function ChatMessage({ role, content, isStreaming }: ChatMessageP
         className={cn(
           'max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap break-words',
           isUser
-            ? 'rounded-br-sm bg-black text-white'
-            : 'rounded-bl-sm bg-[#1a1a1a] text-white',
+            ? 'rounded-br-sm bg-surface-inverse text-surface-inverse-foreground'
+            : 'rounded-bl-sm bg-surface-2 text-ink-1',
         )}
       >
         {content}
         {isStreaming && (
-          <span className='ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-[#d00600] align-middle' />
+          <span className='ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-brand align-middle' />
         )}
       </div>
     </div>

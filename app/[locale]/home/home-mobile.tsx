@@ -35,7 +35,7 @@ const HotLocationCard = memo(function HotLocationCard({
   return (
     <button
       onClick={handleClick}
-      className='relative h-44 w-40 shrink-0 overflow-hidden rounded-3xl border border-white/10 text-left'
+      className='relative h-44 w-40 shrink-0 overflow-hidden rounded-3xl border border-line text-left'
     >
       <Image
         src={src}
@@ -45,9 +45,9 @@ const HotLocationCard = memo(function HotLocationCard({
         unoptimized={isRemote}
       />
       <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10' />
-      <div className='absolute left-3 right-3 bottom-3 flex flex-col gap-1'>
+      <div className='theme-dark text-ink-1 absolute left-3 right-3 bottom-3 flex flex-col gap-1'>
         <p className='text-sm font-semibold leading-tight line-clamp-2'>{name}</p>
-        <p className='text-xs text-neutral-300'>{elevation}m</p>
+        <p className='text-xs text-ink-3'>{elevation}m</p>
       </div>
     </button>
   );
@@ -83,7 +83,7 @@ const HotTourFeatureCard = memo(function HotTourFeatureCard({
   return (
     <button
       onClick={handleClick}
-      className='relative w-full h-40 overflow-hidden rounded-3xl border border-white/10 text-left'
+      className='relative w-full h-40 overflow-hidden rounded-3xl border border-line text-left'
     >
       <Image
         src={src}
@@ -93,19 +93,19 @@ const HotTourFeatureCard = memo(function HotTourFeatureCard({
         unoptimized={isRemote}
       />
       <div className='absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20' />
-      <div className='absolute inset-0 p-4 flex flex-col justify-between'>
+      <div className='theme-dark text-ink-1 absolute inset-0 p-4 flex flex-col justify-between'>
         <div>
-          <p className='text-[10px] uppercase tracking-[0.08em] text-red-200'>
+          <p className='text-[10px] uppercase tracking-[0.08em] text-brand-soft'>
             {locationName}
           </p>
           <h3 className='text-lg font-bold mt-1 line-clamp-2'>{title}</h3>
         </div>
-        <div className='flex items-center justify-between text-xs text-neutral-200'>
+        <div className='flex items-center justify-between text-xs text-ink-2'>
           <span className='inline-flex items-center gap-1.5'>
-            <Calendar size={13} className='text-red-300' />
+            <Calendar size={13} className='text-brand-soft-2' />
             {dateLabel}
           </span>
-          <span className='rounded-full border border-white/20 bg-black/45 px-2.5 py-1'>
+          <span className='rounded-full border border-line-3 bg-black/45 px-2.5 py-1'>
             {tCommon('slotsLeft', { count: slotsLeft })}
           </span>
         </div>
@@ -137,21 +137,21 @@ export default function HomeMobile() {
   );
 
   return (
-    <main className='relative min-h-screen overflow-hidden bg-[#0d0d0d] text-white pt-24 pb-28 text-[11px]'>
+    <main className='relative min-h-screen overflow-hidden bg-elev-1 text-ink-1 pt-24 pb-28 text-[11px]'>
       <div className='pointer-events-none absolute inset-0'>
-        <div className='absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0)_28%)]' />
-        <div className='absolute inset-0 bg-[radial-gradient(112%_84%_at_50%_-8%,rgba(208,6,0,0.14)_0%,transparent_58%)]' />
-        <div className='absolute inset-0 bg-[radial-gradient(88%_70%_at_100%_90%,rgba(208,6,0,0.08)_0%,transparent_64%)]' />
+        <div className='absolute inset-0 bg-[linear-gradient(180deg,var(--sheen)_0%,transparent_28%)]' />
+        <div className='absolute inset-0 bg-[radial-gradient(112%_84%_at_50%_-8%,var(--brand-glow)_0%,transparent_58%)]' />
+        <div className='absolute inset-0 bg-[radial-gradient(88%_70%_at_100%_90%,var(--brand-wash-soft)_0%,transparent_64%)]' />
       </div>
 
       <div className='relative z-10 mx-auto max-w-lg px-4 flex flex-col gap-7'>
         <section>
-          <div className='h-11 rounded-2xl border border-white/10 bg-white/5 px-4 flex items-center gap-2'>
-            <Search size={16} className='text-neutral-500' />
+          <div className='h-11 rounded-2xl border border-line bg-surface px-4 flex items-center gap-2'>
+            <Search size={16} className='text-ink-5' />
             <input
               type='text'
               placeholder={t('searchPlaceholder')}
-              className='w-full bg-transparent border-none outline-none text-base md:text-sm text-white placeholder:text-neutral-500'
+              className='w-full bg-transparent border-none outline-none text-base md:text-sm text-ink-1 placeholder:text-ink-5'
             />
           </div>
         </section>
@@ -161,7 +161,7 @@ export default function HomeMobile() {
             <h2 className='text-xl font-bold'>{t('hotLocationsHeading')}</h2>
             <button
               onClick={() => router.push('/tours?mode=location')}
-              className='text-xs inline-flex items-center gap-1.5 text-red-300 hover:text-red-200 transition-colors active:text-red-100'
+              className='text-xs inline-flex items-center gap-1.5 text-brand-soft-2 hover:text-brand-soft transition-colors active:text-brand-soft'
             >
               {tCommon('seeAll')} <ChevronRight size={15} />
             </button>
@@ -181,7 +181,7 @@ export default function HomeMobile() {
                 />
               ))}
               {!locations.length && (
-                <p className='text-sm text-neutral-400'>{t('emptyLocations')}</p>
+                <p className='text-sm text-ink-4'>{t('emptyLocations')}</p>
               )}
             </div>
           )}
@@ -192,7 +192,7 @@ export default function HomeMobile() {
             <h2 className='text-xl font-bold'>{t('upcomingToursHeading')}</h2>
             <button
               onClick={() => router.push('/tours?mode=tour')}
-              className='text-xs inline-flex items-center gap-1.5 text-red-300 hover:text-red-200 transition-colors active:text-red-100'
+              className='text-xs inline-flex items-center gap-1.5 text-brand-soft-2 hover:text-brand-soft transition-colors active:text-brand-soft'
             >
               {tCommon('seeMore')} <ChevronRight size={15} />
             </button>
@@ -216,7 +216,7 @@ export default function HomeMobile() {
                 />
               ))}
               {!hotTours.length && (
-                <div className='rounded-2xl border border-white/10 bg-white/5 px-4 py-6 text-sm text-neutral-400 text-center'>
+                <div className='rounded-2xl border border-line bg-surface px-4 py-6 text-sm text-ink-4 text-center'>
                   {t('emptyTours')}
                 </div>
               )}
@@ -226,13 +226,13 @@ export default function HomeMobile() {
 
         <button
           onClick={() => router.push('/tours')}
-          className='w-full rounded-2xl bg-[#d00600] text-white text-sm font-semibold py-3.5 inline-flex items-center justify-center gap-2 hover:bg-[#ab0500] transition-colors'
+          className='w-full rounded-2xl bg-brand text-brand-ink text-sm font-semibold py-3.5 inline-flex items-center justify-center gap-2 hover:bg-brand-strong transition-colors'
         >
           <Tent size={18} />
           {tCommon('exploreAllTours')}
         </button>
 
-        <p className='text-[10px] text-neutral-500 text-center'>
+        <p className='text-[10px] text-ink-5 text-center'>
           {t('footerNote')}
         </p>
       </div>
@@ -242,12 +242,12 @@ export default function HomeMobile() {
         <LeadersShowcaseSection
           id='leaders'
           variant='home'
-          className='bg-gradient-to-b from-[#0f0f0f] via-[#121212] to-[#171717]'
+          className='bg-gradient-to-b from-elev-1 via-elev-2 to-elev-4'
         />
         <HomeFeaturedRoutesSection />
         <MomentsGallerySection
           variant='home'
-          className='bg-gradient-to-b from-[#101010] via-[#131313] to-[#181818]'
+          className='bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4'
         />
       </div>
     </main>

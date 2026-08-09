@@ -44,15 +44,15 @@ function DetailRow({
   value: string;
 }) {
   return (
-    <div className='rounded-2xl border border-white/10 bg-white/[0.03] p-3 flex items-start gap-3'>
-      <div className='h-8 w-8 rounded-full border border-[#d00600]/40 bg-[#d00600]/10 text-[#ffb0ac] flex items-center justify-center shrink-0'>
+    <div className='rounded-2xl border border-line bg-surface p-3 flex items-start gap-3'>
+      <div className='h-8 w-8 rounded-full border border-brand/40 bg-brand/10 text-brand-soft-2 flex items-center justify-center shrink-0'>
         {icon}
       </div>
       <div className='flex flex-col gap-1 min-w-0'>
-        <p className='text-[11px] uppercase tracking-[0.18em] text-neutral-500'>
+        <p className='text-[11px] uppercase tracking-[0.18em] text-ink-5'>
           {label}
         </p>
-        <p className='text-sm text-neutral-100 break-words'>{value}</p>
+        <p className='text-sm text-ink-2 break-words'>{value}</p>
       </div>
     </div>
   );
@@ -73,7 +73,7 @@ export default function BookingDetailModal({
       onClose={onClose}
       closeAriaLabel={t('closeAria')}
       containerClassName='h-full w-full md:flex md:items-center md:justify-center md:p-8'
-      contentClassName='text-white bg-black/90 h-full w-full overflow-y-auto md:h-auto md:max-h-[92vh] md:max-w-5xl md:w-[92vw] md:rounded-[2rem] md:border md:border-white/15 md:bg-black/80'
+      contentClassName='text-ink-1 bg-elev-1 h-full w-full overflow-y-auto md:h-auto md:max-h-[92vh] md:max-w-5xl md:w-[92vw] md:rounded-[2rem] md:border md:border-line-2 md:bg-elev-1/95 md:backdrop-blur-xl'
       contentKey={booking?.id}
     >
       {booking && (
@@ -83,7 +83,7 @@ export default function BookingDetailModal({
           <div className='relative p-5 pt-16 md:p-10 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6'>
             <section className='flex flex-col gap-4'>
               <div className='flex flex-wrap items-center gap-3'>
-                <p className='text-xs uppercase tracking-[0.32em] text-[#d00600] font-semibold'>
+                <p className='text-xs uppercase tracking-[0.32em] text-brand font-semibold'>
                   {t('eyebrow')}
                 </p>
                 <BookingStatusBadge status={booking.status} />
@@ -93,17 +93,17 @@ export default function BookingDetailModal({
                 {booking.tour.title}
               </h3>
 
-              <div className='flex flex-wrap gap-3 text-sm text-neutral-200'>
-                <span className='inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3 py-1.5'>
-                  <Ticket size={15} className='text-[#d00600]' />
+              <div className='flex flex-wrap gap-3 text-sm text-ink-2'>
+                <span className='inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-3 py-1.5'>
+                  <Ticket size={15} className='text-brand' />
                   {t('code', { id: booking.id })}
                 </span>
-                <span className='inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3 py-1.5'>
-                  <MapPin size={15} className='text-[#d00600]' />
+                <span className='inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-3 py-1.5'>
+                  <MapPin size={15} className='text-brand' />
                   {booking.tour.location.name}
                 </span>
-                <span className='inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-3 py-1.5'>
-                  <Calendar size={15} className='text-[#d00600]' />
+                <span className='inline-flex items-center gap-2 rounded-full border border-line-2 bg-surface px-3 py-1.5'>
+                  <Calendar size={15} className='text-brand' />
                   {formatDateRange(
                     booking.tour.start_date,
                     booking.tour.end_date,
@@ -112,11 +112,11 @@ export default function BookingDetailModal({
                 </span>
               </div>
 
-              <div className='rounded-3xl border border-white/10 bg-white/[0.03] p-4 md:p-5'>
-                <p className='text-xs uppercase tracking-[0.2em] text-neutral-500 mb-2'>
+              <div className='rounded-3xl border border-line bg-surface p-4 md:p-5'>
+                <p className='text-xs uppercase tracking-[0.2em] text-ink-5 mb-2'>
                   {t('createdHeading')}
                 </p>
-                <p className='text-sm md:text-base text-neutral-100'>
+                <p className='text-sm md:text-base text-ink-2'>
                   {format.dateTime(new Date(booking.created_at), 'dateTime')}
                 </p>
               </div>

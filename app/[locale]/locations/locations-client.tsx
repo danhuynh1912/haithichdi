@@ -78,11 +78,11 @@ export default function LocationsClient({
 
   if (loading) {
     return (
-      <div className='min-h-screen bg-black flex items-center justify-center text-white'>
+      <div className='min-h-screen bg-elev-1 flex items-center justify-center text-ink-1'>
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-          className='w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full'
+          className='w-12 h-12 border-4 border-brand border-t-transparent rounded-full'
         />
       </div>
     );
@@ -105,7 +105,7 @@ export default function LocationsClient({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ease: ANIMATION_EASE, duration: 0.8 }}
-            className='text-red-600 font-bold tracking-[0.14em] md:tracking-[0.3em] uppercase mb-1 text-[10px] md:text-sm'
+            className='text-brand font-bold tracking-[0.14em] md:tracking-[0.3em] uppercase mb-1 text-[10px] md:text-sm'
           >
             {t('eyebrow')}
           </motion.p>
@@ -113,7 +113,7 @@ export default function LocationsClient({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, ease: ANIMATION_EASE, duration: 0.8 }}
-            className='text-white text-xl md:text-5xl font-black uppercase tracking-tight'
+            className='text-ink-1 text-xl md:text-5xl font-black uppercase tracking-tight'
           >
             {t('title')}
           </motion.h1>

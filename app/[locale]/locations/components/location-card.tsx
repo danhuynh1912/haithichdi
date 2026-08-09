@@ -87,7 +87,7 @@ function LocationCardBase({
           duration: 0.4,
           ease: ANIMATION_EASE,
         }}
-        className={`relative overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,1)] border border-[#d1d1d1] group transform-gpu bg-neutral-900 flex ${
+        className={`relative overflow-hidden shadow-[var(--shadow-strong)] border border-line-3 group transform-gpu bg-elev-3 flex ${
           compact
             ? 'w-[170px] h-[260px] rounded-[40px]'
             : 'w-[250px] h-[400px] 2xl:w-[300px] 2xl:h-[450px] rounded-[60px]'
@@ -115,8 +115,8 @@ function LocationCardBase({
                 className='object-cover transition-transform duration-500 group-hover:scale-110'
               />
             ) : (
-              <div className='w-full h-full bg-neutral-800 flex items-center justify-center'>
-                <span className='text-neutral-500'>{t('noImage')}</span>
+              <div className='w-full h-full bg-elev-4 flex items-center justify-center'>
+                <span className='text-ink-5'>{t('noImage')}</span>
               </div>
             )}
           </motion.div>
@@ -132,8 +132,8 @@ function LocationCardBase({
             compact ? 'p-4' : 'p-8'
           }`}
         >
-          <div className='pointer-events-auto'>
-            <p className={`text-red-500 font-bold mb-1 ${compact ? 'text-[10px]' : ''}`}>
+          <div className='theme-dark text-ink-1 pointer-events-auto'>
+            <p className={`text-brand font-bold mb-1 ${compact ? 'text-[10px]' : ''}`}>
               #{String(index + 1).padStart(2, '0')}
             </p>
             <h3
@@ -152,7 +152,7 @@ function LocationCardBase({
               transition={{ ease: ANIMATION_EASE, duration: 0.5 }}
               className='overflow-hidden'
             >
-              <p className={`text-neutral-300 line-clamp-2 ${compact ? 'text-[11px]' : 'text-sm'}`}>
+              <p className={`text-ink-3 line-clamp-2 ${compact ? 'text-[11px]' : 'text-sm'}`}>
                 {location.description}
               </p>
 
@@ -163,7 +163,7 @@ function LocationCardBase({
                       e.stopPropagation();
                       onDetailsClick(location);
                     }}
-                    className={`w-full cursor-pointer bg-white text-black font-extrabold rounded-full text-xs uppercase hover:bg-red-600 hover:text-white transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.5)] active:scale-95 ${
+                    className={`w-full cursor-pointer bg-white text-black font-extrabold rounded-full text-xs uppercase hover:bg-brand hover:text-white transition-all duration-300 shadow-[var(--shadow-soft)] active:scale-95 ${
                       compact
                         ? 'py-2.5 tracking-[0.08em]'
                         : 'py-4 tracking-[0.2em]'

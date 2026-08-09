@@ -13,7 +13,7 @@ import {
 
 export default function AboutClient() {
   return (
-    <main className='bg-black text-white overflow-hidden'>
+    <main className='bg-elev-0 text-ink-1 overflow-hidden'>
       <StorySection />
       <LeadersShowcaseSection />
       <MomentsGallerySection />
@@ -29,25 +29,25 @@ function StorySection() {
   const pills = t.raw('pills') as string[];
 
   return (
-    <section className='relative min-h-screen flex items-center bg-gradient-to-b from-black via-[#0b0b0b] to-[#0a0a0a]'>
+    <section className='relative min-h-screen flex items-center bg-gradient-to-b from-elev-1 via-elev-0 to-elev-0'>
       <div className='pointer-events-none absolute inset-0'>
-        <div className='absolute top-10 left-[-10%] w-[320px] h-[320px] bg-red-500/20 blur-[120px]' />
-        <div className='absolute bottom-0 right-[-10%] w-[380px] h-[380px] bg-[#ff7b47]/20 blur-[140px]' />
-        <div className='absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_top,_rgba(255,80,80,0.08),transparent_45%)]' />
+        <div className='absolute top-10 left-[-10%] w-[320px] h-[320px] bg-brand/20 blur-[120px]' />
+        <div className='absolute bottom-0 right-[-10%] w-[380px] h-[380px] bg-brand/15 blur-[140px]' />
+        <div className='absolute inset-0 opacity-15 bg-[radial-gradient(circle_at_top,_var(--brand-wash-soft),transparent_45%)]' />
       </div>
 
       <div className='relative z-10 max-w-[1400px] mx-auto px-4 sm:px-8 py-20 grid lg:grid-cols-[1.05fr_0.95fr] gap-10 items-center'>
         <div className='space-y-6'>
-          <div className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-red-200'>
-            <Sparkles className='w-4 h-4 text-red-400' />
+          <div className='inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs uppercase tracking-[0.2em] text-brand-soft'>
+            <Sparkles className='w-4 h-4 text-brand-soft-2' />
             {t('eyebrow')}
           </div>
           <h1 className='text-4xl sm:text-5xl lg:text-6xl font-black leading-tight'>
             {t('title')}
           </h1>
-          <p className='text-red-200/90 text-lg font-medium'>{t('lead')}</p>
+          <p className='text-brand-soft/90 text-lg font-medium'>{t('lead')}</p>
 
-          <div className='space-y-4 text-sm sm:text-base text-neutral-200 leading-relaxed max-w-3xl'>
+          <div className='space-y-4 text-sm sm:text-base text-ink-2 leading-relaxed max-w-3xl'>
             {storyParagraphs.map((paragraph, idx) => (
               <motion.p
                 key={idx}
@@ -55,7 +55,7 @@ function StorySection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, ease: ANIMATION_EASE, delay: idx * 0.05 }}
-                className={cn(idx === storyParagraphs.length - 1 && 'font-semibold text-red-100')}
+                className={cn(idx === storyParagraphs.length - 1 && 'font-semibold text-brand-soft')}
               >
                 {paragraph}
               </motion.p>
@@ -66,9 +66,9 @@ function StorySection() {
             {pills.map((pill) => (
               <span
                 key={pill}
-                className='inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-[0.15em] text-red-100'
+                className='inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-2 text-xs uppercase tracking-[0.15em] text-brand-soft'
               >
-                <BadgeCheck className='w-4 h-4 text-red-400' />
+                <BadgeCheck className='w-4 h-4 text-brand-soft-2' />
                 {pill}
               </span>
             ))}
@@ -76,8 +76,8 @@ function StorySection() {
         </div>
 
         <div className='relative'>
-          <div className='absolute inset-0 -left-6 -top-6 rounded-[36px] border border-white/10 bg-gradient-to-br from-red-500/15 via-transparent to-white/5' />
-          <div className='relative overflow-hidden rounded-[32px] border border-white/10 shadow-2xl shadow-red-900/30'>
+          <div className='absolute inset-0 -left-6 -top-6 rounded-[36px] border border-line bg-gradient-to-br from-brand/15 via-transparent to-surface' />
+          <div className='relative overflow-hidden rounded-[32px] border border-line shadow-[var(--shadow-strong)]'>
             <Image
               src='/images/haithichdi1.jpg'
               alt={t('imageAlt')}
@@ -86,23 +86,23 @@ function StorySection() {
               className='h-full w-full object-cover'
               priority
             />
-            <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6'>
-              <p className='text-sm text-red-100 uppercase tracking-[0.2em] mb-1'>
+            <div className='theme-dark text-ink-1 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6'>
+              <p className='text-sm text-brand-soft uppercase tracking-[0.2em] mb-1'>
                 {tCommon('brand')}
               </p>
               <p className='text-xl font-semibold'>{t('quote')}</p>
             </div>
           </div>
           <motion.div
-            className='absolute -left-6 -bottom-8 bg-black border border-white/10 rounded-2xl px-4 py-3 shadow-lg shadow-red-900/20 flex items-center gap-3'
+            className='absolute -left-6 -bottom-8 bg-elev-0 border border-line rounded-2xl px-4 py-3 shadow-[var(--shadow-soft)] flex items-center gap-3'
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: ANIMATION_EASE }}
             viewport={{ once: true }}
           >
-            <Users className='w-5 h-5 text-red-400' />
+            <Users className='w-5 h-5 text-brand-soft-2' />
             <div>
-              <p className='text-xs text-neutral-400'>{t('statLabel')}</p>
+              <p className='text-xs text-ink-4'>{t('statLabel')}</p>
               <p className='font-semibold text-lg'>{t('statValue')}</p>
             </div>
           </motion.div>

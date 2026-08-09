@@ -24,11 +24,11 @@ export default function FeatureInProgressModal({
       onClose={onClose}
       closeAriaLabel={t('closeAria')}
       containerClassName='h-full w-full flex items-center justify-center p-4'
-      contentClassName='h-auto w-full max-w-md overflow-hidden rounded-3xl border border-white/15 bg-black/90 text-white'
+      contentClassName='h-auto w-full max-w-md overflow-hidden rounded-3xl border border-line-2 bg-elev-0/95 text-ink-1'
     >
       <div className='p-6 pt-14 text-center'>
         <h3 className='text-xl font-black tracking-tight'>{title ?? t('title')}</h3>
-        <p className='mt-2 text-sm text-neutral-300'>{message ?? t('message')}</p>
+        <p className='mt-2 text-sm text-ink-3'>{message ?? t('message')}</p>
       </div>
     </FullscreenModalShell>
   );

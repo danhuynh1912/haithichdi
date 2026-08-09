@@ -54,7 +54,7 @@ export default function FullscreenModalShell({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
           className={cn(
-            'fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md',
+            'fixed inset-0 z-[9999] bg-scrim backdrop-blur-md',
             backdropClassName,
           )}
           onClick={disableBackdropClose ? undefined : onClose}
@@ -74,7 +74,7 @@ export default function FullscreenModalShell({
                   onClick={onClose}
                   aria-label={closeAriaLabel ?? t('close')}
                   className={cn(
-                    'absolute top-4 right-4 z-[110] h-10 w-10 rounded-full border border-white/20 bg-black/50 text-white flex items-center justify-center hover:border-[#d00600]/70 hover:text-[#ffcfcc] transition-colors',
+                    'absolute top-4 right-4 z-[110] h-10 w-10 rounded-full border border-line-3 bg-elev-0/70 backdrop-blur-sm text-ink-1 flex items-center justify-center hover:border-brand/70 hover:text-brand transition-colors',
                     closeButtonClassName,
                   )}
                 >

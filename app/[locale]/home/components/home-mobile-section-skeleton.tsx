@@ -24,7 +24,7 @@ export default function HomeMobileSectionSkeleton({
         {Array.from({ length: count }).map((_, index) => (
           <div
             key={`location-skeleton-${index}`}
-            className='h-44 w-40 shrink-0 rounded-3xl border border-white/10 bg-white/[0.04] animate-pulse'
+            className='h-44 w-40 shrink-0 rounded-3xl border border-line bg-surface animate-pulse'
           />
         ))}
       </div>
@@ -36,7 +36,7 @@ export default function HomeMobileSectionSkeleton({
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={`tour-skeleton-${index}`}
-          className='h-40 w-full rounded-3xl border border-white/10 bg-white/[0.04] animate-pulse'
+          className='h-40 w-full rounded-3xl border border-line bg-surface animate-pulse'
         />
       ))}
     </div>

@@ -38,7 +38,7 @@ export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
 
   if (tours.length === 0) {
     return (
-      <div className='rounded-3xl border border-white/10 bg-neutral-900/60 p-6 text-sm text-neutral-400'>
+      <div className='rounded-3xl border border-line bg-well p-6 text-sm text-ink-4'>
         {t('relatedEmpty')}
       </div>
     );
@@ -49,7 +49,7 @@ export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
       {tours.map((tour) => (
         <article
           key={tour.id}
-          className='group min-w-[84%] sm:min-w-[48%] lg:min-w-[31%] snap-start rounded-3xl border border-white/10 bg-neutral-900/60 overflow-hidden'
+          className='group min-w-[84%] sm:min-w-[48%] lg:min-w-[31%] snap-start rounded-3xl border border-line bg-well overflow-hidden'
         >
           <div className='relative h-[180px] overflow-hidden'>
             {tour.image_url ? (
@@ -61,21 +61,21 @@ export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
                 className='object-cover transition-transform duration-500 group-hover:scale-105'
               />
             ) : (
-              <div className='absolute inset-0 bg-neutral-800' />
+              <div className='absolute inset-0 bg-elev-4' />
             )}
             <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent' />
           </div>
 
           <div className='p-4 flex flex-col gap-3'>
-            <h3 className='text-base font-bold text-white line-clamp-2 min-h-[3rem]'>{tour.title}</h3>
+            <h3 className='text-base font-bold text-ink-1 line-clamp-2 min-h-[3rem]'>{tour.title}</h3>
 
-            <div className='space-y-1 text-xs text-neutral-400'>
+            <div className='space-y-1 text-xs text-ink-4'>
               <p className='flex items-center gap-2'>
-                <MapPin size={13} className='text-[#d00600]' />
+                <MapPin size={13} className='text-brand' />
                 <span className='truncate'>{tour.location.name}</span>
               </p>
               <p className='flex items-center gap-2'>
-                <Calendar size={13} className='text-[#d00600]' />
+                <Calendar size={13} className='text-brand' />
                 <DateRange startDate={tour.start_date} endDate={tour.end_date} />
               </p>
             </div>
@@ -83,7 +83,7 @@ export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
             <button
               type='button'
               onClick={() => router.push(`/tour-booking/${tour.id}`)}
-              className='mt-1 w-full rounded-full border border-[#d00600]/60 bg-[#d00600]/10 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#d00600] active:bg-[#a80500]'
+              className='mt-1 w-full rounded-full border border-brand/60 bg-brand/10 px-4 py-2.5 text-sm font-semibold text-ink-1 transition-colors hover:bg-brand hover:text-brand-ink active:bg-brand-strong'
             >
               {t('relatedCta')}
             </button>

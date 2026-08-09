@@ -19,7 +19,6 @@
     "exploreAllTours": "Khám phá tất cả tour trekking",
     "hotBadge": "Hot"
   },
-
   "nav": {
     "home": "Trang chủ",
     "locations": "Cung nổi bật",
@@ -30,9 +29,11 @@
     "myBookingsShort": "Tours đã đặt",
     "greeting": "Xin chào, <name>Trekker</name>",
     "language": "Ngôn ngữ",
-    "switchTo": "Chuyển sang {language}"
+    "switchTo": "Chuyển sang {language}",
+    "theme": "Giao diện",
+    "switchToLight": "Chuyển sang giao diện sáng",
+    "switchToDark": "Chuyển sang giao diện tối"
   },
-
   "footer": {
     "description": "Chúng tôi tạo ra những hành trình trekking thật, nơi bạn vừa chinh phục giới hạn của bản thân, vừa kết nối cộng đồng và để lại giá trị tích cực trên từng cung đường.",
     "contactHeading": "Thông tin liên hệ",
@@ -43,7 +44,6 @@
     "tiktok": "TikTok: Hải Thích Đi",
     "rights": "© {year} Hải Thích Đi Travel. All rights reserved."
   },
-
   "home": {
     "hero": {
       "eyebrow": "Vietnam",
@@ -72,9 +72,18 @@
       "outro": "Với đội ngũ leader giàu kinh nghiệm, am hiểu địa hình và luôn đặt sự an toàn lên hàng đầu, Hải Thích Đi đồng hành cùng bạn trên từng bước chân, từ lúc còn nghi ngờ bản thân cho đến khi đứng trên đỉnh.",
       "quote": "👉 “Mình làm được rồi.”",
       "stats": [
-        { "label": "Trekkers đã đồng hành", "value": "5000+" },
-        { "label": "Hành trình tổ chức", "value": "120+" },
-        { "label": "Đánh giá trung bình", "value": "4.9/5" }
+        {
+          "label": "Trekkers đã đồng hành",
+          "value": "5000+"
+        },
+        {
+          "label": "Hành trình tổ chức",
+          "value": "120+"
+        },
+        {
+          "label": "Đánh giá trung bình",
+          "value": "4.9/5"
+        }
       ],
       "keywords": [
         {
@@ -157,7 +166,6 @@
       "empty": "Chưa có dữ liệu cung nổi bật để hiển thị trên homepage."
     }
   },
-
   "about": {
     "eyebrow": "Về chúng tôi",
     "title": "Trekking. Kết nối. Thiện nguyện.",
@@ -169,13 +177,16 @@
       "Nhưng quan trọng hơn, chính những chuyến trekking còn mở ra cơ hội để bà con trên bản có thêm việc làm, thêm nguồn thu nhập sau vụ mùa vất vả. Họ trở thành những người porter âm thầm gùi đồ, khéo léo nấu nướng, kiên nhẫn dẫn đường… không chỉ giúp chuyến đi trọn vẹn hơn, mà còn để lại trong chúng mình sự biết ơn và những kỷ niệm khó quên.",
       "💚 Với mình, một chuyến đi trọn vẹn phải có đủ ba điều: Trekking – Kết nối – Thiện nguyện. Và mình tin, nếu bạn đồng hành cùng Hải Thích Đi, bạn sẽ không chỉ thấy thiên nhiên hùng vĩ hơn, tâm hồn mình rộng mở hơn, mà còn mang về một góc nhìn mới về con người, về cuộc sống, và có khi… về chính bản thân mình."
     ],
-    "pills": ["Trekking", "Kết nối", "Thiện nguyện"],
+    "pills": [
+      "Trekking",
+      "Kết nối",
+      "Thiện nguyện"
+    ],
     "imageAlt": "Hải Thích Đi trekking",
     "quote": "“Mỗi hành trình là một sợi dây kết nối mới.”",
     "statLabel": "Đoàn đã đồng hành",
     "statValue": "5000+ trekkers"
   },
-
   "leaders": {
     "default": {
       "eyebrow": "Team",
@@ -193,7 +204,11 @@
     "roleFallback": "Leader",
     "locationFallback": "Việt Nam",
     "highlightFallback": "Luôn đặt trải nghiệm và an toàn của đoàn lên trước.",
-    "strengthsFallback": ["An toàn", "Xử lý tình huống", "Truyền cảm hứng"],
+    "strengthsFallback": [
+      "An toàn",
+      "Xử lý tình huống",
+      "Truyền cảm hứng"
+    ],
     "modal": {
       "closeAria": "Đóng chi tiết leader",
       "highlightFallback": "Lan tỏa năng lượng tích cực, bảo vệ an toàn và cảm xúc của cả đoàn.",
@@ -233,7 +248,12 @@
         "dob": "04/11/1992",
         "highlight": "Thiết kế cung đường tối ưu và đảm bảo an toàn cho từng đoàn.",
         "bio": "Đam mê bản đồ, luôn thử nghiệm lộ trình mới để giữ an toàn và trải nghiệm trọn vẹn.",
-        "strengths": ["Định tuyến", "An toàn", "Sơ cứu", "Logistics"]
+        "strengths": [
+          "Định tuyến",
+          "An toàn",
+          "Sơ cứu",
+          "Logistics"
+        ]
       },
       {
         "fullName": "Hoàng Lan",
@@ -242,11 +262,14 @@
         "dob": "22/08/1995",
         "highlight": "Kết nối với cộng đồng địa phương và đem đến trải nghiệm văn hóa.",
         "bio": "Luôn mỉm cười, luôn lắng nghe; người khiến mọi cuộc trò chuyện quanh lửa trại trở nên đáng nhớ.",
-        "strengths": ["Giao tiếp bản địa", "Ẩm thực địa phương", "Gắn kết đội"]
+        "strengths": [
+          "Giao tiếp bản địa",
+          "Ẩm thực địa phương",
+          "Gắn kết đội"
+        ]
       }
     ]
   },
-
   "moments": {
     "default": {
       "eyebrow": "Khoảnh khắc",
@@ -262,7 +285,6 @@
     "loadError": "Không tải được gallery khoảnh khắc. Vui lòng thử lại sau.",
     "empty": "Chưa có ảnh tour nào để hiển thị trong gallery."
   },
-
   "locations": {
     "eyebrow": "Hải Thích đi",
     "title": "CÁC CUNG NỔI BẬT",
@@ -278,7 +300,6 @@
       "noTours": "Hiện chưa có tour cho cung đường này."
     }
   },
-
   "tours": {
     "searchPlaceholder": "Tìm tour theo tên...",
     "loading": "Đang tải tours...",
@@ -298,7 +319,6 @@
       "dateTbd": "TBD"
     }
   },
-
   "booking": {
     "trail": "Booking tour {location}",
     "notFound": "Không tìm thấy tour hoặc tour đã ngừng hoạt động.",
@@ -342,7 +362,6 @@
       "notePlaceholder": "Yêu cầu đặc biệt..."
     }
   },
-
   "bookingSuccess": {
     "trail": "Booking successful",
     "back": "Quay lại booking",
@@ -382,7 +401,6 @@
     "loadErrorTitle": "Không thể tải chi tiết booking #{id}.",
     "loadErrorDescription": "Vui lòng thử tải lại trang hoặc vào mục Tours bạn đã đặt."
   },
-
   "myBookings": {
     "trail": "Tours bạn đã đặt",
     "back": "Quay về tours",
@@ -418,14 +436,12 @@
       "noteEmpty": "Không có ghi chú"
     }
   },
-
   "bookingStatus": {
     "prefix": "Trạng thái",
     "pending": "Chờ xác nhận",
     "confirmed": "Đã xác nhận",
     "cancelled": "Đã hủy"
   },
-
   "bookingErrors": {
     "TOUR_FULL": "Tour đã hết chỗ.",
     "TOUR_INACTIVE": "Tour hiện không nhận đặt chỗ.",
@@ -438,7 +454,6 @@
     "PHONE_REQUIRED": "Vui lòng nhập số điện thoại.",
     "UNKNOWN": "Đặt tour thất bại. Vui lòng thử lại."
   },
-
   "pdf": {
     "empty": "Chưa có file thông tin cho mục này.",
     "cta": "Xem chi tiết thông tin",
@@ -448,13 +463,11 @@
     "detailTitle": "{title} - Chi tiết",
     "thumbnailAlt": "{title} thumbnail"
   },
-
   "featureInProgress": {
     "title": "Đang phát triển",
     "message": "Tính năng này đang phát triển",
     "closeAria": "Đóng thông báo"
   },
-
   "chat": {
     "name": "Haithichdi AI",
     "openAria": "Mở chat AI",
@@ -467,7 +480,6 @@
     "welcome": "Xin chào! Tôi có thể giúp bạn tìm hiểu về các tour trekking của Haithichdi.",
     "error": "Xin lỗi, có lỗi xảy ra."
   },
-
   "metadata": {
     "siteDescription": "Hải Thích Đi - Chuyên tour trekking Việt Nam, khám phá thiên nhiên và văn hóa địa phương bền vững.",
     "home": {

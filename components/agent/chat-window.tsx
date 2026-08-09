@@ -114,15 +114,15 @@ export default function ChatWindow({
   return (
     <div
       className={cn(
-        'flex flex-col bg-[#111] text-white overflow-hidden',
+        'flex flex-col bg-elev-2 text-ink-1 overflow-hidden',
         isFullscreen ? 'h-full w-full max-w-3xl mx-auto' : 'rounded-2xl shadow-2xl',
         className,
       )}
     >
       {/* Header */}
-      <div className='flex items-center justify-between gap-2 border-b border-white/10 px-4 py-3 shrink-0'>
+      <div className='flex items-center justify-between gap-2 border-b border-line px-4 py-3 shrink-0'>
         <div className='flex items-center gap-2'>
-          <span className='h-2 w-2 rounded-full bg-[#d00600] animate-pulse' />
+          <span className='h-2 w-2 rounded-full bg-brand animate-pulse' />
           <span className='text-sm font-semibold tracking-wide'>{t('name')}</span>
         </div>
         <div className='flex items-center gap-1'>
@@ -130,7 +130,7 @@ export default function ChatWindow({
             onCollapse && (
               <button
                 onClick={onCollapse}
-                className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
+                className='rounded-lg p-1.5 text-ink-4 hover:bg-surface-2 hover:text-ink-1 transition-colors'
                 aria-label={t('collapseAria')}
               >
                 <Minimize2 size={15} />
@@ -140,7 +140,7 @@ export default function ChatWindow({
             onExpand && (
               <button
                 onClick={onExpand}
-                className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
+                className='rounded-lg p-1.5 text-ink-4 hover:bg-surface-2 hover:text-ink-1 transition-colors'
                 aria-label={t('expandAria')}
               >
                 <Expand size={15} />
@@ -149,7 +149,7 @@ export default function ChatWindow({
           )}
           <button
             onClick={onClose}
-            className='rounded-lg p-1.5 text-white/60 hover:bg-white/10 hover:text-white transition-colors'
+            className='rounded-lg p-1.5 text-ink-4 hover:bg-surface-2 hover:text-ink-1 transition-colors'
             aria-label={t('dismissAria')}
           >
             <X size={15} />
@@ -161,7 +161,7 @@ export default function ChatWindow({
       <div className='flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-0'>
         {messages.length === 0 && (
           <div className='flex h-full items-center justify-center text-center'>
-            <p className='text-sm text-white/40 leading-relaxed px-4'>
+            <p className='text-sm text-ink-4 leading-relaxed px-4'>
               {t('welcome')}
             </p>
           </div>
@@ -180,7 +180,7 @@ export default function ChatWindow({
       {/* Input */}
       <form
         onSubmit={handleSubmit}
-        className='border-t border-white/10 px-3 py-3 flex items-end gap-2 shrink-0'
+        className='border-t border-line px-3 py-3 flex items-end gap-2 shrink-0'
       >
         <textarea
           ref={inputRef}
@@ -190,13 +190,13 @@ export default function ChatWindow({
           placeholder={t('placeholder')}
           rows={1}
           disabled={isLoading}
-          className='flex-1 resize-none bg-white/5 rounded-xl px-3 py-2 text-sm text-white placeholder-white/30 focus:outline-none focus:ring-1 focus:ring-[#d00600]/60 max-h-28 overflow-y-auto disabled:opacity-50'
+          className='flex-1 resize-none bg-surface rounded-xl px-3 py-2 text-sm text-ink-1 placeholder:text-ink-5 focus:outline-none focus:ring-1 focus:ring-brand/60 max-h-28 overflow-y-auto disabled:opacity-50'
           style={{ lineHeight: '1.5' }}
         />
         <button
           type='submit'
           disabled={isLoading || !input.trim()}
-          className='shrink-0 h-9 w-9 rounded-xl bg-[#d00600] flex items-center justify-center text-white disabled:opacity-40 hover:bg-[#b00500] transition-colors'
+          className='shrink-0 h-9 w-9 rounded-xl bg-brand flex items-center justify-center text-brand-ink disabled:opacity-40 hover:bg-brand-strong transition-colors'
           aria-label={t('sendAria')}
         >
           <Send size={14} />

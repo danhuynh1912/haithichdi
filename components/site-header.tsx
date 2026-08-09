@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useTranslations } from 'next-intl';
 import { TicketCheck } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
@@ -12,6 +12,11 @@ import {
 } from '@/lib/services/booking-storage';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
 import LanguageSwitcher from '@/components/language-switcher';
+import ThemeToggle from '@/components/theme-toggle';
+import { getSiteHeroElement, subscribeSiteHero } from '@/lib/site-hero';
+
+/** Tallest the bar gets (lg breakpoint), in px — used for the hero overlap test. */
+const HEADER_HEIGHT = 112;
 
 export default function SiteHeader() {
   const t = useTranslations('nav');
@@ -19,6 +24,7 @@ export default function SiteHeader() {
   const pathname = usePathname() || '/';
   const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
+  const [overHero, setOverHero] = useState(false);
   const [showBookedToursItem, setShowBookedToursItem] = useState(false);
 
   useEffect(() => {
@@ -27,6 +33,34 @@ export default function SiteHeader() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Screens that open on full-bleed media register it via `useSiteHeroRef`.
+  // While the header still overlaps that media it keeps white copy in both
+  // themes — light-theme text would sit unreadably on the footage.
+  const hero = useSyncExternalStore(
+    subscribeSiteHero,
+    getSiteHeroElement,
+    () => null,
+  );
+
+  useEffect(() => {
+    if (!hero) {
+      setOverHero(false);
+      return;
+    }
+
+    const syncOverHero = () =>
+      setOverHero(hero.getBoundingClientRect().bottom > HEADER_HEIGHT);
+
+    syncOverHero();
+    window.addEventListener('scroll', syncOverHero, { passive: true });
+    window.addEventListener('resize', syncOverHero);
+
+    return () => {
+      window.removeEventListener('scroll', syncOverHero);
+      window.removeEventListener('resize', syncOverHero);
+    };
+  }, [hero]);
 
   useEffect(() => {
     const syncBookedToursItem = () => {
@@ -41,9 +75,9 @@ export default function SiteHeader() {
 
   const navItemClass = (active: boolean) =>
     cn(
-      'relative text-neutral-300 hover:text-white transition-colors whitespace-nowrap',
-      "after:absolute after:left-0 after:-bottom-1.5 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-[#d00600] after:transition-transform",
-      active ? 'text-white after:scale-x-100' : 'after:scale-x-0',
+      'relative text-ink-3 hover:text-ink-1 transition-colors whitespace-nowrap',
+      "after:absolute after:left-0 after:-bottom-1.5 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-brand after:transition-transform",
+      active ? 'text-ink-1 after:scale-x-100' : 'after:scale-x-0',
     );
 
   const isHomeActive = pathname === '/';
@@ -59,7 +93,10 @@ export default function SiteHeader() {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-[1000] text-white flex items-center justify-between px-6 py-4 lg:px-8 lg:py-6 bg-gradient-to-b from-[#111111] to-black/0 transition-colors',
+        'fixed top-0 left-0 right-0 z-[1000] text-ink-1 flex items-center justify-between px-6 py-4 lg:px-8 lg:py-6 bg-gradient-to-b from-elev-2 to-transparent transition-colors',
+        // Over the hero the bar keeps the dark palette in both themes, so the
+        // fade and every control inside it read against the footage.
+        overHero && 'theme-dark',
         scrolled && 'backdrop-blur-md shadow-lg',
       )}
     >
@@ -68,21 +105,39 @@ export default function SiteHeader() {
         aria-label={tCommon('brand')}
         className='inline-flex items-center shrink-0'
       >
+        {/* Both marks ship so the light/dark swap is pure CSS — a JS-driven
+            `src` would flash the wrong logo before the theme is known. The
+            hero case is the one that has to be decided in JS. */}
         <Image
-          src='/haithichdi-logo-white.png'
+          src='/haithichdi-logo-red.png'
           alt={tCommon('brand')}
           width={2366}
           height={2366}
           priority
-          className='h-11 md:h-16 w-auto hover:opacity-85 transition-opacity'
+          className={cn(
+            'h-11 md:h-16 w-auto hover:opacity-85 transition-opacity',
+            overHero ? 'hidden' : 'dark:hidden',
+          )}
+        />
+        <Image
+          src='/haithichdi-logo-white.png'
+          alt=''
+          aria-hidden='true'
+          width={2366}
+          height={2366}
+          priority
+          className={cn(
+            'h-11 md:h-16 w-auto hover:opacity-85 transition-opacity',
+            overHero ? 'block' : 'hidden dark:block',
+          )}
         />
       </Link>
       <div className='flex items-center gap-4'>
         {isMobile && (
-          <p className='text-[11px] leading-tight text-right text-neutral-300 md:hidden'>
+          <p className='text-[11px] leading-tight text-right text-ink-3 md:hidden'>
             {t.rich('greeting', {
               name: (chunks) => (
-                <span className='font-semibold text-white'>{chunks}</span>
+                <span className='font-semibold text-ink-1'>{chunks}</span>
               ),
             })}
           </p>
@@ -113,6 +168,7 @@ export default function SiteHeader() {
             </Link>
           )}
         </nav>
+        <ThemeToggle />
         <LanguageSwitcher />
       </div>
     </header>

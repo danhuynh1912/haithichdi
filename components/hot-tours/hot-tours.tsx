@@ -33,11 +33,13 @@ const HotTours = ({ className }: { className: string }) => {
 
   return (
     <SimpleBar className={`${className} h-[calc(100vh-100px)] `}>
+      {/* The panel sits on the hero video in both themes, so its chrome stays
+          literal white rather than following the canvas tokens. */}
       <motion.div
         initial='hidden'
         animate={data?.length ? 'visible' : 'hidden'}
         variants={list}
-        className='flex flex-col gap-4 bg-white/10 backdrop-blur-sm rounded-3xl py-8 px-12 shadow-sm'
+        className='flex flex-col gap-4 bg-white/10 backdrop-blur-sm rounded-3xl py-8 px-12 shadow-sm text-white'
       >
         <h2 className='text-2xl font-extrabold'>{t('title')}</h2>
         {isLoading ? <p className='text-sm text-white/70'>{t('loading')}</p> : null}

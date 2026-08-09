@@ -19,7 +19,6 @@
     "exploreAllTours": "Explore all trekking tours",
     "hotBadge": "Hot"
   },
-
   "nav": {
     "home": "Home",
     "locations": "Featured routes",
@@ -30,9 +29,11 @@
     "myBookingsShort": "Bookings",
     "greeting": "Hi, <name>Trekker</name>",
     "language": "Language",
-    "switchTo": "Switch to {language}"
+    "switchTo": "Switch to {language}",
+    "theme": "Theme",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
   },
-
   "footer": {
     "description": "We build real trekking journeys where you push past your own limits, connect with a community, and leave something positive behind on every trail.",
     "contactHeading": "Get in touch",
@@ -43,7 +44,6 @@
     "tiktok": "TikTok: Hải Thích Đi",
     "rights": "© {year} Hải Thích Đi Travel. All rights reserved."
   },
-
   "home": {
     "hero": {
       "eyebrow": "Vietnam",
@@ -72,9 +72,18 @@
       "outro": "With seasoned leaders who know the terrain and put safety first, Hải Thích Đi walks every step with you — from the moment you doubt yourself to the moment you stand on the summit.",
       "quote": "👉 “I actually did it.”",
       "stats": [
-        { "label": "Trekkers who joined us", "value": "5000+" },
-        { "label": "Journeys organised", "value": "120+" },
-        { "label": "Average rating", "value": "4.9/5" }
+        {
+          "label": "Trekkers who joined us",
+          "value": "5000+"
+        },
+        {
+          "label": "Journeys organised",
+          "value": "120+"
+        },
+        {
+          "label": "Average rating",
+          "value": "4.9/5"
+        }
       ],
       "keywords": [
         {
@@ -157,7 +166,6 @@
       "empty": "No featured routes to show on the homepage yet."
     }
   },
-
   "about": {
     "eyebrow": "About us",
     "title": "Trekking. Connection. Giving back.",
@@ -169,13 +177,16 @@
       "More importantly, these treks open up work and extra income for the villagers after a hard harvest. They become the porters quietly carrying our loads, the cooks, the patient guides — they don't just make the trip better, they leave us with gratitude and memories we can't forget.",
       "💚 For me, a complete journey needs all three: trekking, connection and giving back. And I believe that if you travel with Hải Thích Đi, you won't just see nature at its grandest or feel your mind open up — you'll come home with a new view of people, of life, and maybe of yourself."
     ],
-    "pills": ["Trekking", "Connection", "Giving back"],
+    "pills": [
+      "Trekking",
+      "Connection",
+      "Giving back"
+    ],
     "imageAlt": "Hải Thích Đi trekking",
     "quote": "“Every journey is a new thread between people.”",
     "statLabel": "Trekkers who joined us",
     "statValue": "5000+ trekkers"
   },
-
   "leaders": {
     "default": {
       "eyebrow": "Team",
@@ -193,7 +204,11 @@
     "roleFallback": "Leader",
     "locationFallback": "Vietnam",
     "highlightFallback": "Always puts the group's experience and safety first.",
-    "strengthsFallback": ["Safety", "Problem solving", "Motivation"],
+    "strengthsFallback": [
+      "Safety",
+      "Problem solving",
+      "Motivation"
+    ],
     "modal": {
       "closeAria": "Close leader details",
       "highlightFallback": "Brings positive energy and looks after the group's safety and spirits.",
@@ -233,7 +248,12 @@
         "dob": "04/11/1992",
         "highlight": "Designs the best route and keeps every group safe on it.",
         "bio": "Obsessed with maps, always testing new routes to keep trips both safe and worth it.",
-        "strengths": ["Route planning", "Safety", "First aid", "Logistics"]
+        "strengths": [
+          "Route planning",
+          "Safety",
+          "First aid",
+          "Logistics"
+        ]
       },
       {
         "fullName": "Hoàng Lan",
@@ -242,11 +262,14 @@
         "dob": "22/08/1995",
         "highlight": "Connects the group with local communities and their culture.",
         "bio": "Always smiling, always listening — the one who makes every campfire conversation memorable.",
-        "strengths": ["Local languages", "Local food", "Team bonding"]
+        "strengths": [
+          "Local languages",
+          "Local food",
+          "Team bonding"
+        ]
       }
     ]
   },
-
   "moments": {
     "default": {
       "eyebrow": "Moments",
@@ -262,7 +285,6 @@
     "loadError": "Couldn't load the moments gallery. Please try again later.",
     "empty": "No tour photos in the gallery yet."
   },
-
   "locations": {
     "eyebrow": "Hải Thích Đi",
     "title": "FEATURED ROUTES",
@@ -278,7 +300,6 @@
       "noTours": "No tours on this route yet."
     }
   },
-
   "tours": {
     "searchPlaceholder": "Search tours by name...",
     "loading": "Loading tours...",
@@ -298,7 +319,6 @@
       "dateTbd": "TBD"
     }
   },
-
   "booking": {
     "trail": "Booking {location} tour",
     "notFound": "This tour doesn't exist or is no longer active.",
@@ -342,7 +362,6 @@
       "notePlaceholder": "Any special requests..."
     }
   },
-
   "bookingSuccess": {
     "trail": "Booking successful",
     "back": "Back to booking",
@@ -382,7 +401,6 @@
     "loadErrorTitle": "Couldn't load booking #{id}.",
     "loadErrorDescription": "Please reload the page or open your bookings list."
   },
-
   "myBookings": {
     "trail": "Your bookings",
     "back": "Back to tours",
@@ -418,14 +436,12 @@
       "noteEmpty": "No notes"
     }
   },
-
   "bookingStatus": {
     "prefix": "Status",
     "pending": "Awaiting confirmation",
     "confirmed": "Confirmed",
     "cancelled": "Cancelled"
   },
-
   "bookingErrors": {
     "TOUR_FULL": "This tour is fully booked.",
     "TOUR_INACTIVE": "This tour is not taking bookings right now.",
@@ -438,7 +454,6 @@
     "PHONE_REQUIRED": "Please enter your phone number.",
     "UNKNOWN": "Booking failed. Please try again."
   },
-
   "pdf": {
     "empty": "No document available for this section yet.",
     "cta": "View full details",
@@ -448,13 +463,11 @@
     "detailTitle": "{title} - Details",
     "thumbnailAlt": "{title} thumbnail"
   },
-
   "featureInProgress": {
     "title": "In progress",
     "message": "This feature is still being built",
     "closeAria": "Close notice"
   },
-
   "chat": {
     "name": "Haithichdi AI",
     "openAria": "Open AI chat",
@@ -467,7 +480,6 @@
     "welcome": "Hi! I can help you find out about Hải Thích Đi's trekking tours.",
     "error": "Sorry, something went wrong."
   },
-
   "metadata": {
     "siteDescription": "Hải Thích Đi - Vietnam trekking specialists, exploring nature and local culture sustainably.",
     "home": {

@@ -23,14 +23,14 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
 
   if (sortedDays.length === 0) {
     return (
-      <div className='rounded-3xl border border-white/10 bg-neutral-900/60 p-6 text-neutral-400 text-sm'>
+      <div className='rounded-3xl border border-line bg-well p-6 text-ink-4 text-sm'>
         {t('itineraryEmpty')}
       </div>
     );
   }
 
   return (
-    <div className='rounded-3xl border border-white/10 bg-neutral-900/60 p-4 md:p-6'>
+    <div className='rounded-3xl border border-line bg-well p-4 md:p-6'>
       <div className='space-y-3'>
         {sortedDays.map((day) => {
           const isOpen = day.day_number === openDayNumber;
@@ -42,7 +42,7 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
               key={day.day_number}
               className={cn(
                 'rounded-2xl border transition-colors',
-                isOpen ? 'border-[#d00600]/60 bg-[#d00600]/10' : 'border-white/10 bg-black/40',
+                isOpen ? 'border-brand/60 bg-brand/10' : 'border-line bg-well',
               )}
             >
               <button
@@ -50,17 +50,17 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
                 onClick={() => setOpenDayNumber((prev) => (prev === day.day_number ? null : day.day_number))}
                 className={cn(
                   'w-full flex items-center justify-between gap-3 px-4 md:px-5 py-4 text-left transition-colors',
-                  'active:bg-white/5',
+                  'active:bg-surface',
                 )}
               >
                 <div className='flex items-center gap-3 min-w-0'>
-                  <span className='inline-flex shrink-0 items-center rounded-full border border-[#d00600]/50 bg-[#d00600]/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#ff6b67]'>
+                  <span className='inline-flex shrink-0 items-center rounded-full border border-brand/50 bg-brand/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-soft-2'>
                     {dayLabel}
                   </span>
                   <div className='min-w-0'>
-                    <p className='text-sm md:text-base font-semibold text-white truncate'>{day.title || dayLabel}</p>
+                    <p className='text-sm md:text-base font-semibold text-ink-1 truncate'>{day.title || dayLabel}</p>
                     {dateLabel && (
-                      <p className='text-xs text-neutral-400 mt-0.5'>
+                      <p className='text-xs text-ink-4 mt-0.5'>
                         {t('itineraryDate', { date: dateLabel })}
                       </p>
                     )}
@@ -68,12 +68,12 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
                 </div>
                 <ChevronDown
                   size={18}
-                  className={cn('shrink-0 text-neutral-400 transition-transform', isOpen && 'rotate-180')}
+                  className={cn('shrink-0 text-ink-4 transition-transform', isOpen && 'rotate-180')}
                 />
               </button>
 
               {isOpen && (
-                <div className='px-4 md:px-5 pb-5 border-t border-white/10'>
+                <div className='px-4 md:px-5 pb-5 border-t border-line'>
                   <div className='pt-4'>
                     <MarkdownArticle
                       markdown={day.content_md || ''}

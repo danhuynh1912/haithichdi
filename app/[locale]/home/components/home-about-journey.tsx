@@ -65,11 +65,11 @@ export function HomeAboutJourneySection() {
     <>
       <section
         id='about-us'
-        className='relative bg-gradient-to-b from-[#111111] via-[#131313] to-[#191919] py-14 sm:py-16 lg:py-24 scroll-mt-28'
+        className='relative bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4 py-14 sm:py-16 lg:py-24 scroll-mt-28'
       >
         <div className='pointer-events-none absolute inset-0'>
-          <div className='absolute inset-0 bg-[radial-gradient(120%_88%_at_50%_62%,rgba(208,6,0,0.12)_0%,transparent_58%)]' />
-          <div className='absolute inset-0 bg-[radial-gradient(86%_72%_at_100%_100%,rgba(208,6,0,0.08)_0%,transparent_62%)]' />
+          <div className='absolute inset-0 bg-[radial-gradient(120%_88%_at_50%_62%,var(--brand-wash)_0%,transparent_58%)]' />
+          <div className='absolute inset-0 bg-[radial-gradient(86%_72%_at_100%_100%,var(--brand-wash-soft)_0%,transparent_62%)]' />
         </div>
 
         <motion.div
@@ -80,8 +80,8 @@ export function HomeAboutJourneySection() {
           className='relative mx-auto grid w-full max-w-[1400px] gap-8 px-4 sm:px-8 lg:grid-cols-[1.08fr_0.92fr]'
         >
           <div className='space-y-7'>
-            <div className='inline-flex items-center gap-2 rounded-full border border-red-400/35 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-[0.22em] text-red-100'>
-              <Sparkles className='h-4 w-4 text-red-300' />
+            <div className='inline-flex items-center gap-2 rounded-full border border-brand/35 bg-brand/10 px-4 py-2 text-xs uppercase tracking-[0.22em] text-brand-soft'>
+              <Sparkles className='h-4 w-4 text-brand-soft-2' />
               {t('eyebrow')}
             </div>
 
@@ -89,18 +89,18 @@ export function HomeAboutJourneySection() {
               {t('title')}
             </h2>
 
-            <div className='space-y-4 text-neutral-200 leading-relaxed text-base'>
+            <div className='space-y-4 text-ink-2 leading-relaxed text-base'>
               <p>{t('lead')}</p>
-              <p className='font-semibold text-red-100'>{t('highlight')}</p>
+              <p className='font-semibold text-brand-soft'>{t('highlight')}</p>
               <p>{t('listIntro')}</p>
-              <ul className='space-y-1 text-neutral-100'>
+              <ul className='space-y-1 text-ink-2'>
                 {listItems.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
               <p>{t('outro')}</p>
 
-              <div className='mt-5 rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-100'>
+              <div className='mt-5 rounded-2xl border border-brand/30 bg-brand/10 px-4 py-3 text-sm font-semibold text-brand-soft'>
                 {t('quote')}
               </div>
 
@@ -108,10 +108,10 @@ export function HomeAboutJourneySection() {
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className='rounded-2xl border border-white/10 bg-black/30 px-4 py-3'
+                    className='rounded-2xl border border-line bg-well px-4 py-3'
                   >
-                    <p className='text-xl font-black text-white'>{stat.value}</p>
-                    <p className='mt-1 text-[11px] uppercase tracking-[0.14em] text-neutral-400'>
+                    <p className='text-xl font-black text-ink-1'>{stat.value}</p>
+                    <p className='mt-1 text-[11px] uppercase tracking-[0.14em] text-ink-4'>
                       {stat.label}
                     </p>
                   </div>
@@ -131,12 +131,12 @@ export function HomeAboutJourneySection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, ease: ANIMATION_EASE, delay: index * 0.06 }}
                 >
-                  <div className='h-full rounded-3xl bg-white/5 p-6 backdrop-blur-md'>
-                    <div className='mb-4 inline-flex rounded-2xl border border-red-400/35 bg-red-500/15 p-3 text-red-200'>
+                  <div className='h-full rounded-3xl bg-surface p-6 backdrop-blur-md'>
+                    <div className='mb-4 inline-flex rounded-2xl border border-brand/35 bg-brand/15 p-3 text-brand-soft'>
                       <Icon className='h-5 w-5' />
                     </div>
                     <h3 className='text-xl sm:text-2xl font-bold'>{title}</h3>
-                    <p className='mt-3 text-sm leading-relaxed text-neutral-300'>{body}</p>
+                    <p className='mt-3 text-sm leading-relaxed text-ink-3'>{body}</p>
                   </div>
                 </motion.article>
               );
@@ -151,11 +151,11 @@ export function HomeAboutJourneySection() {
         return (
           <section
             key={section.key}
-            className='relative border-t border-white/5 bg-gradient-to-b from-[#101010] via-[#121212] to-[#181818] py-14 sm:py-16 lg:py-20 scroll-mt-28'
+            className='relative border-t border-line/60 bg-gradient-to-b from-elev-2 via-elev-2 to-elev-4 py-14 sm:py-16 lg:py-20 scroll-mt-28'
           >
-            <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.012)_0%,rgba(255,255,255,0)_28%)]' />
-            <div className='pointer-events-none absolute inset-0 opacity-70 bg-[radial-gradient(88%_72%_at_90%_18%,rgba(208,6,0,0.14)_0%,transparent_52%)]' />
-            <p className='pointer-events-none absolute right-4 top-5 text-[36px] sm:right-6 sm:top-6 sm:text-[56px] font-black uppercase tracking-[0.12em] text-white/[0.04] lg:right-10 lg:text-[90px]'>
+            <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--sheen)_0%,transparent_28%)]' />
+            <div className='pointer-events-none absolute inset-0 opacity-70 bg-[radial-gradient(88%_72%_at_90%_18%,var(--brand-glow)_0%,transparent_52%)]' />
+            <p className='pointer-events-none absolute right-4 top-5 text-[36px] sm:right-6 sm:top-6 sm:text-[56px] font-black uppercase tracking-[0.12em] text-ink-1/[0.05] lg:right-10 lg:text-[90px]'>
               {tValues(`${section.key}.eyebrow`)}
             </p>
 
@@ -170,25 +170,25 @@ export function HomeAboutJourneySection() {
               )}
             >
               <div className='relative'>
-                <div className='inline-flex items-center gap-2 rounded-full border border-red-400/30 bg-red-500/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-red-100'>
+                <div className='inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.16em] text-brand-soft'>
                   <Compass className='h-3.5 w-3.5' />
                   {tValues(`${section.key}.eyebrow`)}
                 </div>
                 <h3 className='mt-4 text-2xl sm:text-3xl md:text-4xl font-black leading-tight'>
                   {tValues(`${section.key}.title`)}
                 </h3>
-                <p className='mt-4 text-base leading-relaxed text-neutral-200'>
+                <p className='mt-4 text-base leading-relaxed text-ink-2'>
                   {tValues(`${section.key}.intro`)}
                 </p>
 
-                <div className='mt-5 rounded-2xl border border-white/10 bg-black/35 p-4'>
-                  <p className='text-[11px] uppercase tracking-[0.16em] text-red-200'>
+                <div className='mt-5 rounded-2xl border border-line bg-well p-4'>
+                  <p className='text-[11px] uppercase tracking-[0.16em] text-brand-soft'>
                     {tValues('evidenceLabel')}
                   </p>
-                  <ul className='mt-3 space-y-2 text-sm text-neutral-200 leading-relaxed'>
+                  <ul className='mt-3 space-y-2 text-sm text-ink-2 leading-relaxed'>
                     {bullets.map((bullet, bulletIndex) => (
                       <li key={bullet} className='flex gap-2.5'>
-                        <span className='mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-red-400/50 bg-red-500/18 text-[10px] font-semibold text-red-100'>
+                        <span className='mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-brand/50 bg-brand/18 text-[10px] font-semibold text-brand-soft'>
                           {bulletIndex + 1}
                         </span>
                         <span>{bullet}</span>
@@ -197,18 +197,18 @@ export function HomeAboutJourneySection() {
                   </ul>
                 </div>
 
-                <p className='mt-5 text-red-100 font-semibold'>
+                <p className='mt-5 text-brand-soft font-semibold'>
                   {tValues(`${section.key}.outro`)}
                 </p>
                 <div className='mt-5 flex flex-wrap items-center gap-3'>
                   <Link
                     href={`/tours?mode=location&name=${slugify(section.locationName)}`}
-                    className='inline-flex items-center gap-2 rounded-full border border-red-400/45 bg-red-500/15 px-5 py-2.5 text-sm font-semibold text-red-100 hover:bg-red-500/25 transition-colors'
+                    className='inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/15 px-5 py-2.5 text-sm font-semibold text-brand-soft hover:bg-brand/25 transition-colors'
                   >
                     {tValues(`${section.key}.ctaLabel`)}
                     <ArrowRight className='h-4 w-4' />
                   </Link>
-                  <span className='rounded-full border border-white/[0.12] bg-white/[0.06] px-4 py-2 text-xs text-neutral-200'>
+                  <span className='rounded-full border border-line-2 bg-surface px-4 py-2 text-xs text-ink-2'>
                     {tValues(`${section.key}.difficulty`)}
                   </span>
                 </div>
@@ -219,7 +219,7 @@ export function HomeAboutJourneySection() {
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, ease: ANIMATION_EASE }}
-                className='relative overflow-hidden rounded-[30px] border border-white/10 shadow-[0_30px_90px_-45px_rgba(208,6,0,0.8)]'
+                className='relative overflow-hidden rounded-[30px] border border-line shadow-[var(--shadow-brand)]'
               >
                 <Image
                   src={section.image}
@@ -230,12 +230,12 @@ export function HomeAboutJourneySection() {
                   unoptimized={section.image.startsWith('http')}
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/72 via-black/10 to-transparent' />
-                <div className='absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 px-3 py-1.5 text-xs text-neutral-100 backdrop-blur-md'>
-                  <Stars className='h-3.5 w-3.5 text-red-200' />
+                <div className='theme-dark text-ink-1 absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-line-3 bg-black/45 px-3 py-1.5 text-xs backdrop-blur-md'>
+                  <Stars className='h-3.5 w-3.5 text-brand-soft' />
                   {tValues('journeyBadge')}
                 </div>
-                <div className='absolute bottom-5 left-5 right-5 rounded-2xl border border-white/10 bg-black/45 p-4 backdrop-blur-md'>
-                  <p className='text-xs uppercase tracking-[0.2em] text-red-200'>
+                <div className='theme-dark text-ink-1 absolute bottom-5 left-5 right-5 rounded-2xl border border-line-2 bg-black/45 p-4 backdrop-blur-md'>
+                  <p className='text-xs uppercase tracking-[0.2em] text-brand-soft'>
                     {tValues('keywordHighlight')}
                   </p>
                   <p className='mt-1 text-lg font-semibold'>
@@ -262,9 +262,9 @@ export function HomeFeaturedRoutesSection() {
     : '';
 
   return (
-    <section className='relative border-t border-white/5 bg-gradient-to-b from-[#101010] via-[#131313] to-[#191919] py-14 sm:py-16 lg:py-20'>
-      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.012)_0%,rgba(255,255,255,0)_28%)]' />
-      <div className='pointer-events-none absolute inset-0 opacity-65 bg-[radial-gradient(100%_86%_at_14%_10%,rgba(208,6,0,0.14)_0%,transparent_58%)]' />
+    <section className='relative border-t border-line/60 bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4 py-14 sm:py-16 lg:py-20'>
+      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--sheen)_0%,transparent_28%)]' />
+      <div className='pointer-events-none absolute inset-0 opacity-65 bg-[radial-gradient(100%_86%_at_14%_10%,var(--brand-glow)_0%,transparent_58%)]' />
       <motion.div
         initial={sectionRevealInitial}
         whileInView={{ opacity: 1, y: 0 }}
@@ -273,8 +273,8 @@ export function HomeFeaturedRoutesSection() {
         className='relative mx-auto w-full max-w-[1400px] space-y-10 px-4 sm:px-8'
       >
         <div className='space-y-4 max-w-4xl'>
-          <p className='inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.22em] text-red-200'>
-            <ShieldCheck className='h-4 w-4 text-red-300' />
+          <p className='inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs uppercase tracking-[0.22em] text-brand-soft'>
+            <ShieldCheck className='h-4 w-4 text-brand-soft-2' />
             {t('eyebrow')}
           </p>
           <h2 className='text-2xl sm:text-3xl md:text-5xl font-black leading-tight'>
@@ -287,7 +287,7 @@ export function HomeFeaturedRoutesSection() {
         ) : mainRoute ? (
           <>
             <div className='grid gap-6 lg:grid-cols-[1.05fr_0.95fr]'>
-              <article className='group max-h-[600px] h-[600px] relative overflow-hidden rounded-[32px] border border-white/10'>
+              <article className='group max-h-[600px] h-[600px] relative overflow-hidden rounded-[32px] border border-line'>
                 <Image
                   src={mainRoute.image_url || '/images/haithichdi1.jpg'}
                   alt={mainRoute.display_name}
@@ -297,26 +297,26 @@ export function HomeFeaturedRoutesSection() {
                   unoptimized={Boolean(mainRoute.image_url?.startsWith('http'))}
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/78 via-black/25 to-transparent' />
-                <div className='absolute inset-x-0 bottom-0 p-7'>
-                  <p className='text-xs uppercase tracking-[0.22em] text-red-200'>
+                <div className='theme-dark text-ink-1 absolute inset-x-0 bottom-0 p-7'>
+                  <p className='text-xs uppercase tracking-[0.22em] text-brand-soft'>
                     {t('mainRouteLabel')}
                   </p>
                   <h3 className='mt-2 text-2xl sm:text-3xl font-black'>
                     {mainRoute.display_name}
                   </h3>
                   {mainRoute.summary ? (
-                    <p className='mt-3 max-w-2xl text-sm text-neutral-200'>
+                    <p className='mt-3 max-w-2xl text-sm text-ink-2'>
                       {mainRoute.summary}
                     </p>
                   ) : null}
                   {mainRouteAudienceLabel ? (
-                    <p className='mt-2 text-sm font-semibold text-red-100'>
+                    <p className='mt-2 text-sm font-semibold text-brand-soft'>
                       {t('suitableFor', { audience: mainRouteAudienceLabel })}
                     </p>
                   ) : null}
                   <Link
                     href={`/tours?mode=location&name=${slugify(mainRoute.name)}`}
-                    className='mt-4 inline-flex items-center gap-2 rounded-full border border-red-400/45 bg-red-500/18 px-5 py-2 text-sm font-semibold text-red-100 hover:bg-red-500/28 transition-colors'
+                    className='mt-4 inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/18 px-5 py-2 text-sm font-semibold text-brand-soft hover:bg-brand/28 transition-colors'
                   >
                     {t('viewSchedule', { route: mainRoute.name })}
                     <ArrowRight className='h-4 w-4' />
@@ -336,7 +336,7 @@ export function HomeFeaturedRoutesSection() {
                   >
                     <Link
                       href={`/tours?mode=location&name=${slugify(route.name)}`}
-                      className='group relative block h-40 overflow-hidden rounded-3xl border border-white/10 sm:h-52 lg:h-full'
+                      className='group relative block h-40 overflow-hidden rounded-3xl border border-line sm:h-52 lg:h-full'
                     >
                       <Image
                         src={route.image_url || '/images/tachinhu1.jpg'}
@@ -347,10 +347,10 @@ export function HomeFeaturedRoutesSection() {
                         unoptimized={Boolean(route.image_url?.startsWith('http'))}
                       />
                       <div className='absolute inset-0 bg-gradient-to-t from-black/72 to-black/15' />
-                      <div className='absolute inset-x-0 bottom-0 p-4'>
+                      <div className='theme-dark text-ink-1 absolute inset-x-0 bottom-0 p-4'>
                         <p className='text-lg font-bold'>{route.display_name}</p>
                         {route.subtitle ? (
-                          <p className='text-sm text-neutral-200'>{route.subtitle}</p>
+                          <p className='text-sm text-ink-2'>{route.subtitle}</p>
                         ) : null}
                       </div>
                     </Link>
@@ -359,11 +359,11 @@ export function HomeFeaturedRoutesSection() {
               </div>
             </div>
 
-            <div className='rounded-[30px] border border-white/10 bg-gradient-to-br from-white/[0.1] via-black/32 to-black/55 p-6 backdrop-blur-sm'>
-              <p className='text-sm text-neutral-200'>
+            <div className='rounded-[30px] border border-line bg-gradient-to-br from-surface-2 via-well to-well-2 p-6 backdrop-blur-sm'>
+              <p className='text-sm text-ink-2'>
                 {highlightAudience?.description || t('noAudienceDescription')}
               </p>
-              <p className='mt-2 text-sm font-semibold text-red-100'>
+              <p className='mt-2 text-sm font-semibold text-brand-soft'>
                 {highlightAudience
                   ? t('suitableFor', { audience: highlightAudience.title })
                   : t('suitableForUpdating')}
@@ -374,13 +374,13 @@ export function HomeFeaturedRoutesSection() {
                     <Link
                       key={route.id}
                       href={`/tours?mode=location&name=${slugify(route.name)}`}
-                      className='rounded-full border border-white/10 bg-black/35 px-4 py-2 text-sm text-neutral-100 transition-colors hover:border-red-400/60 hover:text-white'
+                      className='rounded-full border border-line bg-well px-4 py-2 text-sm text-ink-2 transition-colors hover:border-brand/60 hover:text-ink-1'
                     >
                       {route.name}
                     </Link>
                   ))
                 ) : (
-                  <span className='text-sm text-neutral-400'>
+                  <span className='text-sm text-ink-4'>
                     {t('noRoutesForAudience')}
                   </span>
                 )}
@@ -399,18 +399,18 @@ function HomeFeaturedRoutesLoadingState() {
   return (
     <>
       <div className='grid gap-6 lg:grid-cols-[1.05fr_0.95fr]'>
-        <div className='min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] rounded-[32px] border border-white/10 bg-white/[0.04] animate-pulse' />
+        <div className='min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] rounded-[32px] border border-line bg-surface animate-pulse' />
         <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-1'>
           {Array.from({ length: 3 }).map((_, index) => (
             <div
               key={`home-featured-route-skeleton-${index}`}
-              className='h-40 rounded-3xl border border-white/10 bg-white/[0.04] animate-pulse'
+              className='h-40 rounded-3xl border border-line bg-surface animate-pulse'
             />
           ))}
         </div>
       </div>
 
-      <div className='h-48 rounded-[30px] border border-white/10 bg-white/[0.04] animate-pulse' />
+      <div className='h-48 rounded-[30px] border border-line bg-surface animate-pulse' />
     </>
   );
 }
@@ -419,8 +419,8 @@ function HomeFeaturedRoutesEmptyState({ isError }: { isError: boolean }) {
   const t = useTranslations('home.featuredRoutes');
 
   return (
-    <div className='rounded-[30px] border border-white/10 bg-gradient-to-br from-white/[0.06] via-black/28 to-black/45 p-6 backdrop-blur-sm'>
-      <p className='text-sm text-neutral-200'>
+    <div className='rounded-[30px] border border-line bg-gradient-to-br from-surface via-well to-well-2 p-6 backdrop-blur-sm'>
+      <p className='text-sm text-ink-2'>
         {isError ? t('loadError') : t('empty')}
       </p>
     </div>

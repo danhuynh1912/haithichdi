@@ -46,7 +46,7 @@ export default function MobileBottomBar() {
   const pathname = usePathname() || '/';
 
   return (
-    <nav className='md:hidden fixed inset-x-0 bottom-0 z-[1200] border-t border-white/10 bg-black/90 backdrop-blur-xl'>
+    <nav className='md:hidden fixed inset-x-0 bottom-0 z-[1200] border-t border-line bg-elev-0/90 backdrop-blur-xl'>
       <div className='mx-auto max-w-lg px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] grid grid-cols-4 gap-1'>
         {MOBILE_TABS.map(({ key, href, labelKey, Icon, match }) => {
           const active = match(pathname);
@@ -58,8 +58,8 @@ export default function MobileBottomBar() {
               className={cn(
                 'h-12 rounded-2xl flex items-center justify-center transition-colors duration-150',
                 active
-                  ? 'bg-[#d00600]/18 text-[#ffd0ce] active:bg-[#d00600]/30'
-                  : 'text-neutral-400 hover:text-white hover:bg-white/5 active:bg-white/12',
+                  ? 'bg-brand/18 text-brand-soft active:bg-brand/30'
+                  : 'text-ink-4 hover:text-ink-1 hover:bg-surface active:bg-surface-3',
               )}
             >
               <Icon size={20} />

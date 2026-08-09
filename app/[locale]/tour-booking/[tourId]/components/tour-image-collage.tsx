@@ -41,12 +41,12 @@ function CollageItem({ slot, className }: { slot: CollageSlot; className?: strin
     return (
       <div
         className={cn(
-          'relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-neutral-700/70 to-neutral-800/70',
+          'relative overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-elev-3 to-elev-5',
           className,
         )}
       >
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.08),transparent_60%)]' />
-        <div className='absolute inset-0 flex items-center justify-center text-white/35'>
+        <div className='absolute inset-0 flex items-center justify-center text-ink-4'>
           <Mountain size={38} />
         </div>
       </div>
@@ -54,7 +54,7 @@ function CollageItem({ slot, className }: { slot: CollageSlot; className?: strin
   }
 
   return (
-    <div className={cn('relative overflow-hidden rounded-2xl border border-white/10', className)}>
+    <div className={cn('relative overflow-hidden rounded-2xl border border-line', className)}>
       <Image src={slot.src} alt={slot.alt} fill sizes='(max-width: 1024px) 100vw, 60vw' className='object-cover' />
       <div className='absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10' />
     </div>

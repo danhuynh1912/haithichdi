@@ -16,16 +16,16 @@ export function TourSearchBar({ value, onChange, className }: TourSearchBarProps
   return (
     <div
       className={cn(
-        'flex items-center gap-3 w-full px-4 py-3 rounded-3xl border border-white/10 bg-white/5 text-white',
+        'flex items-center gap-3 w-full px-4 py-3 rounded-3xl border border-line bg-surface text-ink-1',
         className,
       )}
     >
-      <Search size={18} className='text-red-500' />
+      <Search size={18} className='text-brand' />
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={t('searchPlaceholder')}
-        className='bg-transparent flex-1 outline-none text-base md:text-sm placeholder:text-neutral-500'
+        className='bg-transparent flex-1 outline-none text-base md:text-sm placeholder:text-ink-5'
       />
     </div>
   );

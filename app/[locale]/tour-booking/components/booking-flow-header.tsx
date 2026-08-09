@@ -28,21 +28,21 @@ export function BookingFlowHeader({
   return (
     <div
       className={cn(
-        'flex items-center gap-3 text-sm text-neutral-400 uppercase tracking-normal md:tracking-[0.2em]',
+        'flex items-center gap-3 text-sm text-ink-4 uppercase tracking-normal md:tracking-[0.2em]',
         className,
       )}
     >
       <button
         onClick={handleBack}
-        className='flex items-center gap-2 text-neutral-500 hover:text-white transition-colors'
+        className='flex items-center gap-2 text-ink-5 hover:text-ink-1 transition-colors'
       >
         <ChevronLeft size={18} />
         {backLabel ?? t('back')}
       </button>
       {trail.map((item, idx) => (
         <div key={idx} className='flex items-center gap-3'>
-          <span className='text-neutral-600'>/</span>
-          <span className='text-[#d00600] font-semibold'>{item}</span>
+          <span className='text-ink-5'>/</span>
+          <span className='text-brand font-semibold'>{item}</span>
         </div>
       ))}
     </div>

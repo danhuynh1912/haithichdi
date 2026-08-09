@@ -51,14 +51,14 @@ export default function PdfPreviewCard({
     <>
       <div
         className={cn(
-          'bg-neutral-900 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col',
+          'bg-elev-2 border border-line rounded-3xl overflow-hidden shadow-[var(--shadow-strong)] flex flex-col',
           className,
         )}
       >
         {inlinePdfSrc ? (
           isMobile ? (
             thumbSrc ? (
-              <div className='relative w-full aspect-[16/9] bg-black'>
+              <div className='relative w-full aspect-[16/9] bg-elev-4'>
                 <Image
                   src={thumbSrc}
                   alt={t('thumbnailAlt', { title })}
@@ -68,8 +68,8 @@ export default function PdfPreviewCard({
                 />
               </div>
             ) : (
-              <div className='flex-1 min-h-[220px] px-6 py-8 flex flex-col items-center justify-center gap-3 text-center text-neutral-400'>
-                <FileText className='text-[#d00600]' size={32} />
+              <div className='flex-1 min-h-[220px] px-6 py-8 flex flex-col items-center justify-center gap-3 text-center text-ink-4'>
+                <FileText className='text-brand' size={32} />
                 <p className='text-sm'>{t('mobileHint')}</p>
               </div>
             )
@@ -81,18 +81,18 @@ export default function PdfPreviewCard({
             />
           )
         ) : (
-          <div className='w-full h-full min-h-[220px] flex flex-col items-center justify-center gap-3 text-neutral-400 px-6 py-8 text-center'>
-            <FileText className='text-[#d00600]' size={32} />
+          <div className='w-full h-full min-h-[220px] flex flex-col items-center justify-center gap-3 text-ink-4 px-6 py-8 text-center'>
+            <FileText className='text-brand' size={32} />
             <p>{emptyMessage ?? t('empty')}</p>
           </div>
         )}
 
         {viewerUrl && (
-          <div className='px-4 py-3 border-t border-white/10 flex justify-end'>
+          <div className='px-4 py-3 border-t border-line flex justify-end'>
             {isMobile ? (
               <button
                 onClick={() => setIsViewerOpen(true)}
-                className='inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white transition-colors'
+                className='inline-flex items-center gap-1.5 text-xs text-ink-3 hover:text-ink-1 transition-colors'
               >
                 {mobileCtaLabel ?? t('cta')}
               </button>
@@ -101,7 +101,7 @@ export default function PdfPreviewCard({
                 href={viewerUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='inline-flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white transition-colors'
+                className='inline-flex items-center gap-1.5 text-xs text-ink-3 hover:text-ink-1 transition-colors'
               >
                 {t('cta')}
               </a>
@@ -114,7 +114,7 @@ export default function PdfPreviewCard({
         open={Boolean(isMobile && isViewerOpen && mobileViewerUrl)}
         onClose={() => setIsViewerOpen(false)}
         closeAriaLabel={t('closeAria')}
-        contentClassName='bg-black text-white'
+        contentClassName='bg-elev-0 text-ink-1'
       >
         {mobileViewerUrl && (
           <div className='relative h-full w-full'>
@@ -128,7 +128,7 @@ export default function PdfPreviewCard({
                 href={viewerUrl}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='absolute left-3 bottom-3 rounded-full border border-white/20 bg-black/70 px-3 py-1.5 text-[11px] text-white'
+                className='absolute left-3 bottom-3 rounded-full border border-line-3 bg-elev-0/70 backdrop-blur-sm px-3 py-1.5 text-[11px] text-ink-1'
               >
                 {t('openNewTab')}
               </a>

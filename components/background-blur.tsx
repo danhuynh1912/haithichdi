@@ -13,23 +13,26 @@ export default function BackgroundBlur({ imageUrl }: BackgroundBlurProps) {
   const t = useTranslations('locations');
 
   return (
-    <div className='fixed inset-0 -z-10 w-full h-full overflow-hidden bg-black'>
+    <div className='fixed inset-0 -z-10 w-full h-full overflow-hidden bg-elev-1'>
       <AnimatePresence>
         {imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '' ? (
           <motion.div
             key={imageUrl}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: ANIMATION_EASE }}
             className='absolute inset-0 transform-gpu will-change-[opacity]'
           >
+            {/* The crossfade owns the wrapper's opacity, so the per-theme
+                strength lives on the image: the backdrop has to sit further
+                back on a light canvas to keep the copy on top readable. */}
             <Image
               src={imageUrl}
               alt={t('backgroundAlt')}
               fill
               unoptimized
-              className='object-cover blur-sm scale-110'
+              className='object-cover blur-sm scale-110 opacity-25 dark:opacity-50'
               priority
             />
           </motion.div>
@@ -39,11 +42,11 @@ export default function BackgroundBlur({ imageUrl }: BackgroundBlurProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.2 }}
             exit={{ opacity: 0 }}
-            className='absolute inset-0 bg-neutral-900'
+            className='absolute inset-0 bg-elev-4'
           />
         )}
       </AnimatePresence>
-      <div className='absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60' />
+      <div className='absolute inset-0 bg-gradient-to-t from-elev-1 via-transparent to-elev-1/70 dark:from-black dark:to-black/60' />
     </div>
   );
 }
