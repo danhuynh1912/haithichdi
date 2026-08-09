@@ -8,14 +8,9 @@ import { Button } from '@/components/ui/button';
 import HotTours from '@/components/hot-tours/hot-tours';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { useSiteHeroRef } from '@/lib/hooks/use-site-hero';
-import {
-  HomeAboutJourneySection,
-  HomeFeaturedRoutesSection,
-} from './components/home-about-journey';
-import {
-  LeadersShowcaseSection,
-  MomentsGallerySection,
-} from '@/features/about/about-shared-sections';
+import { HomeAboutJourneySection } from './components/home-about-journey';
+import LocationsSection from '@/app/[locale]/locations/locations-client';
+import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 
 export default function HomeDesktop() {
   const heroRef = useSiteHeroRef<HTMLElement>();
@@ -110,12 +105,7 @@ export default function HomeDesktop() {
       </section>
 
       <HomeAboutJourneySection />
-      <LeadersShowcaseSection
-        id='leaders'
-        variant='home'
-        className='bg-gradient-to-b from-elev-1 via-elev-2 to-elev-4'
-      />
-      <HomeFeaturedRoutesSection />
+      <LocationsSection layout='section' />
       <MomentsGallerySection
         variant='home'
         className='bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4'

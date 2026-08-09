@@ -100,6 +100,10 @@
   --shadow-soft: 0 10px 30px rgba(18, 18, 22, 0.08);
   --shadow-medium: 0 20px 60px -35px rgba(18, 18, 22, 0.35);
   --shadow-strong: 0 30px 80px rgba(18, 18, 22, 0.16);
+  /* Cards that should read as floating clear of the page. */
+  --shadow-lifted:
+    0 44px 90px -20px rgba(18, 18, 22, 0.38),
+    0 14px 34px -12px rgba(18, 18, 22, 0.24);
   --shadow-brand: 0 20px 60px -35px rgba(208, 6, 0, 0.45);
 
   /* shadcn/ui compatibility layer */
@@ -189,6 +193,9 @@
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-medium: 0 20px 60px -35px rgba(0, 0, 0, 0.7);
   --shadow-strong: 0 30px 80px rgba(0, 0, 0, 0.55);
+  --shadow-lifted:
+    0 50px 100px -20px rgba(0, 0, 0, 1),
+    0 18px 44px -12px rgba(0, 0, 0, 0.8);
   --shadow-brand: 0 20px 60px -35px rgba(255, 80, 80, 0.6);
 
   --background: var(--elev-1);

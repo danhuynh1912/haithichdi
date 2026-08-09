@@ -13,15 +13,27 @@ import { motion } from 'motion/react';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { slugify } from '@/lib/utils';
 
+/** Card the carousel opens on. Clamped below, so a shorter list still works. */
+const DEFAULT_ACTIVE_INDEX = 2;
+
+/**
+ * `standalone` — the /locations route, owns the viewport.
+ * `embedded`   — a tab panel inside the mobile tours screen, compact cards.
+ * `section`    — one band of a longer page (the home page), full-size cards
+ *                but the photo backdrop is confined to the band.
+ */
+type LocationsLayout = 'standalone' | 'embedded' | 'section';
+
 export default function LocationsClient({
   layout = 'standalone',
 }: {
-  layout?: 'standalone' | 'embedded';
+  layout?: LocationsLayout;
 }) {
   const t = useTranslations('locations');
   const isEmbedded = layout === 'embedded';
+  const isSection = layout === 'section';
   const { data: locations = [], isPending: loading } = useLocationsQuery();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null,
   );
@@ -76,9 +88,17 @@ export default function LocationsClient({
     }
   }, [locations, searchParams, selectedLocation]);
 
+  // The default index is a guess made before the list arrives; the carousel
+  // indexes into `locations` unguarded, so keep it in range.
+  const safeActiveIndex = Math.min(activeIndex, Math.max(locations.length - 1, 0));
+
   if (loading) {
     return (
-      <div className='min-h-screen bg-elev-1 flex items-center justify-center text-ink-1'>
+      <div
+        className={`${
+          isSection ? 'min-h-[520px]' : 'min-h-screen'
+        } bg-elev-1 flex items-center justify-center text-ink-1`}
+      >
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
@@ -88,16 +108,26 @@ export default function LocationsClient({
     );
   }
 
+  // A band of the home page is a <section>; the other layouts own their route.
+  const Wrapper = isSection ? 'section' : 'main';
+  // The home page already has its <h1> in the hero.
+  const Heading = isSection ? motion.h2 : motion.h1;
+
   return (
-    <main
+    <Wrapper
       className={`relative w-full flex flex-col items-center justify-center overflow-hidden ${
         isEmbedded
           ? 'min-h-[calc(100dvh-15rem)] pt-4 text-[11px]'
-          : 'h-[calc(100vh)] pt-24'
+          : isSection
+            ? 'py-14 sm:py-16 lg:py-20 border-t border-line/60'
+            : 'h-[calc(100vh)] pt-24'
       }`}
     >
       {/* Background with blur transition */}
-      <BackgroundBlur imageUrl={locations[activeIndex]?.full_image_url} />
+      <BackgroundBlur
+        imageUrl={locations[safeActiveIndex]?.full_image_url}
+        scoped={isSection}
+      />
 
       <div className='container mx-auto px-4 z-10'>
         <div className={`text-center ${isEmbedded ? 'mb-6' : 'mb-12'}`}>
@@ -109,19 +139,19 @@ export default function LocationsClient({
           >
             {t('eyebrow')}
           </motion.p>
-          <motion.h1
+          <Heading
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, ease: ANIMATION_EASE, duration: 0.8 }}
             className='text-ink-1 text-xl md:text-5xl font-black uppercase tracking-tight'
           >
             {t('title')}
-          </motion.h1>
+          </Heading>
         </div>
 
         <LocationCarousel
           locations={locations}
-          activeIndex={activeIndex}
+          activeIndex={safeActiveIndex}
           compact={isEmbedded}
           onActiveChange={(index) => setActiveIndex(index)}
           onDetailsClick={openLocation}
@@ -133,6 +163,6 @@ export default function LocationsClient({
         compact={isEmbedded}
         onClose={closeLocation}
       />
-    </main>
+    </Wrapper>
   );
 }

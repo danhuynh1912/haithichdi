@@ -39,6 +39,12 @@ const VALUE_SECTIONS = [
   { key: 'charity', image: '/images/thien-nguyen.jpg', locationName: 'Nhiu Co San' },
 ] as const;
 
+/**
+ * The keyword cards link down to their matching value section by index — both
+ * lists come from the same three ideas, in the same order.
+ */
+const valueSectionId = (key: string) => `value-${key}`;
+
 type KeywordCard = { title: string; body: string };
 type Stat = { label: string; value: string };
 
@@ -56,6 +62,7 @@ const sectionRevealTransition = {
 export function HomeAboutJourneySection() {
   const t = useTranslations('home.intro');
   const tValues = useTranslations('home.values');
+  const tCommon = useTranslations('common');
 
   const listItems = t.raw('listItems') as string[];
   const stats = t.raw('stats') as Stat[];
@@ -123,6 +130,7 @@ export function HomeAboutJourneySection() {
           <div className='flex flex-col gap-4'>
             {keywords.map(({ title, body }, index) => {
               const Icon = KEYWORD_ICONS[index] ?? Mountain;
+              const valueSection = VALUE_SECTIONS[index];
               return (
                 <motion.article
                   key={title}
@@ -137,6 +145,19 @@ export function HomeAboutJourneySection() {
                     </div>
                     <h3 className='text-xl sm:text-2xl font-bold'>{title}</h3>
                     <p className='mt-3 text-sm leading-relaxed text-ink-3'>{body}</p>
+                    {valueSection ? (
+                      // A plain hash link: the browser handles the scroll, so it
+                      // honours `scroll-behavior: smooth` and the reduced-motion
+                      // override in globals.css, and works without JS.
+                      <a
+                        href={`#${valueSectionId(valueSection.key)}`}
+                        aria-label={`${tCommon('details')} — ${title}`}
+                        className='group mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-soft transition-colors hover:text-brand'
+                      >
+                        {tCommon('details')}
+                        <ArrowRight className='h-4 w-4 transition-transform group-hover:translate-x-0.5' />
+                      </a>
+                    ) : null}
                   </div>
                 </motion.article>
               );
@@ -151,6 +172,7 @@ export function HomeAboutJourneySection() {
         return (
           <section
             key={section.key}
+            id={valueSectionId(section.key)}
             className='relative border-t border-line/60 bg-gradient-to-b from-elev-2 via-elev-2 to-elev-4 py-14 sm:py-16 lg:py-20 scroll-mt-28'
           >
             <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--sheen)_0%,transparent_28%)]' />

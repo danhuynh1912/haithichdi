@@ -4,16 +4,28 @@ import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { ANIMATION_EASE } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 interface BackgroundBlurProps {
   imageUrl: string | null;
+  /**
+   * Confine the backdrop to the nearest positioned ancestor instead of the
+   * viewport. Needed when the locations UI is embedded as one section of a
+   * longer page — a fixed backdrop would bleed across the whole page.
+   */
+  scoped?: boolean;
 }
 
-export default function BackgroundBlur({ imageUrl }: BackgroundBlurProps) {
+export default function BackgroundBlur({ imageUrl, scoped = false }: BackgroundBlurProps) {
   const t = useTranslations('locations');
 
   return (
-    <div className='fixed inset-0 -z-10 w-full h-full overflow-hidden bg-elev-1'>
+    <div
+      className={cn(
+        'w-full h-full overflow-hidden bg-elev-1',
+        scoped ? 'absolute inset-0 z-0' : 'fixed inset-0 -z-10',
+      )}
+    >
       <AnimatePresence>
         {imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '' ? (
           <motion.div

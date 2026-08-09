@@ -8,14 +8,9 @@ import { useRouter } from '@/i18n/navigation';
 import { useHotToursQuery, useLocationsQuery } from '@/lib/services/queries';
 import { formatDateDdMm, slugify } from '@/lib/utils';
 import HomeMobileSectionSkeleton from './components/home-mobile-section-skeleton';
-import {
-  HomeAboutJourneySection,
-  HomeFeaturedRoutesSection,
-} from './components/home-about-journey';
-import {
-  LeadersShowcaseSection,
-  MomentsGallerySection,
-} from '@/features/about/about-shared-sections';
+import { HomeAboutJourneySection } from './components/home-about-journey';
+import LocationsSection from '@/app/[locale]/locations/locations-client';
+import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 
 const HotLocationCard = memo(function HotLocationCard({
   name,
@@ -239,12 +234,7 @@ export default function HomeMobile() {
 
       <div className='relative z-10 mt-10'>
         <HomeAboutJourneySection />
-        <LeadersShowcaseSection
-          id='leaders'
-          variant='home'
-          className='bg-gradient-to-b from-elev-1 via-elev-2 to-elev-4'
-        />
-        <HomeFeaturedRoutesSection />
+        <LocationsSection layout='section' />
         <MomentsGallerySection
           variant='home'
           className='bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4'

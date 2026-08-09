@@ -87,7 +87,7 @@ function LocationCardBase({
           duration: 0.4,
           ease: ANIMATION_EASE,
         }}
-        className={`relative overflow-hidden shadow-[var(--shadow-strong)] border border-line-3 group transform-gpu bg-elev-3 flex ${
+        className={`relative overflow-hidden shadow-[var(--shadow-lifted)] border border-line-3 group transform-gpu bg-elev-3 flex ${
           compact
             ? 'w-[170px] h-[260px] rounded-[40px]'
             : 'w-[250px] h-[400px] 2xl:w-[300px] 2xl:h-[450px] rounded-[60px]'
