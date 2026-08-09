@@ -296,9 +296,9 @@ function MomentsGalleryLoadingState() {
   );
 }
 
-/** Caption comes from the DB; fall back to the tour and then the location. */
+/** Caption comes from the DB; fall back to the route the photo belongs to. */
 function getMomentLabel(image: HomeMomentsGalleryImage) {
-  return image.caption.trim() || image.tour_title.trim() || image.location_name.trim();
+  return image.caption.trim() || image.location_name.trim();
 }
 
 function TeamMemberModal({

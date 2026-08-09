@@ -42,7 +42,6 @@ export interface HomeMomentsGalleryImage {
   id: number;
   image_url: string | null;
   caption: string;
-  tour_title: string;
   location_name: string;
   width: number | null;
   height: number | null;
@@ -96,7 +95,6 @@ export const homeService = {
         id: img.id,
         image_url: resolveMediaUrl(img.image_path, img.image_url),
         caption: img.caption,
-        tour_title: img.tour_title,
         location_name: img.location_name,
         width: img.width,
         height: img.height,
