@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { Mountain } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Images, Mountain } from 'lucide-react';
+import { PhotoGallery, type GalleryPhoto } from '@/components/photo-gallery';
 import { cn } from '@/lib/utils';
 import type { TourImageItem } from '@/lib/services/tour';
 
@@ -16,6 +19,25 @@ interface CollageSlot {
   key: string;
   src: string | null;
   alt: string;
+}
+
+/**
+ * Every picture the tour has, in one flat list — the collage only ever shows
+ * the first four, so this is what the gallery needs in order to show the rest.
+ */
+export function resolveGalleryPhotos({
+  title,
+  images,
+  fallbackImageUrl,
+}: Pick<TourImageCollageProps, 'title' | 'images' | 'fallbackImageUrl'>): GalleryPhoto[] {
+  const photos: GalleryPhoto[] = images
+    .filter((image): image is TourImageItem & { image_url: string } => Boolean(image.image_url))
+    .map((image) => ({ id: image.id, url: image.image_url, caption: image.caption || undefined }));
+
+  if (photos.length === 0 && fallbackImageUrl) {
+    return [{ id: 'fallback', url: fallbackImageUrl, caption: title }];
+  }
+  return photos;
 }
 
 export function resolveCollageSlots({
@@ -36,7 +58,15 @@ export function resolveCollageSlots({
   }));
 }
 
-function CollageItem({ slot, className }: { slot: CollageSlot; className?: string }) {
+function CollageItem({
+  slot,
+  className,
+  onOpen,
+}: {
+  slot: CollageSlot;
+  className?: string;
+  onOpen?: () => void;
+}) {
   if (!slot.src) {
     return (
       <div
@@ -53,35 +83,88 @@ function CollageItem({ slot, className }: { slot: CollageSlot; className?: strin
     );
   }
 
+  const Wrapper = onOpen ? 'button' : 'div';
+
   return (
-    <div className={cn('relative overflow-hidden rounded-2xl border border-line', className)}>
-      <Image src={slot.src} alt={slot.alt} fill sizes='(max-width: 1024px) 100vw, 60vw' className='object-cover' />
+    <Wrapper
+      {...(onOpen ? { type: 'button' as const, onClick: onOpen, 'aria-label': slot.alt } : {})}
+      className={cn(
+        'group relative block w-full overflow-hidden rounded-2xl border border-line',
+        onOpen && 'cursor-pointer transition-colors hover:border-brand/60',
+        className,
+      )}
+    >
+      <Image
+        src={slot.src}
+        alt={slot.alt}
+        fill
+        sizes='(max-width: 1024px) 100vw, 60vw'
+        className={cn('object-cover', onOpen && 'transition-transform duration-500 group-hover:scale-105')}
+      />
       <div className='absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10' />
-    </div>
+    </Wrapper>
   );
 }
 
 export function TourImageCollage({ title, images, fallbackImageUrl, className }: TourImageCollageProps) {
+  const t = useTranslations('gallery');
   const slots = resolveCollageSlots({ title, images, fallbackImageUrl });
+  const photos = resolveGalleryPhotos({ title, images, fallbackImageUrl });
+
+  const [openAt, setOpenAt] = useState<number | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const openGallery = (index: number | null) => {
+    setOpenAt(index);
+    setOpen(true);
+  };
+
+  // A collage tile is only clickable if there is a picture behind it to open.
+  const tileHandler = (slotIndex: number) =>
+    photos[slotIndex] ? () => openGallery(slotIndex) : undefined;
 
   return (
-    <section className={cn('w-full', className)}>
+    <section className={cn('relative w-full', className)}>
       <div className='hidden md:grid md:grid-cols-[1.6fr_1fr] gap-3'>
-        <CollageItem slot={slots[0]} className='h-[410px]' />
+        <CollageItem slot={slots[0]} className='h-[410px]' onOpen={tileHandler(0)} />
         <div className='grid grid-rows-[1fr_1fr] gap-3'>
-          <CollageItem slot={slots[1]} className='h-[198px]' />
+          <CollageItem slot={slots[1]} className='h-[198px]' onOpen={tileHandler(1)} />
           <div className='grid grid-cols-2 gap-3'>
-            <CollageItem slot={slots[2]} className='h-[198px]' />
-            <CollageItem slot={slots[3]} className='h-[198px]' />
+            <CollageItem slot={slots[2]} className='h-[198px]' onOpen={tileHandler(2)} />
+            <CollageItem slot={slots[3]} className='h-[198px]' onOpen={tileHandler(3)} />
           </div>
         </div>
       </div>
 
       <div className='grid grid-cols-2 gap-2 md:hidden'>
-        {slots.map((slot) => (
-          <CollageItem key={slot.key} slot={slot} className='h-[132px]' />
+        {slots.map((slot, index) => (
+          <CollageItem
+            key={slot.key}
+            slot={slot}
+            className='h-[132px]'
+            onOpen={tileHandler(index)}
+          />
         ))}
       </div>
+
+      {photos.length > 0 && (
+        <button
+          type='button'
+          onClick={() => openGallery(null)}
+          className='absolute bottom-3 right-3 inline-flex items-center gap-2 rounded-full border border-line-3 bg-elev-0/85 px-4 py-2 text-sm font-semibold text-ink-1 shadow-[var(--shadow-soft)] backdrop-blur-sm transition-colors hover:border-brand/70 hover:text-brand md:bottom-4 md:right-4'
+        >
+          <Images size={16} />
+          {t('viewAll', { count: photos.length })}
+        </button>
+      )}
+
+      <PhotoGallery
+        open={open}
+        onClose={() => setOpen(false)}
+        photos={photos}
+        title={title}
+        initialIndex={openAt}
+      />
     </section>
   );
 }

@@ -19,6 +19,16 @@
     "exploreAllTours": "Explore all trekking tours",
     "hotBadge": "Hot"
   },
+  "gallery": {
+    "close": "Close the gallery",
+    "backToGrid": "All photos",
+    "counter": "{current}/{total}",
+    "total": "{count} photos",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "openPhoto": "View photo {index}",
+    "viewAll": "View all {count} photos"
+  },
   "nav": {
     "home": "Home",
     "locations": "Featured routes",

@@ -19,6 +19,16 @@
     "exploreAllTours": "Khám phá tất cả tour trekking",
     "hotBadge": "Hot"
   },
+  "gallery": {
+    "close": "Đóng thư viện ảnh",
+    "backToGrid": "Tất cả ảnh",
+    "counter": "{current}/{total}",
+    "total": "{count} ảnh",
+    "previous": "Ảnh trước",
+    "next": "Ảnh tiếp theo",
+    "openPhoto": "Xem ảnh thứ {index}",
+    "viewAll": "Xem tất cả {count} ảnh"
+  },
   "nav": {
     "home": "Trang chủ",
     "locations": "Cung nổi bật",
