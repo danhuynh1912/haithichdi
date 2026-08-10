@@ -31,7 +31,7 @@ import { saveBookingId } from '@/lib/services/booking-storage';
 import { formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
-import { MarkdownArticle } from './components/markdown-article';
+import { MarkdownContent } from '@/components/markdown-content';
 import { RelatedToursCarousel } from './components/related-tours-carousel';
 import { TourImageCollage } from './components/tour-image-collage';
 import {
@@ -101,7 +101,7 @@ export default function TourBookingClient({
   }
 
   const durationDays = getDurationDays(tour.start_date, tour.end_date);
-  const itineraryDays = normalizeItineraryDays(tour, t('itineraryDayZeroTitle'));
+  const itineraryDays = normalizeItineraryDays(tour);
   const price = parseTourPrice(tour.price);
   const formattedPrice =
     price === null ? t('priceOnRequest') : format.number(price, 'vnd');
@@ -177,7 +177,10 @@ export default function TourBookingClient({
               </div>
             </div>
 
-            <MarkdownArticle markdown={tour.description_md || tour.summary || ''} />
+            <MarkdownContent
+              markdown={tour.description_md || tour.summary || ''}
+              emptyMessage={t('markdownEmpty')}
+            />
           </div>
 
           <div className='lg:sticky lg:top-28'>

@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import type { TourItineraryDay } from '@/lib/services/tour';
 import { cn, formatDateDdMm } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
-import { MarkdownArticle } from './markdown-article';
+import { MarkdownContent } from '@/components/markdown-content';
 
 interface ItineraryAccordionProps {
   days: TourItineraryDay[];
@@ -75,7 +75,7 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
               {isOpen && (
                 <div className='px-4 md:px-5 pb-5 border-t border-line'>
                   <div className='pt-4'>
-                    <MarkdownArticle
+                    <MarkdownContent
                       markdown={day.content_md || ''}
                       emptyMessage={t('itineraryDayEmpty')}
                     />

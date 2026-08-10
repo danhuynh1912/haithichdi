@@ -23,12 +23,21 @@ export interface MarkdownImageSize {
 export function MarkdownContent({
   markdown,
   imageSizes = [],
+  emptyMessage,
   className,
 }: {
   markdown: string;
   imageSizes?: MarkdownImageSize[];
+  /** Shown in place of the article when there is nothing written yet. */
+  emptyMessage?: string;
   className?: string;
 }) {
+  if (!markdown?.trim()) {
+    return emptyMessage ? (
+      <p className={cn('text-sm text-ink-4 md:text-base', className)}>{emptyMessage}</p>
+    ) : null;
+  }
+
   const sizeByPath = new Map(imageSizes.map((image) => [image.image_path, image]));
 
   const components: Components = {

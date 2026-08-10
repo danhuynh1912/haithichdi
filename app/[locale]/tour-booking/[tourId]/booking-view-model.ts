@@ -19,38 +19,12 @@ export function parseTourPrice(price: string | null): number | null {
 }
 
 /**
- * Sorts the API's itinerary, or synthesises a single "day 0" entry from the
- * legacy `itinerary_md` blob. `dayZeroTitle` is passed in so this stays free of
- * user-facing copy.
+ * The route's days, in order. There used to be a fallback that turned a
+ * free-form `itinerary_md` blob into a single synthetic "day 0" — that column
+ * is gone (supabase 0014), and the days are the only source now.
  */
-export function normalizeItineraryDays(
-  tour: TourDetail,
-  dayZeroTitle: string,
-): TourItineraryDay[] {
-  if (tour.itinerary_days.length > 0) {
-    return [...tour.itinerary_days].sort((left, right) => left.day_number - right.day_number);
-  }
-
-  if (!tour.itinerary_md?.trim()) {
-    return [];
-  }
-
-  return [
-    {
-      day_number: 0,
-      date: getDayZeroDate(tour.start_date),
-      title: dayZeroTitle,
-      content_md: tour.itinerary_md,
-    },
-  ];
-}
-
-export function getDayZeroDate(startDate: string | null): string | null {
-  const parsed = parseIsoDate(startDate);
-  if (!parsed) return null;
-
-  parsed.setUTCDate(parsed.getUTCDate() - 1);
-  return parsed.toISOString().slice(0, 10);
+export function normalizeItineraryDays(tour: TourDetail): TourItineraryDay[] {
+  return [...tour.itinerary_days].sort((left, right) => left.day_number - right.day_number);
 }
 
 function parseIsoDate(value: string | null): Date | null {

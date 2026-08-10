@@ -1,13 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { TourDetail } from '@/lib/services/tour';
 import {
-  getDayZeroDate,
   getDurationDays,
   normalizeItineraryDays,
   parseTourPrice,
 } from './booking-view-model';
-
-const DAY_ZERO_TITLE = 'Day 0 - Chuẩn bị trước hành trình';
 
 function createTourDetail(overrides: Partial<TourDetail> = {}): TourDetail {
   return {
@@ -29,7 +26,6 @@ function createTourDetail(overrides: Partial<TourDetail> = {}): TourDetail {
     price: '3290000.00',
     description_md: '',
     summary: '',
-    itinerary_md: '',
     images: [],
     itinerary_days: [],
     ...overrides,
@@ -49,11 +45,6 @@ describe('booking-view-model', () => {
     expect(getDurationDays('2026-02-19', '2026-02-18')).toBeNull();
   });
 
-  it('computes day 0 as one day before start date', () => {
-    expect(getDayZeroDate('2026-02-18')).toBe('2026-02-17');
-    expect(getDayZeroDate(null)).toBeNull();
-  });
-
   it('normalizes itinerary days by sorting existing records', () => {
     const tour = createTourDetail({
       itinerary_days: [
@@ -62,32 +53,11 @@ describe('booking-view-model', () => {
       ],
     });
 
-    const normalized = normalizeItineraryDays(tour, DAY_ZERO_TITLE);
+    const normalized = normalizeItineraryDays(tour);
     expect(normalized.map((item) => item.day_number)).toEqual([0, 2]);
   });
 
-  it('creates day 0 fallback from legacy itinerary markdown when itinerary_days is empty', () => {
-    const tour = createTourDetail({
-      itinerary_md: '## Chuẩn bị đồ cá nhân',
-      itinerary_days: [],
-    });
-
-    const normalized = normalizeItineraryDays(tour, DAY_ZERO_TITLE);
-    expect(normalized).toHaveLength(1);
-    expect(normalized[0]).toMatchObject({
-      day_number: 0,
-      date: '2026-02-17',
-      title: DAY_ZERO_TITLE,
-      content_md: '## Chuẩn bị đồ cá nhân',
-    });
-  });
-
-  it('returns empty array when there is no itinerary data', () => {
-    const tour = createTourDetail({
-      itinerary_md: '   ',
-      itinerary_days: [],
-    });
-
-    expect(normalizeItineraryDays(tour, DAY_ZERO_TITLE)).toEqual([]);
+  it('returns an empty list when the route has no days', () => {
+    expect(normalizeItineraryDays(createTourDetail({ itinerary_days: [] }))).toEqual([]);
   });
 });

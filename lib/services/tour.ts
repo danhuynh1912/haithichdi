@@ -16,7 +16,6 @@ export interface TourDetail {
   price: string | null;
   description_md: string;
   summary: string;
-  itinerary_md: string;
   images: TourImageItem[];
   itinerary_days: TourItineraryDay[];
 }
@@ -61,7 +60,6 @@ interface RawTourDetail extends RawTourCard {
   price: string | null;
   description_md: string;
   summary: string;
-  itinerary_md: string;
   images: Array<{
     id: number;
     image_path: string | null;
@@ -79,7 +77,6 @@ function mapTourDetail(raw: RawTourDetail): TourDetail {
     price: raw.price,
     description_md: raw.description_md,
     summary: raw.summary,
-    itinerary_md: raw.itinerary_md,
     images: raw.images.map((img) => ({
       id: img.id,
       image_url: resolveMediaUrl(img.image_path, img.image_url),
