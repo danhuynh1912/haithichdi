@@ -168,7 +168,10 @@ export default function TourBookingClient({
                   <WalletCards size={14} className='text-brand' />
                   {t('priceLabel')}
                 </p>
-                <p className='text-xl md:text-2xl font-black text-white mt-1'>
+                {/* The tint behind this is brand-coloured, not the canvas, but
+                    the number still has to read against whichever canvas the
+                    tint sits on — white only ever worked on the dark one. */}
+                <p className='text-xl md:text-2xl font-black text-ink-1 mt-1'>
                   {formattedPrice}
                 </p>
               </div>
@@ -276,7 +279,7 @@ const BookingForm = memo(function BookingForm({
   return (
     <div className='w-full bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] p-5 md:p-6 flex flex-col gap-6'>
       <div className='flex flex-col gap-1'>
-        <h2 className='text-2xl font-black text-white'>{t('title')}</h2>
+        <h2 className='text-2xl font-black text-ink-1'>{t('title')}</h2>
         <p className='text-ink-4 text-sm'>
           {t('subtitle', { location: locationName })}
         </p>
