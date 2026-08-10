@@ -18,10 +18,19 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
     [days],
   );
 
-  // The first day opens by default. It used to look for a day 0 first, which
-  // was the synthetic entry the removed markdown fallback produced.
-  const defaultDayNumber = sortedDays[0]?.day_number;
-  const [openDayNumber, setOpenDayNumber] = useState<number | null>(defaultDayNumber ?? null);
+  // A set, not a single value: reading day two rarely means you are finished
+  // with day one, and comparing them meant reopening the other every time.
+  // The first day starts open.
+  const [openDays, setOpenDays] = useState<Set<number>>(
+    () => new Set(sortedDays[0] ? [sortedDays[0].day_number] : []),
+  );
+
+  const toggleDay = (dayNumber: number) =>
+    setOpenDays((previous) => {
+      const next = new Set(previous);
+      if (!next.delete(dayNumber)) next.add(dayNumber);
+      return next;
+    });
 
   if (sortedDays.length === 0) {
     return (
@@ -35,7 +44,7 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
     <div className='rounded-3xl border border-line bg-well p-4 md:p-6'>
       <div className='space-y-3'>
         {sortedDays.map((day) => {
-          const isOpen = day.day_number === openDayNumber;
+          const isOpen = openDays.has(day.day_number);
           // Labels are one behind the stored number: the first entry is the
           // travel-in day, which the trip is sold as "Day 0". `day_number`
           // itself stays 1-based — it is the sort key, and tour_detail derives
@@ -55,7 +64,8 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
             >
               <button
                 type='button'
-                onClick={() => setOpenDayNumber((prev) => (prev === day.day_number ? null : day.day_number))}
+                aria-expanded={isOpen}
+                onClick={() => toggleDay(day.day_number)}
                 className={cn(
                   'w-full flex items-center justify-between gap-3 px-4 md:px-5 py-4 text-left transition-colors',
                   'active:bg-surface',

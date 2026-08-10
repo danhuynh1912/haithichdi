@@ -22,20 +22,41 @@ const days: TourItineraryDay[] = [
 ];
 
 describe('ItineraryAccordion', () => {
-  it('opens day 0 by default', () => {
+  it('opens the first day by default', () => {
     renderIntl(<ItineraryAccordion days={days} />);
 
     expect(screen.getByText('Nội dung day zero')).toBeInTheDocument();
     expect(screen.queryByText('Nội dung day one')).not.toBeInTheDocument();
   });
 
-  it('toggles selected day content when clicking another day', () => {
+  it('keeps a day open when another is opened', () => {
     renderIntl(<ItineraryAccordion days={days} />);
 
     fireEvent.click(screen.getByText('Day 1 - Khởi hành'));
 
+    // Both, not one: comparing two days is the whole reason for opening a
+    // second, and the old accordion closed the first on the way.
     expect(screen.getByText('Nội dung day one')).toBeInTheDocument();
+    expect(screen.getByText('Nội dung day zero')).toBeInTheDocument();
+  });
+
+  it('closes a day when its title is clicked again', () => {
+    renderIntl(<ItineraryAccordion days={days} />);
+
+    fireEvent.click(screen.getByText('Day 1 - Khởi hành'));
+    fireEvent.click(screen.getByText('Day 1 - Khởi hành'));
+
+    expect(screen.queryByText('Nội dung day one')).not.toBeInTheDocument();
+    expect(screen.getByText('Nội dung day zero')).toBeInTheDocument();
+  });
+
+  it('can close every day', () => {
+    renderIntl(<ItineraryAccordion days={days} />);
+
+    fireEvent.click(screen.getByText('Day 0 - Chuẩn bị'));
+
     expect(screen.queryByText('Nội dung day zero')).not.toBeInTheDocument();
+    expect(screen.queryByText('Nội dung day one')).not.toBeInTheDocument();
   });
 
   it('renders empty placeholder when days are missing', () => {
