@@ -18,7 +18,9 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
     [days],
   );
 
-  const defaultDayNumber = sortedDays.find((day) => day.day_number === 0)?.day_number ?? sortedDays[0]?.day_number;
+  // The first day opens by default. It used to look for a day 0 first, which
+  // was the synthetic entry the removed markdown fallback produced.
+  const defaultDayNumber = sortedDays[0]?.day_number;
   const [openDayNumber, setOpenDayNumber] = useState<number | null>(defaultDayNumber ?? null);
 
   if (sortedDays.length === 0) {
@@ -34,7 +36,13 @@ export function ItineraryAccordion({ days }: ItineraryAccordionProps) {
       <div className='space-y-3'>
         {sortedDays.map((day) => {
           const isOpen = day.day_number === openDayNumber;
-          const dayLabel = `Day ${String(day.day_number).padStart(2, '0')}`;
+          // Labels are one behind the stored number: the first entry is the
+          // travel-in day, which the trip is sold as "Day 0". `day_number`
+          // itself stays 1-based — it is the sort key, and tour_detail derives
+          // each date from it as start_date + (day_number - 1).
+          const dayLabel = t('itineraryDayLabel', {
+            number: String(Math.max(day.day_number - 1, 0)).padStart(2, '0'),
+          });
           const dateLabel = day.date ? formatDateDdMm(day.date) : null;
 
           return (
