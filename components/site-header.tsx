@@ -11,6 +11,7 @@ import {
   subscribeBookingIdsChanged,
 } from '@/lib/services/booking-storage';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
+import { useHideOnScrollDown } from '@/lib/hooks/use-hide-on-scroll-down';
 import LanguageSwitcher from '@/components/language-switcher';
 import ThemeToggle from '@/components/theme-toggle';
 import { getSiteHeroElement, subscribeSiteHero } from '@/lib/site-hero';
@@ -24,6 +25,7 @@ export default function SiteHeader() {
   const pathname = usePathname() || '/';
   const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
+  const { hidden, reveal } = useHideOnScrollDown();
   const [overHero, setOverHero] = useState(false);
   const [showBookedToursItem, setShowBookedToursItem] = useState(false);
 
@@ -93,8 +95,15 @@ export default function SiteHeader() {
 
   return (
     <header
+      onFocusCapture={reveal}
       className={cn(
-        'fixed top-0 left-0 right-0 z-[1000] text-ink-1 flex items-center justify-between px-6 py-4 lg:px-8 lg:py-6 bg-gradient-to-b from-elev-2 to-transparent transition-colors',
+        'fixed top-0 left-0 right-0 z-[1000] text-ink-1 flex items-center justify-between px-6 py-4 lg:px-8 lg:py-6 bg-gradient-to-b from-elev-2 to-transparent',
+        // One declaration for both, so neither overrides the other: they are
+        // the same CSS property and the last rule in the sheet would win.
+        'transition-[transform,background-color] duration-300 motion-reduce:transition-none',
+        // Phones only. On a desktop the bar costs a sliver of a tall window and
+        // moving it would just be noise.
+        hidden && 'max-md:-translate-y-full',
         // Over the hero the bar keeps the dark palette in both themes, so the
         // fade and every control inside it read against the footage.
         overHero && 'theme-dark',

@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Home, Mountain, TicketCheck, Users } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
+import { useHideOnScrollDown } from '@/lib/hooks/use-hide-on-scroll-down';
 
 const MOBILE_TABS = [
   {
@@ -44,9 +45,19 @@ const MOBILE_TABS = [
 export default function MobileBottomBar() {
   const t = useTranslations('nav');
   const pathname = usePathname() || '/';
+  const { hidden, reveal } = useHideOnScrollDown();
 
   return (
-    <nav className='md:hidden fixed inset-x-0 bottom-0 z-[1200] border-t border-line bg-elev-0/90 backdrop-blur-xl'>
+    <nav
+      onFocusCapture={reveal}
+      className={cn(
+        'md:hidden fixed inset-x-0 bottom-0 z-[1200] border-t border-line bg-elev-0/90 backdrop-blur-xl',
+        'transition-transform duration-300 motion-reduce:transition-none',
+        // Full height covers the safe-area padding too, so nothing peeks out
+        // below the home indicator.
+        hidden && 'translate-y-full',
+      )}
+    >
       <div className='mx-auto max-w-lg px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] grid grid-cols-4 gap-1'>
         {MOBILE_TABS.map(({ key, href, labelKey, Icon, match }) => {
           const active = match(pathname);
