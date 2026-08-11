@@ -33,7 +33,8 @@ export function BookingMobileCta({
 }) {
   const t = useTranslations('booking');
   const inlineRef = useRef<HTMLDivElement>(null);
-  const [pinned, setPinned] = useState(false);
+  const [scrolledPast, setScrolledPast] = useState(false);
+  const [formInView, setFormInView] = useState(false);
 
   // The same signal the header uses, so the bar tracks it instead of guessing:
   // when the header slides away the bar takes the top of the screen, and it
@@ -48,7 +49,9 @@ export function BookingMobileCta({
       ([entry]) => {
         // Above the viewport only. Below it means the reader has not reached
         // the inline button yet and there is nothing to stand in for.
-        setPinned(!entry.isIntersecting && entry.boundingClientRect.bottom < 0);
+        setScrolledPast(
+          !entry.isIntersecting && entry.boundingClientRect.bottom < 0,
+        );
       },
       { threshold: 0 },
     );
@@ -56,6 +59,24 @@ export function BookingMobileCta({
     observer.observe(inline);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const form = targetRef.current;
+    if (!form) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFormInView(entry.isIntersecting),
+      { threshold: 0 },
+    );
+
+    observer.observe(form);
+    return () => observer.disconnect();
+  }, [targetRef]);
+
+  // Once the form itself is on screen the bar has nothing left to offer: it
+  // would be covering the page to point at what the reader is already looking
+  // at, and its first field at that.
+  const pinned = scrolledPast && !formInView;
 
   const button = (className?: string) => (
     <button
