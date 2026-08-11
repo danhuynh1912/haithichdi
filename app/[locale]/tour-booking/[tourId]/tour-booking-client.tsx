@@ -11,7 +11,6 @@ import {
   Mail,
   MapPin,
   Phone,
-  TicketCheck,
   User,
   WalletCards,
 } from 'lucide-react';
@@ -33,10 +32,8 @@ import { formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
-import {
-  BookingJumpButton,
-  scrollToBookingForm,
-} from './components/booking-jump-button';
+import { BookingJumpButton } from './components/booking-jump-button';
+import { BookingMobileCta } from './components/booking-mobile-cta';
 import { RelatedToursCarousel } from './components/related-tours-carousel';
 import { TourImageCollage } from './components/tour-image-collage';
 import {
@@ -131,18 +128,7 @@ export default function TourBookingClient({
               {tour.summary?.trim() || t('summaryFallback')}
             </p>
 
-            {/* Phones stack the form below the description, the itinerary and
-                the related tours, so without this the only thing to act on is
-                several screens down with nothing pointing at it. On a wide
-                screen the form is already beside this text. */}
-            <button
-              type='button'
-              onClick={() => scrollToBookingForm(bookingFormRef.current)}
-              className='md:hidden mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-brand-ink shadow-[var(--shadow-soft)] transition-colors active:bg-brand-strong'
-            >
-              <TicketCheck size={18} />
-              {t('registerNow')}
-            </button>
+            <BookingMobileCta targetRef={bookingFormRef} />
           </div>
         </header>
 

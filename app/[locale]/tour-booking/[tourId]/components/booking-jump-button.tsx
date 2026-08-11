@@ -79,7 +79,7 @@ export function BookingJumpButton({
       )}
     >
       <TicketCheck size={18} />
-      {t('jumpToForm')}
+      {t('registerNow')}
     </button>
   );
 }
