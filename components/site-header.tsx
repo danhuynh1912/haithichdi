@@ -101,9 +101,7 @@ export default function SiteHeader() {
         // One declaration for both, so neither overrides the other: they are
         // the same CSS property and the last rule in the sheet would win.
         'transition-[transform,background-color] duration-300 motion-reduce:transition-none',
-        // Phones only. On a desktop the bar costs a sliver of a tall window and
-        // moving it would just be noise.
-        hidden && 'max-md:-translate-y-full',
+        hidden && '-translate-y-full',
         // Over the hero the bar keeps the dark palette in both themes, so the
         // fade and every control inside it read against the footage.
         overHero && 'theme-dark',
