@@ -98,9 +98,11 @@ export default function SiteHeader() {
       onFocusCapture={reveal}
       className={cn(
         'fixed top-0 left-0 right-0 z-[1000] text-ink-1 flex items-center justify-between px-6 py-4 lg:px-8 lg:py-6 bg-gradient-to-b from-elev-2 to-transparent',
-        // One declaration for both, so neither overrides the other: they are
-        // the same CSS property and the last rule in the sheet would win.
-        'transition-[transform,background-color] duration-300 motion-reduce:transition-none',
+        // `translate`, not `transform`: the -translate-y utility compiles to the
+        // translate property, and naming the wrong one here transitions nothing
+        // — the bar jumps instead of sliding. One declaration covers both
+        // properties, since a second would replace this one rather than add.
+        'transition-[translate,background-color] duration-300 ease-out motion-reduce:transition-none',
         hidden && '-translate-y-full',
         // Over the hero the bar keeps the dark palette in both themes, so the
         // fade and every control inside it read against the footage.
