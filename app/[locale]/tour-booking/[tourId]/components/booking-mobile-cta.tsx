@@ -14,6 +14,10 @@ import { scrollToBookingForm } from './booking-jump-button';
  */
 const MOBILE_HEADER_HEIGHT = 76;
 
+/** Breathing room above the pinned bar, so it reads as floating over the page
+ *  rather than stuck to whatever is above it. */
+const PINNED_GAP = 12;
+
 /**
  * The booking call to action on a phone, in two places at once.
  *
@@ -79,7 +83,7 @@ export function BookingMobileCta({
 
       <div
         aria-hidden={!pinned}
-        style={{ top: headerHidden ? 0 : MOBILE_HEADER_HEIGHT }}
+        style={{ top: (headerHidden ? 0 : MOBILE_HEADER_HEIGHT) + PINNED_GAP }}
         className={cn(
           'md:hidden fixed inset-x-0 z-[900] px-4 pb-2',
           'transition-[top,opacity,translate] duration-300 ease-out',
