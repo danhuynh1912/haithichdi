@@ -1,6 +1,14 @@
 'use client';
 
-import { memo, useActionState, useEffect, useRef, type ReactNode } from 'react';
+import {
+  memo,
+  useActionState,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import {
   AlertTriangle,
@@ -28,12 +36,13 @@ import {
   useTourDetailQuery,
 } from '@/lib/services/queries';
 import { saveBookingId } from '@/lib/services/booking-storage';
-import { formatDateDdMm } from '@/lib/utils';
+import { cn, formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
 import { BookingJumpButton } from './components/booking-jump-button';
 import { BookingMobileCta } from './components/booking-mobile-cta';
+import { BookingFormModal } from './components/booking-form-modal';
 import { RelatedToursCarousel } from './components/related-tours-carousel';
 import { TourImageCollage } from './components/tour-image-collage';
 import {
@@ -75,6 +84,14 @@ export default function TourBookingClient({
   const format = useFormatter();
   const tourId = Number(tourIdParam);
   const bookingFormRef = useRef<HTMLDivElement>(null);
+  const [formExpanded, setFormExpanded] = useState(false);
+
+  // Desktop only, and only the first focus: a phone screen is already the
+  // width of the form, so there is nothing to expand into.
+  const handleFormFocus = useCallback(() => {
+    if (window.matchMedia('(min-width: 768px)').matches) setFormExpanded(true);
+  }, []);
+  const collapseForm = useCallback(() => setFormExpanded(false), []);
 
   const { data: tour, isPending, isError } = useTourDetailQuery(tourId);
   const { data: relatedTours = [] } = useRelatedToursQuery(tourId);
@@ -191,7 +208,17 @@ export default function TourBookingClient({
           {/* scroll-mt keeps the fixed header off the first field when the
               jump button brings the reader back here. */}
           <div ref={bookingFormRef} className='lg:sticky lg:top-28 scroll-mt-24 lg:scroll-mt-32'>
-            <BookingForm tourId={tour.id} locationName={tour.location.name} />
+            <BookingFormModal
+              open={formExpanded}
+              onClose={collapseForm}
+              onFocusCapture={handleFormFocus}
+            >
+              <BookingForm
+                tourId={tour.id}
+                locationName={tour.location.name}
+                expanded={formExpanded}
+              />
+            </BookingFormModal>
           </div>
         </section>
 
@@ -230,9 +257,12 @@ export default function TourBookingClient({
 const BookingForm = memo(function BookingForm({
   tourId,
   locationName,
+  expanded,
 }: {
   tourId: number;
   locationName: string;
+  /** True while the form is shown as a modal, where it owns a fixed height. */
+  expanded: boolean;
 }) {
   const router = useRouter();
   const t = useTranslations('booking.form');
@@ -289,7 +319,14 @@ const BookingForm = memo(function BookingForm({
   }, [formState, router]);
 
   return (
-    <div className='w-full bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] p-5 md:p-6 flex flex-col gap-6'>
+    <div
+      className={cn(
+        'w-full bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] p-5 md:p-6 flex flex-col gap-6',
+        // As a modal the card is given a height, and min-h-0 is what lets the
+        // field list inside it shrink far enough to scroll on its own.
+        expanded && 'h-full min-h-0',
+      )}
+    >
       <div className='flex flex-col gap-1'>
         <h2 className='text-2xl font-black text-ink-1'>{t('title')}</h2>
         <p className='text-ink-4 text-sm'>
@@ -310,49 +347,63 @@ const BookingForm = memo(function BookingForm({
         </div>
       )}
 
-      <form action={formAction} className='flex flex-col gap-4'>
+      <form
+        action={formAction}
+        className={cn('flex flex-col gap-4', expanded && 'flex-1 min-h-0')}
+      >
         <input type='hidden' name='tour' value={tourId} />
 
-        <Field
-          name='full_name'
-          label={t('fullName')}
-          placeholder={t('fullNamePlaceholder')}
-          icon={<User size={16} />}
-          required
-        />
-        <Field
-          name='medal_name'
-          label={t('medalName')}
-          placeholder={t('medalNamePlaceholder')}
-          required
-        />
-        <Field
-          name='phone'
-          label={t('phone')}
-          placeholder={t('phonePlaceholder')}
-          icon={<Phone size={16} />}
-          required
-        />
-        <Field name='dob' label={t('dob')} type='date' required />
-        <Field
-          name='email'
-          label={t('email')}
-          placeholder={t('emailPlaceholder')}
-          icon={<Mail size={16} />}
-          type='email'
-        />
-        <Field
-          name='citizen_id'
-          label={t('citizenId')}
-          placeholder={t('citizenIdPlaceholder')}
-          required
-        />
-        <Field
-          name='note'
-          label={t('note')}
-          placeholder={t('notePlaceholder')}
-          textarea
-        />
+        {/* Only the fields scroll. The heading above and the submit below stay
+            put, so the reader never loses sight of what they are filling in or
+            of the way to send it. */}
+        <div
+          className={cn(
+            'flex flex-col gap-4',
+            expanded && 'flex-1 min-h-0 overflow-y-auto pr-1',
+          )}
+        >
+            <Field
+            name='full_name'
+            label={t('fullName')}
+            placeholder={t('fullNamePlaceholder')}
+            icon={<User size={16} />}
+            required
+          />
+          <Field
+            name='medal_name'
+            label={t('medalName')}
+            placeholder={t('medalNamePlaceholder')}
+            required
+          />
+          <Field
+            name='phone'
+            label={t('phone')}
+            placeholder={t('phonePlaceholder')}
+            icon={<Phone size={16} />}
+            required
+          />
+          <Field name='dob' label={t('dob')} type='date' required />
+          <Field
+            name='email'
+            label={t('email')}
+            placeholder={t('emailPlaceholder')}
+            icon={<Mail size={16} />}
+            type='email'
+          />
+          <Field
+            name='citizen_id'
+            label={t('citizenId')}
+            placeholder={t('citizenIdPlaceholder')}
+            required
+          />
+          <Field
+            name='note'
+            label={t('note')}
+            placeholder={t('notePlaceholder')}
+            textarea
+          />
+        </div>
+
         <SubmitButton label={t('submit')} />
       </form>
     </div>
