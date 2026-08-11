@@ -270,6 +270,7 @@
     "descriptionHeading": "Description",
     "descriptionHint": "Full journey details, written in markdown.",
     "priceLabel": "Tour price",
+    "jumpToForm": "Book this tour",
     "priceOnRequest": "On request",
     "itineraryHeading": "Itinerary",
     "itineraryHint": "Tap a title to expand any day.",

@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useActionState, useEffect, type ReactNode } from 'react';
+import { memo, useActionState, useEffect, useRef, type ReactNode } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
 import {
   AlertTriangle,
@@ -32,6 +32,7 @@ import { formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
+import { BookingJumpButton } from './components/booking-jump-button';
 import { RelatedToursCarousel } from './components/related-tours-carousel';
 import { TourImageCollage } from './components/tour-image-collage';
 import {
@@ -72,6 +73,7 @@ export default function TourBookingClient({
   const tCommon = useTranslations('common');
   const format = useFormatter();
   const tourId = Number(tourIdParam);
+  const bookingFormRef = useRef<HTMLDivElement>(null);
 
   const { data: tour, isPending, isError } = useTourDetailQuery(tourId);
   const { data: relatedTours = [] } = useRelatedToursQuery(tourId);
@@ -183,7 +185,9 @@ export default function TourBookingClient({
             />
           </div>
 
-          <div className='lg:sticky lg:top-28'>
+          {/* scroll-mt keeps the fixed header off the first field when the
+              jump button brings the reader back here. */}
+          <div ref={bookingFormRef} className='lg:sticky lg:top-28 scroll-mt-24 lg:scroll-mt-32'>
             <BookingForm tourId={tour.id} locationName={tour.location.name} />
           </div>
         </section>
@@ -214,6 +218,8 @@ export default function TourBookingClient({
           <RelatedToursCarousel tours={toursYouMayLike} />
         </section>
       </div>
+
+      <BookingJumpButton targetRef={bookingFormRef} />
     </main>
   );
 }
