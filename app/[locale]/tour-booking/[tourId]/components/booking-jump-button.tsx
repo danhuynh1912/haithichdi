@@ -6,6 +6,17 @@ import { TicketCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
+ * The one way anything on this page moves to the booking form, so the two
+ * buttons that do it cannot drift into scrolling differently.
+ *
+ * `scroll-mt` on the target is what keeps the fixed header off the first
+ * field — the offset lives with the element, not with each caller.
+ */
+export function scrollToBookingForm(target: HTMLElement | null) {
+  target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/**
  * Takes the reader back to the booking form once they have scrolled past it.
  *
  * The form is the point of the page, but it sits near the top: by the time
@@ -39,8 +50,7 @@ export function BookingJumpButton({
   }, [targetRef]);
 
   const handleClick = () => {
-    // scroll-mt on the target keeps the fixed header off the first field.
-    targetRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToBookingForm(targetRef.current);
     // Scrolling up reveals the header, which would otherwise leave focus on a
     // button that has just slid out from under the reader's finger.
     buttonRef.current?.blur();
@@ -54,12 +64,13 @@ export function BookingJumpButton({
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
       className={cn(
-        'fixed right-4 z-[1100] inline-flex items-center gap-2 rounded-full',
+        // Desktop only. On a phone the form is reached from the CTA under the
+        // title instead, and this would land on top of the tab bar.
+        'hidden md:inline-flex',
+        'fixed right-4 z-[1100] items-center gap-2 rounded-full',
         'bg-brand px-5 py-3 text-sm font-semibold text-brand-ink',
         'shadow-[var(--shadow-soft)] hover:bg-brand-strong',
-        // Clear of the mobile tab bar, which owns the bottom of the screen up
-        // to the home indicator. Above md that bar is gone.
-        'bottom-[calc(5rem+env(safe-area-inset-bottom))] md:bottom-6',
+        'bottom-6',
         'transition-[opacity,translate,background-color] duration-300 ease-out',
         'motion-reduce:transition-none',
         visible
