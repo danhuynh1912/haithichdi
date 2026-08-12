@@ -171,24 +171,24 @@ export default function LocationDetailModal({
             </div>
           </div>
         ) : (
-          <div className='w-full min-h-full flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-8 max-w-screen-2xl mx-auto'>
+          <div className='w-full min-h-full md:h-full md:min-h-0 flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-8 max-w-screen-2xl mx-auto'>
             {showWriteUp ? (
               <RouteWriteUp
                 markdown={writeUp}
-                className='w-full md:w-[70%] min-h-[50vh] md:min-h-[75vh] md:max-h-[75vh]'
+                className='w-full md:w-[70%] min-h-[50vh] md:h-full md:min-h-0'
               />
             ) : (
               <PdfPreviewCard
                 pdfUrl={pdfUrl}
                 title={t('quotationTitle', { name: location.name })}
-                className='w-full md:w-[70%] min-h-[50vh] md:min-h-[75vh]'
-                frameClassName='w-full h-full min-h-[50vh] md:min-h-[75vh]'
+                className='w-full md:w-[70%] min-h-[50vh] md:h-full md:min-h-0'
+                frameClassName='w-full h-full min-h-[50vh] md:min-h-0'
                 emptyMessage={t('quotationEmpty')}
               />
             )}
 
             {/* Right: Tours list */}
-            <div className='w-full md:w-[30%] bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] flex flex-col overflow-hidden md:max-h-[75vh]'>
+            <div className='w-full md:w-[30%] bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] flex flex-col overflow-hidden md:h-full md:min-h-0'>
               <div className='p-3 md:p-6 border-b border-line/60'>
                 <p
                   className={`text-brand font-bold uppercase text-xs mb-2 ${
