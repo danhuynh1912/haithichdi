@@ -1,9 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { usePathname, useRouter } from '@/i18n/navigation';
 import { useLocationsQuery } from '@/lib/services/queries';
 import { Location } from '@/lib/types';
 import BackgroundBlur from '@/components/background-blur';
@@ -37,82 +35,88 @@ export default function LocationsClient({
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null,
   );
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   /**
-   * The `?name` this modal has already reacted to.
+   * `?name` is owned by the History API here, and read from `window.location`
+   * rather than from the router. Both halves of that were arrived at by
+   * breaking it.
    *
-   * The URL is a mirror of the modal, not its source. It used to be the other
-   * way round — closing only removed the query and left an effect to notice —
-   * and on this page that could not work: `/locations` is prerendered, so
-   * arriving straight at `/locations?name=x` leaves the router holding the
-   * static `/locations` as its current URL. Pushing `/locations` to drop the
-   * query then matched what the router already believed, it collapsed the
-   * navigation into a no-op, and the modal had no way to close. Reaching the
-   * same URL by clicking through worked, which is why this only ever showed up
-   * after a reload.
+   * Routing through `useRouter` cannot close this modal at all. `/locations`
+   * is prerendered, so arriving straight at `/locations?name=x` leaves the
+   * router holding the static `/locations` as its current URL; pushing
+   * `/locations` to drop the query matches what it already believes and
+   * collapses into a no-op — no navigation, no way out of the modal.
+   *
+   * And once the URL is written with `history` instead, `useSearchParams` stops
+   * seeing it: it stays frozen on the last value the router knew. Reading the
+   * parameter from there meant a stale `phusaphin` outliving its own modal and
+   * overwriting whichever route the reader opened next.
+   *
+   * So: state decides what is on screen, `window.location` is the only place
+   * the parameter is read from, and `popstate` is what makes the back button
+   * work.
    */
-  const handledParam = useRef<string | null>(null);
+  const readNameParam = () =>
+    new URLSearchParams(window.location.search).get('name');
 
-  /** Open, close, and the back button, all from one comparison. */
-  useEffect(() => {
-    if (!locations.length) return;
-    const nameParam = searchParams?.get('name') ?? null;
-    if (nameParam === handledParam.current) return;
-    handledParam.current = nameParam;
+  const writeNameParam = useCallback((slug: string | null) => {
+    const params = new URLSearchParams(window.location.search);
+    if (slug) params.set('name', slug);
+    else params.delete('name');
 
+    const query = params.toString();
+    const url = query
+      ? `${window.location.pathname}?${query}`
+      : window.location.pathname;
+
+    // Opening earns a history entry so the back button leaves the modal;
+    // closing replaces it so back does not walk straight back into it.
+    if (slug) window.history.pushState(null, '', url);
+    else window.history.replaceState(null, '', url);
+  }, []);
+
+  const showFromUrl = useCallback(() => {
+    const nameParam = readNameParam();
     if (!nameParam) {
       setSelectedLocation(null);
       return;
     }
-
     const index = locations.findIndex((loc) => slugify(loc.name) === nameParam);
     if (index === -1) return;
 
     setActiveIndex(index);
     setSelectedLocation(locations[index]);
-  }, [locations, searchParams]);
+  }, [locations]);
 
-  // Open modal & sync query param
+  // The deep link, applied once — the list has to arrive before a slug can be
+  // matched against it, and after that the modal answers to clicks alone.
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (deepLinked.current || !locations.length) return;
+    deepLinked.current = true;
+    showFromUrl();
+  }, [locations, showFromUrl]);
+
+  useEffect(() => {
+    if (!locations.length) return;
+    window.addEventListener('popstate', showFromUrl);
+    return () => window.removeEventListener('popstate', showFromUrl);
+  }, [locations, showFromUrl]);
+
   const openLocation = useCallback(
     (location: Location) => {
-      const slug = slugify(location.name);
-      handledParam.current = slug;
-
-      const params = new URLSearchParams(searchParams?.toString() || '');
-      params.set('name', slug);
-      router.push(`${pathname}?${params.toString()}`, { scroll: false });
-
       const index = locations.findIndex((item) => item.id === location.id);
-      if (index !== -1) {
-        setActiveIndex(index);
-      }
+      if (index !== -1) setActiveIndex(index);
       setSelectedLocation(location);
+      writeNameParam(slugify(location.name));
     },
-    [searchParams, pathname, router, locations],
+    [locations, writeNameParam],
   );
 
-  /**
-   * Closing owns the modal outright and only then tidies the address bar,
-   * through the History API rather than the router: this is a query parameter
-   * nothing outside this component reads, and the router declines the
-   * navigation on a prerendered page.
-   */
   const closeLocation = useCallback(() => {
-    handledParam.current = null;
     setSelectedLocation(null);
-
-    const params = new URLSearchParams(window.location.search);
-    params.delete('name');
-    const query = params.toString();
-    window.history.replaceState(
-      null,
-      '',
-      query ? `${window.location.pathname}?${query}` : window.location.pathname,
-    );
-  }, []);
+    writeNameParam(null);
+  }, [writeNameParam]);
 
   // The default index is a guess made before the list arrives; the carousel
   // indexes into `locations` unguarded, so keep it in range.
