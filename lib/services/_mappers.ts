@@ -15,6 +15,8 @@ export interface RawLocation {
   image_path: string | null;
   image_url: string | null;
   quotation_path: string | null;
+  /** Only `locations_list` sends this; the card embedded in a tour does not. */
+  description_md?: string | null;
 }
 
 export interface RawTourCard {
@@ -37,6 +39,7 @@ export function mapLocation(raw: RawLocation): Location {
     description: raw.description,
     full_image_url: resolveMediaUrl(raw.image_path, raw.image_url),
     quotation_file_url: resolveMediaUrl(raw.quotation_path, null),
+    description_md: raw.description_md ?? null,
   };
 }
 

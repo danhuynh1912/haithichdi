@@ -10,6 +10,12 @@ export interface Location {
   description: string;
   full_image_url: string | null;
   quotation_file_url?: string | null;
+  /**
+   * The route's long-form write-up. Only `locations_list` carries it — it is
+   * what the detail modal shows in place of a quotation PDF, and putting it on
+   * the shared location card would ship it with every tour in every list.
+   */
+  description_md?: string | null;
 }
 
 export interface Tour {

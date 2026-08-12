@@ -7,8 +7,37 @@ import { useLocationToursQuery } from '@/lib/services/queries';
 import { Calendar, Users, MoveRight } from 'lucide-react';
 import FullscreenModalShell from '@/components/fullscreen-modal-shell';
 import PdfPreviewCard from '@/components/pdf-preview-card';
+import { MarkdownContent } from '@/components/markdown-content';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
-import { formatDateDdMm } from '@/lib/utils';
+import { cn, formatDateDdMm } from '@/lib/utils';
+
+/**
+ * The route's write-up, standing in for the quotation PDF when there is none.
+ *
+ * Rendered through the shared markdown renderer rather than a second one, so a
+ * table written on the route reads the same here as it does on a booking page.
+ */
+function RouteWriteUp({
+  markdown,
+  className,
+}: {
+  markdown: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        'bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)]',
+        'overflow-y-auto custom-scrollbar',
+        className,
+      )}
+    >
+      <div className='p-5 md:p-8'>
+        <MarkdownContent markdown={markdown} />
+      </div>
+    </div>
+  );
+}
 
 interface LocationDetailModalProps {
   location: Location | null;
@@ -31,6 +60,11 @@ export default function LocationDetailModal({
   const loading = Boolean(location) && isPending;
 
   const pdfUrl = location?.quotation_file_url || null;
+  // Four of the six routes have no quotation file, so without this the largest
+  // panel on the screen is an empty-state message — while the route's own
+  // write-up sits in the database with nowhere to appear.
+  const writeUp = location?.description_md?.trim() ?? '';
+  const showWriteUp = !pdfUrl && writeUp.length > 0;
 
   return (
     <FullscreenModalShell
@@ -44,14 +78,21 @@ export default function LocationDetailModal({
         isMobile ? (
           <div className='w-full min-h-full p-4'>
             <div className='w-full overflow-hidden rounded-3xl border border-line bg-elev-2 shadow-[var(--shadow-strong)]'>
-              <PdfPreviewCard
-                pdfUrl={pdfUrl}
-                title={t('quotationTitle', { name: location.name })}
-                className='w-full border-0 rounded-none shadow-none'
-                emptyMessage={t('quotationEmpty')}
-                thumbnailUrl={location.full_image_url}
-                mobileCtaLabel={t('quotationMobileCta')}
-              />
+              {showWriteUp ? (
+                <RouteWriteUp
+                  markdown={writeUp}
+                  className='w-full max-h-[55vh] border-0 rounded-none shadow-none'
+                />
+              ) : (
+                <PdfPreviewCard
+                  pdfUrl={pdfUrl}
+                  title={t('quotationTitle', { name: location.name })}
+                  className='w-full border-0 rounded-none shadow-none'
+                  emptyMessage={t('quotationEmpty')}
+                  thumbnailUrl={location.full_image_url}
+                  mobileCtaLabel={t('quotationMobileCta')}
+                />
+              )}
 
               <div className='p-4'>
                 <p
@@ -131,13 +172,20 @@ export default function LocationDetailModal({
           </div>
         ) : (
           <div className='w-full min-h-full flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-8 max-w-screen-2xl mx-auto'>
-            <PdfPreviewCard
-              pdfUrl={pdfUrl}
-              title={t('quotationTitle', { name: location.name })}
-              className='w-full md:w-[70%] min-h-[50vh] md:min-h-[75vh]'
-              frameClassName='w-full h-full min-h-[50vh] md:min-h-[75vh]'
-              emptyMessage={t('quotationEmpty')}
-            />
+            {showWriteUp ? (
+              <RouteWriteUp
+                markdown={writeUp}
+                className='w-full md:w-[70%] min-h-[50vh] md:min-h-[75vh] md:max-h-[75vh]'
+              />
+            ) : (
+              <PdfPreviewCard
+                pdfUrl={pdfUrl}
+                title={t('quotationTitle', { name: location.name })}
+                className='w-full md:w-[70%] min-h-[50vh] md:min-h-[75vh]'
+                frameClassName='w-full h-full min-h-[50vh] md:min-h-[75vh]'
+                emptyMessage={t('quotationEmpty')}
+              />
+            )}
 
             {/* Right: Tours list */}
             <div className='w-full md:w-[30%] bg-elev-2 border border-line rounded-3xl shadow-[var(--shadow-strong)] flex flex-col overflow-hidden md:max-h-[75vh]'>

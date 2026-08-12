@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
@@ -40,19 +40,49 @@ export default function LocationsClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const paramName = searchParams?.get('name');
 
+  /**
+   * The `?name` this modal has already reacted to.
+   *
+   * The URL is a mirror of the modal, not its source. It used to be the other
+   * way round — closing only removed the query and left an effect to notice —
+   * and on this page that could not work: `/locations` is prerendered, so
+   * arriving straight at `/locations?name=x` leaves the router holding the
+   * static `/locations` as its current URL. Pushing `/locations` to drop the
+   * query then matched what the router already believed, it collapsed the
+   * navigation into a no-op, and the modal had no way to close. Reaching the
+   * same URL by clicking through worked, which is why this only ever showed up
+   * after a reload.
+   */
+  const handledParam = useRef<string | null>(null);
+
+  /** Open, close, and the back button, all from one comparison. */
   useEffect(() => {
-    if (!paramName && !!selectedLocation) {
+    if (!locations.length) return;
+    const nameParam = searchParams?.get('name') ?? null;
+    if (nameParam === handledParam.current) return;
+    handledParam.current = nameParam;
+
+    if (!nameParam) {
       setSelectedLocation(null);
+      return;
     }
-  }, [paramName, selectedLocation]);
+
+    const index = locations.findIndex((loc) => slugify(loc.name) === nameParam);
+    if (index === -1) return;
+
+    setActiveIndex(index);
+    setSelectedLocation(locations[index]);
+  }, [locations, searchParams]);
 
   // Open modal & sync query param
   const openLocation = useCallback(
     (location: Location) => {
+      const slug = slugify(location.name);
+      handledParam.current = slug;
+
       const params = new URLSearchParams(searchParams?.toString() || '');
-      params.set('name', slugify(location.name));
+      params.set('name', slug);
       router.push(`${pathname}?${params.toString()}`, { scroll: false });
 
       const index = locations.findIndex((item) => item.id === location.id);
@@ -64,29 +94,25 @@ export default function LocationsClient({
     [searchParams, pathname, router, locations],
   );
 
-  // Close modal & remove query param
+  /**
+   * Closing owns the modal outright and only then tidies the address bar,
+   * through the History API rather than the router: this is a query parameter
+   * nothing outside this component reads, and the router declines the
+   * navigation on a prerendered page.
+   */
   const closeLocation = useCallback(() => {
-    const params = new URLSearchParams(searchParams?.toString() || '');
+    handledParam.current = null;
+    setSelectedLocation(null);
+
+    const params = new URLSearchParams(window.location.search);
     params.delete('name');
     const query = params.toString();
-    router.push(query ? `${pathname}?${query}` : pathname, { scroll: false });
-  }, [searchParams, pathname, router]);
-
-  // Auto-open modal from query param on load/reload
-  useEffect(() => {
-    if (!locations.length) return;
-    const nameParam = searchParams?.get('name');
-    if (!nameParam) return;
-
-    const index = locations.findIndex((loc) => slugify(loc.name) === nameParam);
-
-    if (index !== -1) {
-      setActiveIndex(index);
-      if (!selectedLocation || selectedLocation.id !== locations[index].id) {
-        setSelectedLocation(locations[index]);
-      }
-    }
-  }, [locations, searchParams, selectedLocation]);
+    window.history.replaceState(
+      null,
+      '',
+      query ? `${window.location.pathname}?${query}` : window.location.pathname,
+    );
+  }, []);
 
   // The default index is a guess made before the list arrives; the carousel
   // indexes into `locations` unguarded, so keep it in range.
