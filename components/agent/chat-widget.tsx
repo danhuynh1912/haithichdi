@@ -31,9 +31,10 @@ export default function ChatWidget() {
     setIsOpen(false);
   }
 
-  // "Mở rộng" = sang hẳn trang chat fullscreen
+  // "Mở rộng" = sang hẳn trang chat fullscreen. KHÔNG đóng popup trước khi
+  // điều hướng — đóng sớm sẽ chạy animation thu nhỏ rồi mới nhảy trang, nhìn
+  // như chat bị tắt. Cứ giữ nguyên; sang /chatbot widget tự unmount.
   function handleExpand() {
-    setIsOpen(false);
     router.push('/chatbot');
   }
 
