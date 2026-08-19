@@ -269,7 +269,9 @@ export default function ChatWindow({
           placeholder={t('placeholder')}
           rows={1}
           disabled={isLoading}
-          className='flex-1 resize-none bg-surface rounded-xl px-3 py-2 text-sm text-ink-1 placeholder:text-ink-5 focus:outline-none focus:ring-1 focus:ring-brand/60 max-h-28 overflow-y-auto disabled:opacity-50'
+          // text-base (16px) trên mobile là bắt buộc: nhỏ hơn 16px thì iOS
+          // Safari tự zoom trang khi focus vào ô nhập. Desktop về lại text-sm.
+          className='flex-1 resize-none bg-surface rounded-xl px-3 py-2 text-base md:text-sm text-ink-1 placeholder:text-ink-5 focus:outline-none focus:ring-1 focus:ring-brand/60 max-h-28 overflow-y-auto disabled:opacity-50'
           style={{ lineHeight: '1.5' }}
         />
         <button
