@@ -11,9 +11,7 @@ import MobileBottomBar from '@/features/mobile/mobile-bottom-bar';
 import SiteFooter from '@/components/site-footer';
 import ThemeProvider from '@/components/theme-provider';
 import { THEME_INIT_SCRIPT } from '@/lib/theme';
-// Agent/RAG temporarily dropped in the Supabase migration — re-enable when the
-// agent backend is reintroduced.
-// import ChatWidget from '@/components/agent/chat-widget';
+import ChatWidget from '@/components/agent/chat-widget';
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -65,7 +63,7 @@ export default async function RootLayout({
                 <SiteFooter />
               </div>
               <MobileBottomBar />
-              {/* <ChatWidget /> */}
+              <ChatWidget />
             </Providers>
           </ThemeProvider>
         </NextIntlClientProvider>
