@@ -336,6 +336,40 @@ html {
   }
 }
 
+/* Moments gallery marquee. Each column renders its photos twice, so shifting by
+ * exactly half the track lands on an identical frame and the loop is seamless.
+ * `-down` starts at that halfway point and walks back, giving the middle column
+ * the opposite direction without a second copy of the markup. */
+@keyframes moments-marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moments-marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Reaching for a photo should stop the whole wall, not just the column under
+ * the cursor, so the pause hangs off the frame rather than each track. */
+[data-moments-gallery]:hover .moments-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moments-marquee-track {
+    animation: none;
+  }
+}
+
 @media (max-width: 767px) {
   body {
     font-size: 11px;
