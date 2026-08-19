@@ -1,7 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { slugify } from '@/lib/utils';
 import { useLocationsQuery } from '@/lib/services/queries';
 import { FilterSidebar } from './components/filter-sidebar';
 import { TourSearchBar } from './components/tour-search-bar';
@@ -25,6 +27,22 @@ export default function ToursClient({
   const debouncedSearch = useDebounce(search, 300);
 
   const { data: locations = [], isLoading: locationsLoading } = useLocationsQuery();
+
+  // `?location=<slug>` arrives from the home page's tour cards. The routes are
+  // fetched, so the slug cannot be resolved until they land — hence an effect
+  // rather than a lazy initial state. It runs once and then gets out of the
+  // way: re-applying on every render would fight the reader trying to untick
+  // that very filter.
+  const searchParams = useSearchParams();
+  const locationParam = searchParams?.get('location') ?? null;
+  const paramApplied = useRef(false);
+
+  useEffect(() => {
+    if (paramApplied.current || !locationParam || !locations.length) return;
+    paramApplied.current = true;
+    const match = locations.find((loc) => slugify(loc.name) === locationParam);
+    if (match) setSelectedLocations([match.id]);
+  }, [locationParam, locations]);
 
   const { data: tours, isLoading: toursLoading } = useTours({
     locationIds: selectedLocations,
