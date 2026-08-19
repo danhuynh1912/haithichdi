@@ -47,6 +47,9 @@ export default function MobileBottomBar() {
   const pathname = usePathname() || '/';
   const { hidden, reveal } = useHideOnScrollDown();
 
+  // /chatbot là chat fullscreen — bar này sẽ đè lên ô nhập tin nhắn.
+  if (pathname === '/chatbot') return null;
+
   return (
     <nav
       onFocusCapture={reveal}
