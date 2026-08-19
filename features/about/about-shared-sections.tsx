@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -42,6 +42,9 @@ const SECONDS_PER_PHOTO = 18;
 /** Photos per column before the loop can run without visible gaps. */
 const MIN_PHOTOS_PER_COLUMN = 4;
 
+/** How long the cursor must sit still before the columns start moving again. */
+const RESUME_AFTER_STILL_MS = 4000;
+
 /**
  * Deal the photos across `count` columns round-robin, then repeat each column
  * until it is tall enough to fill the frame — a column of one photo would
@@ -79,6 +82,35 @@ export function MomentsGallerySection({
   // Clicking a photo hands off to the same lightbox the tour pages use, so the
   // arrows, counter and Esc handling behave identically across the site.
   const [openAt, setOpenAt] = useState<number | null>(null);
+
+  // The pause flag is written straight to the DOM node: mousemove fires on
+  // every pixel, and routing that through state would re-render the whole wall
+  // dozens of times a second.
+  const frameRef = useRef<HTMLDivElement>(null);
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const setPaused = useCallback((paused: boolean) => {
+    if (frameRef.current) frameRef.current.dataset.paused = String(paused);
+  }, []);
+
+  /** Movement stops the wall; four still seconds means the reader has moved on. */
+  const handlePointerMove = useCallback(() => {
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setPaused(false), RESUME_AFTER_STILL_MS);
+  }, [setPaused]);
+
+  const handlePointerLeave = useCallback(() => {
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    setPaused(false);
+  }, [setPaused]);
+
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
   const photos = useMemo<GalleryPhoto[]>(
     () =>
       galleryImages.map(image => ({
@@ -126,10 +158,14 @@ export function MomentsGallerySection({
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: ANIMATION_EASE }}
             // The frame is capped so more photos make the columns scroll longer
-            // instead of making the page taller. The data attribute is the hook
-            // for the :hover rule in globals.css that stops every column at
-            // once — what a reader reaching for a photo expects.
+            // instead of making the page taller. `data-paused` is the hook for
+            // the rule in globals.css that stops every column at once — what a
+            // reader reaching for a photo expects.
+            ref={frameRef}
             data-moments-gallery
+            data-paused='false'
+            onMouseMove={handlePointerMove}
+            onMouseLeave={handlePointerLeave}
             className='relative h-[130vh] overflow-hidden'
           >
             <MarqueeGrid

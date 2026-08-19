@@ -359,8 +359,11 @@ html {
 }
 
 /* Reaching for a photo should stop the whole wall, not just the column under
- * the cursor, so the pause hangs off the frame rather than each track. */
-[data-moments-gallery]:hover .moments-marquee-track {
+ * the cursor, so the pause hangs off the frame rather than each track. The flag
+ * is set from JS on mouse movement rather than by :hover — a cursor parked
+ * inside the frame is not someone reading, and it would otherwise hold every
+ * column still indefinitely. */
+[data-moments-gallery][data-paused='true'] .moments-marquee-track {
   animation-play-state: paused;
 }
 
@@ -422,3 +425,4 @@ input[type='date']::-webkit-date-and-time-value {
     @apply bg-background text-foreground;
   }
 }
+
