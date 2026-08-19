@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Expand, Minimize2, Send, X } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import {
   type ChatTurn,
@@ -22,6 +24,8 @@ interface ChatWindowProps {
   onExpand?: () => void;
   onCollapse?: () => void;
   isFullscreen?: boolean;
+  /** Logo cạnh tên bot, bấm về trang chủ — dùng trên trang /chatbot. */
+  showLogo?: boolean;
   className?: string;
 }
 
@@ -39,9 +43,11 @@ export default function ChatWindow({
   onExpand,
   onCollapse,
   isFullscreen,
+  showLogo,
   className,
 }: ChatWindowProps) {
   const t = useTranslations('chat');
+  const tCommon = useTranslations('common');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [config, setConfig] = useState<ChatbotPublicConfig | null>(null);
@@ -154,7 +160,31 @@ export default function ChatWindow({
     >
       {/* Header */}
       <div className='flex items-center justify-between gap-2 border-b border-line px-4 py-3 shrink-0'>
-        <div className='flex items-center gap-2'>
+        <div className='flex items-center gap-2.5'>
+          {showLogo && (
+            <Link
+              href='/'
+              aria-label={tCommon('brand')}
+              className='inline-flex items-center shrink-0'
+            >
+              {/* Hai bản logo để light/dark swap thuần CSS, cùng idiom site-header */}
+              <Image
+                src='/haithichdi-logo-red.png'
+                alt={tCommon('brand')}
+                width={2366}
+                height={2366}
+                className='h-8 w-auto hover:opacity-85 transition-opacity dark:hidden'
+              />
+              <Image
+                src='/haithichdi-logo-white.png'
+                alt=''
+                aria-hidden='true'
+                width={2366}
+                height={2366}
+                className='h-8 w-auto hover:opacity-85 transition-opacity hidden dark:block'
+              />
+            </Link>
+          )}
           <span className='text-sm font-semibold tracking-wide'>{t('name')}</span>
         </div>
         <div className='flex items-center gap-1'>
