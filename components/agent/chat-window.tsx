@@ -10,6 +10,7 @@ import {
   fetchChatbotConfig,
   streamAgentChat,
 } from '@/lib/services/agent';
+import { loadChatDraft, saveChatDraft } from './chat-storage';
 import ChatMessage from './chat-message';
 
 const uid = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;
@@ -49,8 +50,17 @@ export default function ChatWindow({
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // Chỉ cuộn khi đã có hội thoại — cuộn cả lúc trống sẽ kéo tụt trang
+    // /chatbot xuống footer ngay khi mở.
+    if (messages.length === 0) return;
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages]);
+
+  // Tin nhắn gõ dở sống sót qua chuyển trang widget ↔ /chatbot
+  useEffect(() => {
+    const draft = loadChatDraft();
+    if (draft) setInput(draft);
+  }, []);
 
   // Welcome + câu hỏi gợi ý do admin đặt; null (SQL chưa chạy/lỗi mạng) thì
   // fallback chuỗi i18n, widget vẫn chạy bình thường.
@@ -80,6 +90,7 @@ export default function ChatWindow({
     if (!query || isLoading) return;
 
     setInput('');
+    saveChatDraft('');
     setIsLoading(true);
 
     const userMsg: Message = { id: uid(), role: 'user', content: query };
@@ -220,7 +231,10 @@ export default function ChatWindow({
         <textarea
           ref={inputRef}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            saveChatDraft(e.target.value);
+          }}
           onKeyDown={handleKeyDown}
           placeholder={t('placeholder')}
           rows={1}

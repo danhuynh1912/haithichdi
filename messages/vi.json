@@ -464,6 +464,10 @@
     "blog": {
       "title": "Blog",
       "description": "Kinh nghiệm trekking, thiết bị và review cung đường từ Hải Thích Đi."
+    },
+    "chatbot": {
+      "title": "Trợ lý AI",
+      "description": "Hỏi đáp cùng trợ lý AI của Hải Thích Đi: gợi ý tour trekking hợp thể lực và ngân sách, lịch trình, giá và cách đặt chỗ."
     }
   }
 }

@@ -464,6 +464,10 @@
     "blog": {
       "title": "Blog",
       "description": "Trekking experience, gear and route reviews from Hải Thích Đi."
+    },
+    "chatbot": {
+      "title": "AI Assistant",
+      "description": "Chat with Hải Thích Đi's AI assistant: trekking tour suggestions for your fitness and budget, itineraries, prices and booking."
     }
   }
 }
