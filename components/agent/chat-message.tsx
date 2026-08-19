@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'motion/react';
 import Markdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { cn } from '@/lib/utils';
@@ -44,8 +45,38 @@ const chatMarkdown: Components = {
   hr: () => <hr className='my-2 border-line' />,
 };
 
+/**
+ * Ba chấm thở chậm kiểu iMessage — hiện trong lúc chờ token đầu tiên.
+ * Opacity lệch pha thay vì nhảy lên xuống: tĩnh hơn, hợp không khí "sang".
+ */
+function TypingIndicator() {
+  return (
+    <span
+      className='inline-flex items-center gap-1 py-1'
+      role='status'
+      aria-label='…'
+    >
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className='h-1.5 w-1.5 rounded-full bg-ink-4'
+          animate={{ opacity: [0.25, 1, 0.25] }}
+          transition={{
+            duration: 1.2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: i * 0.18,
+          }}
+        />
+      ))}
+    </span>
+  );
+}
+
 export default function ChatMessage({ role, content, isStreaming }: ChatMessageProps) {
   const isUser = role === 'user';
+  // Bubble rỗng đang chờ token đầu tiên = bot "đang suy nghĩ"
+  const isThinking = !isUser && isStreaming && content === '';
 
   return (
     <div className={cn('flex w-full', isUser ? 'justify-end' : 'justify-start')}>
@@ -57,14 +88,16 @@ export default function ChatMessage({ role, content, isStreaming }: ChatMessageP
             : 'rounded-bl-sm bg-surface-2 text-ink-1',
         )}
       >
-        {isUser ? (
+        {isThinking ? (
+          <TypingIndicator />
+        ) : isUser ? (
           content
         ) : (
           <Markdown remarkPlugins={[remarkGfm]} components={chatMarkdown}>
             {content}
           </Markdown>
         )}
-        {isStreaming && (
+        {isStreaming && !isThinking && (
           <span className='ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-brand align-middle' />
         )}
       </div>
