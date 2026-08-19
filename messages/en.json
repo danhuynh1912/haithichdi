@@ -422,7 +422,8 @@
     "sendAria": "Send",
     "placeholder": "Ask about a tour...",
     "welcome": "Hi! I can help you find out about Hải Thích Đi's trekking tours.",
-    "error": "Sorry, something went wrong."
+    "error": "Sorry, something went wrong.",
+    "privacyNotice": "Conversations are stored to improve our support quality. Please don't share personal details (phone number, ID documents) in chat."
   },
   "metadata": {
     "siteDescription": "Hải Thích Đi - Vietnam trekking specialists, exploring nature and local culture sustainably.",

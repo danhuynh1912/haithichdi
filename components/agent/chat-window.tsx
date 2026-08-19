@@ -240,6 +240,10 @@ export default function ChatWindow({
                 ))}
               </div>
             )}
+            {/* Minh bạch với khách: chat được lưu + đừng gửi thông tin cá nhân */}
+            <p className='px-4 text-[11px] leading-relaxed text-ink-5'>
+              {t('privacyNotice')}
+            </p>
           </div>
         )}
         {messages.map((msg) => (
