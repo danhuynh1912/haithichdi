@@ -11,6 +11,7 @@ import { useSiteHeroRef } from '@/lib/hooks/use-site-hero';
 import { HomeAboutJourneySection } from './components/home-about-journey';
 import LocationsSection from '@/app/[locale]/locations/locations-client';
 import { MomentsGallerySection } from '@/features/about/about-shared-sections';
+import { HomeRouteTours } from './components/home-route-tours';
 
 export default function HomeDesktop() {
   const heroRef = useSiteHeroRef<HTMLElement>();
@@ -106,6 +107,7 @@ export default function HomeDesktop() {
 
       <HomeAboutJourneySection />
       <LocationsSection layout='section' />
+      <HomeRouteTours />
       <MomentsGallerySection
         variant='home'
         className='bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4'

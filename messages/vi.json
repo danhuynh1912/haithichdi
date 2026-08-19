@@ -213,6 +213,18 @@
     "loadError": "Không tải được gallery khoảnh khắc. Vui lòng thử lại sau.",
     "empty": "Chưa có ảnh tour nào để hiển thị trong gallery."
   },
+  "routeTours": {
+    "title": "TẤT CẢ TOUR TREKKING",
+    "description": "Toàn bộ các cung trekking nhà Hải Thích Đi đang khai thác — chọn tour phù hợp với thể lực và lịch trình của bạn.",
+    "priceLabel": "Giá tour",
+    "price": "{amount, number, ::currency/VND .}",
+    "priceOnRequest": "Liên hệ",
+    "duration": "{days}N{nights}Đ",
+    "viewMore": "Xem thêm",
+    "noImage": "Chưa có ảnh",
+    "empty": "Chưa có tour nào để hiển thị.",
+    "loadError": "Không tải được danh sách tour. Vui lòng thử lại sau."
+  },
   "locations": {
     "eyebrow": "Hải Thích đi",
     "title": "CÁC CUNG NỔI BẬT",

@@ -15,8 +15,10 @@ export interface RawLocation {
   image_path: string | null;
   image_url: string | null;
   quotation_path: string | null;
-  /** Only `locations_list` sends this; the card embedded in a tour does not. */
+  /** Only `locations_list` sends these; the card embedded in a tour does not. */
   description_md?: string | null;
+  default_price?: string | number | null;
+  default_trek_days?: number | null;
 }
 
 export interface RawTourCard {
@@ -40,6 +42,9 @@ export function mapLocation(raw: RawLocation): Location {
     full_image_url: resolveMediaUrl(raw.image_path, raw.image_url),
     quotation_file_url: resolveMediaUrl(raw.quotation_path, null),
     description_md: raw.description_md ?? null,
+    // numeric arrives as a string over PostgREST; the card formats it itself.
+    default_price: raw.default_price == null ? null : Number(raw.default_price),
+    default_trek_days: raw.default_trek_days ?? null,
   };
 }
 

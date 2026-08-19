@@ -16,6 +16,9 @@ export interface Location {
    * the shared location card would ship it with every tour in every list.
    */
   description_md?: string | null;
+  /** Route-level defaults, only present on `locations_list` rows. */
+  default_price?: number | null;
+  default_trek_days?: number | null;
 }
 
 export interface Tour {

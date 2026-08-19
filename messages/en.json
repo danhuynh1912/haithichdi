@@ -213,6 +213,18 @@
     "loadError": "Couldn't load the moments gallery. Please try again later.",
     "empty": "No tour photos in the gallery yet."
   },
+  "routeTours": {
+    "title": "ALL TREKKING TOURS",
+    "description": "Every trekking route Hai Thich Di runs — pick the tour that matches your fitness and your calendar.",
+    "priceLabel": "Tour price",
+    "price": "{amount, number, ::currency/VND .}",
+    "priceOnRequest": "On request",
+    "duration": "{days}D{nights}N",
+    "viewMore": "View more",
+    "noImage": "No image yet",
+    "empty": "No tours to show yet.",
+    "loadError": "Couldn't load the tour list. Please try again later."
+  },
   "locations": {
     "eyebrow": "Hải Thích Đi",
     "title": "FEATURED ROUTES",
