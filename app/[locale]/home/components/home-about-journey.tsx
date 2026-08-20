@@ -127,7 +127,9 @@ export function HomeAboutJourneySection() {
             </div>
           </div>
 
-          <div className='flex flex-col gap-4'>
+          {/* Desktop only: on a phone these three restate the section above
+              them and push the real content another screen down. */}
+          <div className='hidden md:flex flex-col gap-4'>
             {keywords.map(({ title, body }, index) => {
               const Icon = KEYWORD_ICONS[index] ?? Mountain;
               const valueSection = VALUE_SECTIONS[index];

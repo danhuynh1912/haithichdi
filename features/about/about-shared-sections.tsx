@@ -58,7 +58,7 @@ const MAX_PHOTOS = 24;
  * time, and a phone has an order of magnitude less memory to spend on decoded
  * bitmaps than the machine this was designed on.
  */
-const MAX_PHOTOS_MOBILE = 12;
+const MAX_PHOTOS_MOBILE = 16;
 
 /**
  * How far ahead of the viewport the wall mounts. Far enough that the photos
@@ -274,6 +274,9 @@ function MarqueeGrid({
   );
 }
 
+/** Ceiling on the padding a column may add, as a multiple of its own length. */
+const MAX_PADDING_FACTOR = 3;
+
 function MarqueeColumn({
   items,
   reverse,
@@ -283,11 +286,50 @@ function MarqueeColumn({
   reverse: boolean;
   onOpen: (index: number) => void;
 }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  // A column whose photos are mostly landscape is far shorter than one of
+  // portraits, so a fixed photo count leaves the short column with dead space
+  // at the bottom until the loop carries it away. Measure instead: keep
+  // repeating this column's own photos until one copy of the track is taller
+  // than the frame, which is the condition for the loop to never show a gap.
+  // Grown one card at a time rather than by doubling the column: doubling
+  // overshoots badly — a column one card short of filling the frame would
+  // mount a second full set, and every extra card is another decoded photo.
+  const [extra, setExtra] = useState(0);
+  useEffect(() => {
+    const track = trackRef.current;
+    const frame = track?.parentElement;
+    if (!track || !frame) return;
+
+    const measure = () => {
+      const copyHeight = track.scrollHeight / 2;
+      if (copyHeight > 0 && copyHeight < frame.clientHeight) {
+        setExtra(current =>
+          current < items.length * MAX_PADDING_FACTOR ? current + 1 : current,
+        );
+      }
+    };
+
+    // Photos arrive one by one and each one changes the height, so this has to
+    // re-check as they land rather than once on mount.
+    const observer = new ResizeObserver(measure);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [extra, items]);
+
+  const filled = useMemo(() => {
+    const out = [...items];
+    for (let i = 0; i < extra; i++) out.push(items[i % items.length]);
+    return out;
+  }, [items, extra]);
+
   if (!items.length) return null;
 
   return (
     <div className='h-full overflow-hidden'>
       <div
+        ref={trackRef}
         className={cn(
           // `moments-marquee-track` is what the frame's :hover rule pauses.
           'moments-marquee-track flex flex-col will-change-transform',
@@ -297,12 +339,12 @@ function MarqueeColumn({
             ? 'animate-[moments-marquee-down_linear_infinite]'
             : 'animate-[moments-marquee-up_linear_infinite]',
         )}
-        style={{ animationDuration: `${items.length * SECONDS_PER_PHOTO}s` }}
+        style={{ animationDuration: `${filled.length * SECONDS_PER_PHOTO}s` }}
       >
         {/* Rendered twice: the keyframes shift by half the track, so the copy
             slides into the spot the original just left. */}
         {[0, 1].map(copy =>
-          items.map((item, position) => (
+          filled.map((item, position) => (
             <MomentCard
               key={`${copy}-${position}-${item.image.id}`}
               image={item.image}
