@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { AnimatePresence, motion } from 'motion/react';
-import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { TourListItem } from '@/lib/types';
 import { ANIMATION_EASE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -48,6 +48,10 @@ export function TourCalendar({ tours }: { tours: TourListItem[] }) {
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
   const [selected, setSelected] = useState<string | null>(null);
+  // Mobile stacks the month above the day panel, and a six-row grid is most of
+  // a screen — collapsing it is how a reader gets to the tours themselves. The
+  // `md:` overrides below keep it open on wider screens.
+  const [gridOpen, setGridOpen] = useState(true);
 
   // One pass over the filtered tours: the calendar never queries on its own, so
   // the location and search filters shape it exactly as they shape the list.
@@ -124,7 +128,9 @@ export function TourCalendar({ tours }: { tours: TourListItem[] }) {
     <div className='grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,420px)]'>
       <div className='rounded-3xl border border-line bg-elev-2/80 backdrop-blur-sm p-4 sm:p-6'>
         <div className='flex items-center justify-between gap-3'>
-          <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
+          {/* Narrow screens cannot fit "tháng 8 năm 2026" at display tracking,
+              and it wrapped to three lines; the spacing opens up from sm. */}
+          <h3 className='min-w-0 text-sm font-bold uppercase tracking-[0.06em] text-ink-1 sm:tracking-[0.18em]'>
             {monthLabel}
           </h3>
           <div className='flex items-center gap-1.5'>
@@ -151,10 +157,26 @@ export function TourCalendar({ tours }: { tours: TourListItem[] }) {
             >
               <ChevronRight size={16} />
             </button>
+            <button
+              type='button'
+              onClick={() => setGridOpen((v) => !v)}
+              aria-expanded={gridOpen}
+              aria-controls='tours-calendar-grid'
+              aria-label={gridOpen ? t('collapseCalendar') : t('expandCalendar')}
+              className='tap-bg-only inline-flex size-9 items-center justify-center rounded-full border border-line text-ink-2 transition-colors hover:border-brand/60 hover:text-brand md:hidden'
+            >
+              <ChevronDown
+                size={16}
+                className={cn('transition-transform duration-200', gridOpen && 'rotate-180')}
+              />
+            </button>
           </div>
         </div>
 
-        <div className='mt-5 grid grid-cols-7 gap-1.5 sm:gap-2'>
+        <div
+          id='tours-calendar-grid'
+          className={cn('mt-5 grid-cols-7 gap-1.5 sm:gap-2 md:grid', gridOpen ? 'grid' : 'hidden')}
+        >
           {weekdays.map((day) => (
             <span
               key={day}
@@ -223,7 +245,12 @@ export function TourCalendar({ tours }: { tours: TourListItem[] }) {
           })}
         </div>
 
-        <p className='mt-5 flex items-center gap-2 text-xs text-ink-4'>
+        <p
+          className={cn(
+            'mt-5 items-center gap-2 text-xs text-ink-4 md:flex',
+            gridOpen ? 'flex' : 'hidden',
+          )}
+        >
           <span className='inline-block size-2.5 rounded-full bg-brand-tint-2 ring-1 ring-brand-line' />
           {t('legend')}
         </p>

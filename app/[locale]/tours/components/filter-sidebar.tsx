@@ -1,7 +1,8 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { Location } from '@/lib/types';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
@@ -24,14 +25,53 @@ function FilterSidebarBase({
   className,
 }: FilterSidebarProps) {
   const t = useTranslations('tours.filters');
+  // Mobile stacks the sidebar above the results, so an expanded filter panel
+  // pushes the tours themselves off-screen. Collapsed is the useful default
+  // there. On md+ the panel sits in its own column and the `md:` overrides
+  // below keep it open regardless of this state.
+  const [open, setOpen] = useState(false);
+  const activeCount = selectedIds.length;
 
   return (
     <aside
       className={cn(
-        'w-full md:w-72 bg-elev-2/80 backdrop-blur-sm border border-line rounded-3xl p-4 md:p-6 flex flex-col gap-6 md:sticky top-28 h-fit',
+        'w-full md:w-72 bg-elev-2/80 backdrop-blur-sm border border-line rounded-3xl p-4 md:p-6 flex flex-col gap-4 md:gap-6 md:sticky top-28 h-fit',
         className,
       )}
     >
+      <button
+        type='button'
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls='tours-filter-body'
+        aria-label={open ? t('collapse') : t('expand')}
+        className='tap-bg-only flex w-full items-center justify-between gap-3 md:hidden'
+      >
+        <span className='flex items-center gap-2 text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
+          <SlidersHorizontal size={16} className='text-brand' />
+          {t('heading')}
+          {activeCount > 0 && (
+            <span className='rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold tracking-normal text-brand-ink'>
+              {activeCount}
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          size={18}
+          className={cn(
+            'shrink-0 text-ink-3 transition-transform duration-200',
+            open && 'rotate-180',
+          )}
+        />
+      </button>
+
+      <div
+        id='tours-filter-body'
+        className={cn(
+          'flex-col gap-6 md:flex',
+          open ? 'flex' : 'hidden',
+        )}
+      >
       <div className='space-y-3'>
         <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
           {t('locationHeading')}
@@ -80,6 +120,7 @@ function FilterSidebarBase({
             />
           </button>
         </div>
+      </div>
       </div>
     </aside>
   );

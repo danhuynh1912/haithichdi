@@ -250,7 +250,10 @@
       "locationHeading": "Tours theo location",
       "sortHeading": "Sắp xếp",
       "upcoming": "Tours sắp diễn ra",
-      "upcomingAria": "Bật tắt bộ lọc tours sắp diễn ra"
+      "upcomingAria": "Bật tắt bộ lọc tours sắp diễn ra",
+      "heading": "Bộ lọc",
+      "expand": "Mở bộ lọc",
+      "collapse": "Thu gọn bộ lọc"
     },
     "hotPanel": {
       "title": "Tours sắp diễn ra",
@@ -277,7 +280,9 @@
       "upcomingHeading": "Tour sắp khởi hành",
       "emptyDay": "Không có tour nào trong ngày này.",
       "emptyUpcoming": "Chưa có tour nào sắp khởi hành.",
-      "clearDay": "Bỏ chọn ngày"
+      "clearDay": "Bỏ chọn ngày",
+      "expandCalendar": "Mở lịch",
+      "collapseCalendar": "Thu gọn lịch"
     },
     "view": {
       "list": "Danh sách",

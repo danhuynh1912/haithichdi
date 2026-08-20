@@ -250,7 +250,10 @@
       "locationHeading": "Tours by location",
       "sortHeading": "Sort",
       "upcoming": "Upcoming tours",
-      "upcomingAria": "Toggle the upcoming-tours filter"
+      "upcomingAria": "Toggle the upcoming-tours filter",
+      "heading": "Filters",
+      "expand": "Show filters",
+      "collapse": "Hide filters"
     },
     "hotPanel": {
       "title": "Upcoming tours",
@@ -277,7 +280,9 @@
       "upcomingHeading": "Departing soon",
       "emptyDay": "No tours on this day.",
       "emptyUpcoming": "No upcoming departures yet.",
-      "clearDay": "Clear selected day"
+      "clearDay": "Clear selected day",
+      "expandCalendar": "Show calendar",
+      "collapseCalendar": "Hide calendar"
     },
     "view": {
       "list": "List",
