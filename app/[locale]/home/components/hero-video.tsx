@@ -12,8 +12,8 @@ import { cn } from '@/lib/utils';
  * `ended` hands over to the next.
  */
 const CLIPS = [
-  { src: '/vids/haithichdi-homepage.webm', type: 'video/webm' },
   { src: '/vids/0820.mp4', type: 'video/mp4' },
+  { src: '/vids/haithichdi-homepage.webm', type: 'video/webm' },
 ];
 
 export function HeroVideo({ poster, className }: { poster: string; className?: string }) {
@@ -53,8 +53,10 @@ export function HeroVideo({ poster, className }: { poster: string; className?: s
           onEnded={advance}
           onError={advance}
           aria-hidden='true'
+          // A hard cut, not a crossfade: mid-fade both clips are half visible
+          // and the hero reads as a double exposure.
           className={cn(
-            'absolute inset-0 h-full w-full object-cover transition-opacity duration-700',
+            'absolute inset-0 h-full w-full object-cover',
             index === active ? 'opacity-100' : 'opacity-0',
           )}
         >
