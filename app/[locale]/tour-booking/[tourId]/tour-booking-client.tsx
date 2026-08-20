@@ -181,9 +181,6 @@ export default function TourBookingClient({
                 <h2 className='text-2xl md:text-3xl font-black'>
                   {t('descriptionHeading')}
                 </h2>
-                <p className='text-xs md:text-sm text-ink-4'>
-                  {t('descriptionHint')}
-                </p>
               </div>
 
               <div className='rounded-2xl border border-brand/40 bg-brand/10 px-4 py-3 min-w-[210px]'>

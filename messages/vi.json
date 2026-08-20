@@ -311,7 +311,7 @@
     "notFound": "Không tìm thấy tour hoặc tour đã ngừng hoạt động.",
     "summaryFallback": "Hành trình chinh phục cung đường trekking đầy thử thách và đáng nhớ.",
     "durationDays": "{count} ngày",
-    "descriptionHeading": "Description",
+    "descriptionHeading": "Thông tin chi tiết",
     "descriptionHint": "Thông tin chi tiết hành trình ở dạng markdown.",
     "priceLabel": "Giá tour",
     "registerNow": "Đăng ký ngay",
