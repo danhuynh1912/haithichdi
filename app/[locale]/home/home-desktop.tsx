@@ -12,6 +12,7 @@ import { HomeAboutJourneySection } from './components/home-about-journey';
 import LocationsSection from '@/app/[locale]/locations/locations-client';
 import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 import { HomeRouteTours } from './components/home-route-tours';
+import { HeroVideo } from './components/hero-video';
 
 export default function HomeDesktop() {
   const heroRef = useSiteHeroRef<HTMLElement>();
@@ -27,18 +28,7 @@ export default function HomeDesktop() {
         ref={heroRef}
         className='relative min-h-screen overflow-hidden text-white'
       >
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload='metadata'
-          poster='/images/haithichdi1.webp'
-          aria-hidden='true'
-          className='absolute inset-0 h-full w-full object-cover'
-        >
-          <source src='/vids/haithichdi-homepage.webm' type='video/webm' />
-        </video>
+        <HeroVideo poster='/images/haithichdi1.webp' />
         <div className='relative lg:flex justify-between min-h-screen p-8 lg:pr-0'>
           <div className='z-0 absolute inset-0 bg-black/35' />
           <div className='relative lg:pl-[clamp(16px,7vw,110px)] pt-31 lg:pt-[calc(35vh)] z-1 lg:w-[60%] max-w-[900px]'>
