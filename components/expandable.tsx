@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
  * Tuned to the booking form beside it on desktop: a description that stopped
  * well above the form left an odd shelf of empty space in the left column.
  */
-const COLLAPSED_HEIGHT = 720;
+const COLLAPSED_HEIGHT = 640;
 
 /** Slack before the toggle appears, so a body barely over the line stays whole. */
 const OVERFLOW_SLACK = 80;
