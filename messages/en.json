@@ -17,7 +17,8 @@
     "slotsLeft": "{count} spots left",
     "tourCount": "{count} tours",
     "exploreAllTours": "Explore all trekking tours",
-    "hotBadge": "Hot"
+    "hotBadge": "Hot",
+    "collapse": "Show less"
   },
   "gallery": {
     "close": "Close the gallery",

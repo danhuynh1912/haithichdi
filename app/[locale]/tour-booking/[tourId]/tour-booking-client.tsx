@@ -40,6 +40,7 @@ import { cn, formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
+import { Expandable } from '@/components/expandable';
 import { BookingJumpButton } from './components/booking-jump-button';
 import { BookingMobileCta } from './components/booking-mobile-cta';
 import { BookingFormModal } from './components/booking-form-modal';
@@ -199,10 +200,12 @@ export default function TourBookingClient({
               </div>
             </div>
 
-            <MarkdownContent
-              markdown={tour.description_md || tour.summary || ''}
-              emptyMessage={t('markdownEmpty')}
-            />
+            <Expandable>
+              <MarkdownContent
+                markdown={tour.description_md || tour.summary || ''}
+                emptyMessage={t('markdownEmpty')}
+              />
+            </Expandable>
           </div>
 
           {/* scroll-mt keeps the fixed header off the first field when the

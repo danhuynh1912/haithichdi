@@ -17,7 +17,8 @@
     "slotsLeft": "Còn {count} chỗ",
     "tourCount": "{count} tours",
     "exploreAllTours": "Khám phá tất cả tour trekking",
-    "hotBadge": "Hot"
+    "hotBadge": "Hot",
+    "collapse": "Thu gọn"
   },
   "gallery": {
     "close": "Đóng thư viện ảnh",
