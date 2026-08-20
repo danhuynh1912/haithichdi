@@ -257,6 +257,32 @@
       "loading": "Loading...",
       "error": "Failed to load featured tours.",
       "dateTbd": "TBD"
+    },
+    "calendar": {
+      "weekdays": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+      ],
+      "today": "Today",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "legend": "Highlighted days have a tour departing or running.",
+      "dayAria": "{date}, {count} tours",
+      "dayHeading": "Tours on {date}",
+      "upcomingHeading": "Departing soon",
+      "emptyDay": "No tours on this day.",
+      "emptyUpcoming": "No upcoming departures yet.",
+      "clearDay": "Clear selected day"
+    },
+    "view": {
+      "list": "List",
+      "calendar": "Calendar",
+      "aria": "Choose a view"
     }
   },
   "blog": {

@@ -257,6 +257,32 @@
       "loading": "Đang tải...",
       "error": "Không tải được danh sách tour nổi bật.",
       "dateTbd": "TBD"
+    },
+    "calendar": {
+      "weekdays": [
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "CN"
+      ],
+      "today": "Hôm nay",
+      "previousMonth": "Tháng trước",
+      "nextMonth": "Tháng sau",
+      "legend": "Ngày được tô là ngày có tour khởi hành hoặc đang diễn ra.",
+      "dayAria": "Ngày {date}, {count} tour",
+      "dayHeading": "Tour ngày {date}",
+      "upcomingHeading": "Tour sắp khởi hành",
+      "emptyDay": "Không có tour nào trong ngày này.",
+      "emptyUpcoming": "Chưa có tour nào sắp khởi hành.",
+      "clearDay": "Bỏ chọn ngày"
+    },
+    "view": {
+      "list": "Danh sách",
+      "calendar": "Lịch",
+      "aria": "Chọn kiểu hiển thị"
     }
   },
   "blog": {

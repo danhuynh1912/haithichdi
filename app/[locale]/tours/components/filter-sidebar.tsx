@@ -36,7 +36,7 @@ function FilterSidebarBase({
         <h3 className='text-sm font-bold uppercase tracking-[0.18em] text-ink-1'>
           {t('locationHeading')}
         </h3>
-        <div className='space-y-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar'>
+        <div className='space-y-2 max-h-[min(72vh,640px)] overflow-y-auto pr-1 custom-scrollbar'>
           {locations.map((loc) => (
             <label
               key={loc.id}
