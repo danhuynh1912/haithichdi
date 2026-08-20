@@ -244,8 +244,6 @@
     "searchPlaceholder": "Search tours by name...",
     "loading": "Loading tours...",
     "empty": "No matching tours found.",
-    "modeLocation": "By route",
-    "modeTour": "By tour",
     "filters": {
       "locationHeading": "Tours by location",
       "sortHeading": "Sort",

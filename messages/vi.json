@@ -244,8 +244,6 @@
     "searchPlaceholder": "Tìm tour theo tên...",
     "loading": "Đang tải tours...",
     "empty": "Không tìm thấy tour phù hợp.",
-    "modeLocation": "Tìm theo cung",
-    "modeTour": "Tìm theo tour",
     "filters": {
       "locationHeading": "Tours theo location",
       "sortHeading": "Sắp xếp",

@@ -120,7 +120,7 @@ export default function HomeMobile() {
 
   const openLocation = useCallback(
     (locationName: string) => {
-      router.push(`/tours?mode=location&name=${slugify(locationName)}`);
+      router.push(`/tours?location=${slugify(locationName)}`);
     },
     [router],
   );
@@ -156,7 +156,7 @@ export default function HomeMobile() {
           <div className='flex items-center justify-between'>
             <h2 className='text-xl font-bold'>{t('hotLocationsHeading')}</h2>
             <button
-              onClick={() => router.push('/tours?mode=location')}
+              onClick={() => router.push('/tours')}
               className='text-xs inline-flex items-center gap-1.5 text-brand-soft-2 hover:text-brand-soft transition-colors active:text-brand-soft'
             >
               {tCommon('seeAll')} <ChevronRight size={15} />

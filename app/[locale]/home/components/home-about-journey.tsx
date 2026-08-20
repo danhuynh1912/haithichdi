@@ -224,7 +224,7 @@ export function HomeAboutJourneySection() {
                 </p>
                 <div className='mt-5 flex flex-wrap items-center gap-3'>
                   <Link
-                    href={`/tours?mode=location&name=${slugify(section.locationName)}`}
+                    href={`/tours?location=${slugify(section.locationName)}`}
                     className='inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/15 px-5 py-2.5 text-sm font-semibold text-brand-soft hover:bg-brand/25 transition-colors'
                   >
                     {tValues(`${section.key}.ctaLabel`)}
@@ -337,7 +337,7 @@ export function HomeFeaturedRoutesSection() {
                     </p>
                   ) : null}
                   <Link
-                    href={`/tours?mode=location&name=${slugify(mainRoute.name)}`}
+                    href={`/tours?location=${slugify(mainRoute.name)}`}
                     className='mt-4 inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/18 px-5 py-2 text-sm font-semibold text-brand-soft hover:bg-brand/28 transition-colors'
                   >
                     {t('viewSchedule', { route: mainRoute.name })}
@@ -357,7 +357,7 @@ export function HomeFeaturedRoutesSection() {
                     transition={{ duration: 0.45, ease: ANIMATION_EASE, delay: index * 0.06 }}
                   >
                     <Link
-                      href={`/tours?mode=location&name=${slugify(route.name)}`}
+                      href={`/tours?location=${slugify(route.name)}`}
                       className='group relative block h-40 overflow-hidden rounded-3xl border border-line sm:h-52 lg:h-full'
                     >
                       <Image
@@ -395,7 +395,7 @@ export function HomeFeaturedRoutesSection() {
                   highlightAudience.locations.map((route) => (
                     <Link
                       key={route.id}
-                      href={`/tours?mode=location&name=${slugify(route.name)}`}
+                      href={`/tours?location=${slugify(route.name)}`}
                       className='rounded-full border border-line bg-well px-4 py-2 text-sm text-ink-2 transition-colors hover:border-brand/60 hover:text-ink-1'
                     >
                       {route.name}
