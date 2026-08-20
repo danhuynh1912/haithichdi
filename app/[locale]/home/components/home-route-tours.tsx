@@ -84,8 +84,10 @@ function RouteTourCard({ location }: { location: Location }) {
             alt={location.name}
             fill
             sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+            quality={82}
             className='object-cover transition-transform duration-500 group-hover:scale-[1.04]'
-            unoptimized={location.full_image_url.startsWith('http')}
+            // Optimised rather than served raw: the originals are multi-megapixel
+            // and this grid puts fourteen of them on the home page at card size.
           />
         ) : (
           <div className='flex h-full items-center justify-center text-sm text-ink-5'>

@@ -124,7 +124,6 @@ export function MarkdownContent({
             alt={alt ?? ''}
             width={size?.width ?? 1600}
             height={size?.height ?? 1000}
-            unoptimized
             sizes='(max-width: 768px) 100vw, 768px'
             className='h-auto w-full rounded-2xl border border-line'
           />

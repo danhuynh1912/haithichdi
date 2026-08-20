@@ -38,7 +38,6 @@ const HotLocationCard = memo(function HotLocationCard({
         alt={name}
         fill
         className='object-cover'
-        unoptimized={isRemote}
       />
       <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10' />
       <div className='theme-dark text-ink-1 absolute left-3 right-3 bottom-3 flex flex-col gap-1'>
@@ -86,7 +85,6 @@ const HotTourFeatureCard = memo(function HotTourFeatureCard({
         alt={title}
         fill
         className='object-cover'
-        unoptimized={isRemote}
       />
       <div className='absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/20' />
       <div className='theme-dark text-ink-1 absolute inset-0 p-4 flex flex-col justify-between'>

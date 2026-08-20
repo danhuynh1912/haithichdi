@@ -139,8 +139,8 @@ export function PhotoGallery({
                   src={activePhoto.url}
                   alt={activePhoto.caption || title}
                   fill
-                  unoptimized
                   sizes='100vw'
+                  quality={90}
                   className='object-contain'
                   priority
                 />
@@ -179,8 +179,8 @@ export function PhotoGallery({
                       src={photo.url}
                       alt={photo.caption || ''}
                       fill
-                      unoptimized
                       sizes='(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw'
+                      quality={82}
                       className='object-cover transition-transform duration-300 group-hover:scale-105'
                     />
                   </button>

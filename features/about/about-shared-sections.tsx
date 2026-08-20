@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useIsMobile } from '@/lib/hooks/use-is-mobile';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -42,6 +43,30 @@ const SECONDS_PER_PHOTO = 18;
 /** Photos per column before the loop can run without visible gaps. */
 const MIN_PHOTOS_PER_COLUMN = 4;
 
+/**
+ * How many photos the wall actually mounts.
+ *
+ * The gallery holds every route photo on the site — 70 and climbing. Each is
+ * rendered twice to make the loop seamless, so an uncapped wall put 140
+ * full-resolution images on the home page and mobile browsers killed the tab.
+ * A reader scrolling past sees a handful; the rest was weight nobody looked at.
+ */
+const MAX_PHOTOS = 24;
+
+/**
+ * Phones get a shorter wall than laptops. Two columns show half as much at a
+ * time, and a phone has an order of magnitude less memory to spend on decoded
+ * bitmaps than the machine this was designed on.
+ */
+const MAX_PHOTOS_MOBILE = 12;
+
+/**
+ * How far ahead of the viewport the wall mounts. Far enough that the photos
+ * have arrived by the time the section scrolls into view, near enough that a
+ * reader who never reaches it pays nothing.
+ */
+const MOUNT_MARGIN = '700px';
+
 /** How long the cursor must sit still before the columns start moving again. */
 const RESUME_AFTER_STILL_MS = 4000;
 
@@ -73,11 +98,18 @@ export function MomentsGallerySection({
 
   const galleryImages = useMemo(() => data?.images ?? [], [data]);
 
-  // Two layouts rather than one measured at runtime: a JS breakpoint would
-  // have to guess during SSR and re-deal the columns after hydration. The
-  // browser serves each photo once regardless of how many times it is used.
-  const mobileColumns = useMemo(() => toColumns(galleryImages, 2), [galleryImages]);
-  const desktopColumns = useMemo(() => toColumns(galleryImages, 3), [galleryImages]);
+  // One grid, not one per breakpoint. Mounting both and hiding one with CSS
+  // still downloads and decodes every image in the hidden copy, which doubled
+  // the memory cost of this section for nothing.
+  const isMobile = useIsMobile();
+  const columns = useMemo(
+    () =>
+      toColumns(
+        galleryImages.slice(0, isMobile ? MAX_PHOTOS_MOBILE : MAX_PHOTOS),
+        isMobile ? 2 : 3,
+      ),
+    [galleryImages, isMobile],
+  );
 
   // Clicking a photo hands off to the same lightbox the tour pages use, so the
   // arrows, counter and Esc handling behave identically across the site.
@@ -88,6 +120,27 @@ export function MomentsGallerySection({
   // dozens of times a second.
   const frameRef = useRef<HTMLDivElement>(null);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // The wall sits far below the fold. Mounting its photos on page load costs
+  // every reader the decode even if they never scroll this far, so it waits
+  // until the frame is within a screen of the viewport. The frame itself never
+  // moves — only the tracks inside it — so an observer on it fires reliably.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || mounted) return;
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) setMounted(true);
+      },
+      { rootMargin: MOUNT_MARGIN },
+    );
+    observer.observe(frame);
+    return () => observer.disconnect();
+    // `galleryImages.length` matters: the frame only exists once the photos
+    // have loaded, so an effect keyed on `mounted` alone runs while the ref is
+    // still null and never gets a second chance to attach.
+  }, [mounted, galleryImages.length]);
 
   const setPaused = useCallback((paused: boolean) => {
     if (frameRef.current) frameRef.current.dataset.paused = String(paused);
@@ -168,16 +221,13 @@ export function MomentsGallerySection({
             onMouseLeave={handlePointerLeave}
             className='relative h-[130vh] overflow-hidden'
           >
-            <MarqueeGrid
-              columns={mobileColumns}
-              className='grid grid-cols-2 gap-3 sm:hidden'
-              onOpen={setOpenAt}
-            />
-            <MarqueeGrid
-              columns={desktopColumns}
-              className='hidden sm:grid grid-cols-3 gap-4'
-              onOpen={setOpenAt}
-            />
+            {mounted && (
+              <MarqueeGrid
+                columns={columns}
+                className={cn('grid gap-3 sm:gap-4', isMobile ? 'grid-cols-2' : 'grid-cols-3')}
+                onOpen={setOpenAt}
+              />
+            )}
           </motion.div>
         ) : (
           <div className='rounded-3xl border border-line bg-surface px-4 py-6 text-sm text-ink-4'>
@@ -303,8 +353,12 @@ function MomentCard({
         loading='eager'
         decoding='async'
         sizes='(max-width: 640px) 50vw, 33vw'
+        quality={82}
         className='w-full h-auto object-cover transition-transform duration-500 group-hover/photo:scale-[1.03]'
-        unoptimized={Boolean(image.image_url?.startsWith('http'))}
+        // Optimised, unlike the rest of the site: these originals run to
+        // 2731x4096, roughly 45MB of bitmap each once decoded. At a column
+        // width near 180px the resized copy is a rounding error, and it is the
+        // difference between this section fitting in memory and not.
       />
       <span className='hidden sm:flex p-3 text-sm text-ink-2 items-center justify-between gap-3'>
         <span className='min-w-0 truncate'>{label}</span>

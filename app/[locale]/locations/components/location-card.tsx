@@ -110,7 +110,6 @@ function LocationCardBase({
                 src={location.full_image_url}
                 alt={location.name}
                 fill
-                unoptimized
                 priority
                 className='object-cover transition-transform duration-500 group-hover:scale-110'
               />

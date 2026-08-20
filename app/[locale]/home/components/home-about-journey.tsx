@@ -249,7 +249,6 @@ export function HomeAboutJourneySection() {
                   width={1500}
                   height={980}
                   className='h-[300px] sm:h-[380px] lg:h-[450px] w-full object-cover'
-                  unoptimized={section.image.startsWith('http')}
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/72 via-black/10 to-transparent' />
                 <div className='theme-dark text-ink-1 absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-line-3 bg-black/45 px-3 py-1.5 text-xs backdrop-blur-md'>
@@ -316,7 +315,6 @@ export function HomeFeaturedRoutesSection() {
                   width={1600}
                   height={1200}
                   className='h-full min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]'
-                  unoptimized={Boolean(mainRoute.image_url?.startsWith('http'))}
                 />
                 <div className='absolute inset-0 bg-gradient-to-t from-black/78 via-black/25 to-transparent' />
                 <div className='theme-dark text-ink-1 absolute inset-x-0 bottom-0 p-7'>
@@ -366,7 +364,6 @@ export function HomeFeaturedRoutesSection() {
                         width={1200}
                         height={780}
                         className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-105'
-                        unoptimized={Boolean(route.image_url?.startsWith('http'))}
                       />
                       <div className='absolute inset-0 bg-gradient-to-t from-black/72 to-black/15' />
                       <div className='theme-dark text-ink-1 absolute inset-x-0 bottom-0 p-4'>

@@ -43,7 +43,6 @@ export default function BackgroundBlur({ imageUrl, scoped = false }: BackgroundB
               src={imageUrl}
               alt={t('backgroundAlt')}
               fill
-              unoptimized
               className='object-cover blur-sm scale-110 opacity-25 dark:opacity-50'
               priority
             />

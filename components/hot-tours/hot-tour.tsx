@@ -70,7 +70,6 @@ const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
             alt={tour.title}
             fill
             priority
-            unoptimized={isRemoteImage}
             referrerPolicy='no-referrer'
           />
         </div>

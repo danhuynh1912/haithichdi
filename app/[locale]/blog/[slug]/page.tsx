@@ -125,7 +125,6 @@ export default async function Page({ params }: PageProps) {
               src={post.hero_url}
               alt={post.hero_alt || post.title}
               fill
-              unoptimized
               priority
               sizes='(max-width: 768px) 100vw, 768px'
               className='object-cover'

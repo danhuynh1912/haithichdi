@@ -32,7 +32,6 @@ function TourCardBase({ tour, showImage = true, isHotTour }: TourCardProps) {
               src={tour.image_url}
               alt={tour.title}
               fill
-              unoptimized
               priority
               className='object-cover group-hover:scale-105 transition-transform duration-300'
             />
