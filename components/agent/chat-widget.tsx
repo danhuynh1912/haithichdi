@@ -38,6 +38,11 @@ export default function ChatWidget() {
     router.push('/chatbot');
   }
 
+  // Trên mobile bong bóng chat chiếm gần hết màn hình mà vẫn kẹt trong khung
+  // 420px — bấm icon là sang thẳng /chatbot cho rộng. Desktop giữ popup vì ở
+  // đó nó không che nội dung đang đọc.
+  const handleFabClick = isMobile ? handleExpand : isOpen ? handleClose : handleOpen;
+
   // bottom offset: on mobile stay above the bottom bar (65px + 8px gap = 20)
   const buttonBottom = isMobile ? 'bottom-20' : 'bottom-6';
   const popupBottom = isMobile ? 'bottom-36' : 'bottom-24';
@@ -50,12 +55,12 @@ export default function ChatWidget() {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 22 }}
-        onClick={isOpen ? handleClose : handleOpen}
-        aria-label={isOpen ? t('closeAria') : t('openAria')}
+        onClick={handleFabClick}
+        aria-label={!isMobile && isOpen ? t('closeAria') : t('openAria')}
         className={`fixed right-6 z-[9998] h-14 w-14 rounded-full bg-brand text-brand-ink shadow-[var(--shadow-soft)] flex items-center justify-center hover:bg-brand-strong transition-colors ${buttonBottom}`}
       >
         <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
+          animate={{ rotate: !isMobile && isOpen ? 45 : 0 }}
           transition={{ duration: 0.2 }}
         >
           <BotMessageSquare size={24} />
