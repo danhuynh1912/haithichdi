@@ -223,7 +223,9 @@
     "viewMore": "Xem thêm",
     "noImage": "Chưa có ảnh",
     "empty": "Chưa có tour nào để hiển thị.",
-    "loadError": "Không tải được danh sách tour. Vui lòng thử lại sau."
+    "loadError": "Không tải được danh sách tour. Vui lòng thử lại sau.",
+    "showMore": "Xem thêm {count} tour",
+    "showing": "Đang hiện {shown}/{total} tour"
   },
   "locations": {
     "eyebrow": "Hải Thích đi",

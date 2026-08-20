@@ -223,7 +223,9 @@
     "viewMore": "View more",
     "noImage": "No image yet",
     "empty": "No tours to show yet.",
-    "loadError": "Couldn't load the tour list. Please try again later."
+    "loadError": "Couldn't load the tour list. Please try again later.",
+    "showMore": "Show {count} more tours",
+    "showing": "Showing {shown} of {total} tours"
   },
   "locations": {
     "eyebrow": "Hải Thích Đi",

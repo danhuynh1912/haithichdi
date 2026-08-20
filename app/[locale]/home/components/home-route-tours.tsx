@@ -1,9 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { ArrowRight, Clock } from 'lucide-react';
+import { ArrowRight, ChevronDown, Clock } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useLocationsQuery } from '@/lib/services/queries';
 import { type Location } from '@/lib/types';
@@ -12,6 +13,16 @@ import { cn, slugify } from '@/lib/utils';
 
 /** Description lines a card shows before it clamps. */
 const DESCRIPTION_LINES = 3;
+
+/**
+ * Cards shown at a time.
+ *
+ * Every route is already in memory — the same query feeds the carousel above —
+ * so this is not about fetching less. It is about mounting less: each card
+ * carries a photo, and a reader who never presses the button never pays for
+ * the ones below.
+ */
+const PAGE_SIZE = 6;
 
 /**
  * Every route we run, as a grid of tour cards.
@@ -23,6 +34,10 @@ const DESCRIPTION_LINES = 3;
 export function HomeRouteTours({ id, className }: { id?: string; className?: string }) {
   const t = useTranslations('routeTours');
   const { data: locations = [], isPending, isError } = useLocationsQuery();
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const shown = locations.slice(0, visible);
+  const remaining = locations.length - shown.length;
 
   return (
     <section
@@ -41,8 +56,9 @@ export function HomeRouteTours({ id, className }: { id?: string; className?: str
         {isPending ? (
           <RouteToursSkeleton />
         ) : locations.length ? (
+          <>
           <div className='mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3'>
-            {locations.map((location, index) => (
+            {shown.map((location, index) => (
               <motion.div
                 key={location.id}
                 initial={{ opacity: 0, y: 16 }}
@@ -54,6 +70,23 @@ export function HomeRouteTours({ id, className }: { id?: string; className?: str
               </motion.div>
             ))}
           </div>
+
+          {remaining > 0 && (
+            <div className='mt-8 flex flex-col items-center gap-2'>
+              <button
+                type='button'
+                onClick={() => setVisible(current => current + PAGE_SIZE)}
+                className='inline-flex items-center gap-2 rounded-full border border-brand/45 bg-brand/10 px-6 py-3 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
+              >
+                {t('showMore', { count: Math.min(remaining, PAGE_SIZE) })}
+                <ChevronDown className='size-4' />
+              </button>
+              <p className='text-xs text-ink-4'>
+                {t('showing', { shown: shown.length, total: locations.length })}
+              </p>
+            </div>
+          )}
+          </>
         ) : (
           <div className='mt-10 rounded-3xl border border-line bg-surface px-4 py-6 text-sm text-ink-4'>
             {isError ? t('loadError') : t('empty')}
