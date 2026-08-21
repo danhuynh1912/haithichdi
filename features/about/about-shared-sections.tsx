@@ -70,6 +70,16 @@ const MOUNT_MARGIN = '700px';
 /** How long the cursor must sit still before the columns start moving again. */
 const RESUME_AFTER_STILL_MS = 4000;
 
+/** Fisher–Yates on a copy — the source array belongs to the query cache. */
+function shuffle<T>(items: T[]): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 /**
  * Deal the photos across `count` columns round-robin, then repeat each column
  * until it is tall enough to fill the frame — a column of one photo would
@@ -98,6 +108,24 @@ export function MomentsGallerySection({
 
   const galleryImages = useMemo(() => data?.images ?? [], [data]);
 
+  /**
+   * A fresh order on every visit.
+   *
+   * The wall only mounts a couple of dozen of the seventy photos, so without
+   * this the same handful is the whole gallery as far as any reader is
+   * concerned. Shuffling in an effect rather than during render keeps it off
+   * the server: a random order there would not match the one the browser
+   * produces, and React would report a hydration mismatch.
+   */
+  const [shuffled, setShuffled] = useState<HomeMomentsGalleryImage[] | null>(null);
+  useEffect(() => {
+    setShuffled(galleryImages.length ? shuffle(galleryImages) : null);
+  }, [galleryImages]);
+
+  // Shuffled once and held: re-shuffling on every render would reorder the
+  // wall under the reader each time anything else in here changes.
+  const pool = shuffled ?? galleryImages;
+
   // One grid, not one per breakpoint. Mounting both and hiding one with CSS
   // still downloads and decodes every image in the hidden copy, which doubled
   // the memory cost of this section for nothing.
@@ -105,10 +133,10 @@ export function MomentsGallerySection({
   const columns = useMemo(
     () =>
       toColumns(
-        galleryImages.slice(0, isMobile ? MAX_PHOTOS_MOBILE : MAX_PHOTOS),
+        pool.slice(0, isMobile ? MAX_PHOTOS_MOBILE : MAX_PHOTOS),
         isMobile ? 2 : 3,
       ),
-    [galleryImages, isMobile],
+    [pool, isMobile],
   );
 
   // Clicking a photo hands off to the same lightbox the tour pages use, so the
@@ -166,12 +194,14 @@ export function MomentsGallerySection({
   );
   const photos = useMemo<GalleryPhoto[]>(
     () =>
-      galleryImages.map(image => ({
+      pool.map(image => ({
         id: image.id,
         url: image.image_url || FALLBACK_PHOTO,
         caption: getMomentLabel(image),
       })),
-    [galleryImages],
+    // `pool`, not the raw list: a card carries its position in whichever array
+    // the columns were dealt from, and the lightbox opens on that index.
+    [pool],
   );
 
   return (
