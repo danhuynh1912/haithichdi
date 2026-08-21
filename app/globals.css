@@ -326,15 +326,16 @@ body {
   font-family: var(--font-main), system-ui, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
+/* Deliberately NOT `scroll-behavior: smooth`.
+ *
+ * The router scrolls to the top on every navigation, and with smooth scrolling
+ * that becomes an animation over the full height of the page you are leaving.
+ * Coming off the foot of the home page that is ~8000px, which on a phone takes
+ * long enough to look broken and is cancelled by the first touch, landing the
+ * reader halfway down a page they have just opened.
+ *
+ * In-page anchors do their own smooth scrolling in JS, where reduced motion is
+ * honoured explicitly. */
 
 /* Moments gallery marquee. Each column renders its photos twice, so shifting by
  * exactly half the track lands on an identical frame and the loop is seamless.
