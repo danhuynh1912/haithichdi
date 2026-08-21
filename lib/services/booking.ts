@@ -3,7 +3,12 @@ import type { Locale } from '@/i18n/routing';
 import { Location } from '@/lib/types';
 import { mapLocation, RawLocation } from './_mappers';
 
-export type BookingStatus = 'pending' | 'confirmed' | 'cancelled';
+export type BookingStatus =
+  | 'pending'
+  | 'confirmed'
+  /** Staff could not reach the customer — usually a mistyped phone number. */
+  | 'needs_contact_check'
+  | 'cancelled';
 
 export type BookingLocationSummary = Location;
 
@@ -26,10 +31,12 @@ export interface BookingDetail {
   dob: string | null;
   citizen_id: string;
   status: BookingStatus;
+  /** What staff wrote about this status. Empty unless they wrote something. */
+  status_note: string;
   created_at: string;
 }
 
-export type BookingStatusTone = 'warning' | 'success' | 'danger';
+export type BookingStatusTone = 'warning' | 'success' | 'danger' | 'action';
 
 /**
  * Only the visual tone lives here — the human-readable label is a translation
@@ -38,6 +45,10 @@ export type BookingStatusTone = 'warning' | 'success' | 'danger';
 export const BOOKING_STATUS_TONE: Record<BookingStatus, BookingStatusTone> = {
   pending: 'warning',
   confirmed: 'success',
+  // Its own tone rather than a reused one: this is the only status that asks
+  // the customer to do something, and it must not read as either "waiting"
+  // (pending, amber) or "over" (cancelled, red).
+  needs_contact_check: 'action',
   cancelled: 'danger',
 };
 
@@ -59,6 +70,7 @@ interface RawBookingDetail {
   dob: string | null;
   citizen_id: string;
   status: BookingStatus;
+  status_note: string | null;
   created_at: string;
   tour: {
     id: number;
@@ -80,6 +92,7 @@ function mapBooking(raw: RawBookingDetail): BookingDetail {
     dob: raw.dob,
     citizen_id: raw.citizen_id,
     status: raw.status,
+    status_note: raw.status_note ?? '',
     created_at: raw.created_at,
     tour: {
       id: raw.tour.id,

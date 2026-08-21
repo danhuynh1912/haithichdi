@@ -14,6 +14,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import BookingStatusBadge from '@/components/booking-status-badge';
+import { BookingStatusNote } from '@/components/booking-status-note';
 import FullscreenModalShell from '@/components/fullscreen-modal-shell';
 import { BookingDetail } from '@/lib/services/booking';
 import { formatDateDdMm } from '@/lib/utils';
@@ -88,6 +89,8 @@ export default function BookingDetailModal({
                 </p>
                 <BookingStatusBadge status={booking.status} />
               </div>
+
+              <BookingStatusNote status={booking.status} note={booking.status_note} />
 
               <h3 className='text-2xl md:text-4xl font-black tracking-tight leading-tight'>
                 {booking.tour.title}

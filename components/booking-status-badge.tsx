@@ -15,6 +15,8 @@ const STATUS_BADGE_CLASS: Record<BookingStatusTone, string> = {
     'border-success-line bg-success-tint text-success-soft shadow-[inset_0_0_0_1px_var(--success-tint)]',
   danger:
     'border-brand/45 bg-brand/12 text-brand-soft shadow-[inset_0_0_0_1px_var(--brand-line)]',
+  action:
+    'border-sky-500/45 bg-sky-500/12 text-sky-700 dark:text-sky-200 shadow-[inset_0_0_0_1px_rgba(14,165,233,0.12)]',
 };
 
 interface BookingStatusBadgeProps {

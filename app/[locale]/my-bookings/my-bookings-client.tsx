@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import BackgroundBlur from '@/components/background-blur';
 import BookingStatusBadge from '@/components/booking-status-badge';
+import { BookingStatusNote } from '@/components/booking-status-note';
 import { BookingDetail } from '@/lib/services/booking';
 import { useBookingsByIdsQuery } from '@/lib/services/queries';
 import {
@@ -247,6 +248,12 @@ export default function MyBookingsClient() {
                         </p>
                       </div>
 
+                      <BookingStatusNote
+                        status={booking.status}
+                        note={booking.status_note}
+                        className='w-full'
+                      />
+
                       <div className='flex flex-wrap gap-2 items-center'>
                         <BookingStatusBadge status={booking.status} />
                         <span className='text-xs text-ink-5'>
@@ -297,6 +304,11 @@ export default function MyBookingsClient() {
                       </div>
 
                       <div className='flex items-center gap-3'>
+                        <BookingStatusNote
+                          status={booking.status}
+                          note={booking.status_note}
+                          className='hidden md:flex max-w-xs'
+                        />
                         <BookingStatusBadge
                           status={booking.status}
                           className='text-xs md:text-sm'

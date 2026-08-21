@@ -21,6 +21,7 @@ import { formatDateDdMm } from '@/lib/utils';
 import { BookingFlowHeader } from '../../components/booking-flow-header';
 import BackgroundBlur from '@/components/background-blur';
 import BookingStatusBadge from '@/components/booking-status-badge';
+import { BookingStatusNote } from '@/components/booking-status-note';
 
 /** Paired positionally with `bookingSuccess.steps`. */
 const STEP_ICONS: ReactNode[] = [
@@ -106,10 +107,14 @@ export default function BookingSuccessClient({
                 label={booking?.tour.location.name || t('locationFallback')}
               />
               <StatusChip icon={<Calendar size={16} />} label={scheduleLabel} />
-              {booking && (
-                <BookingStatusBadge status={booking.status} withPrefix />
-              )}
+              {booking && <BookingStatusBadge status={booking.status} withPrefix />}
             </div>
+          )}
+
+          {/* Outside the chip row: the chips wrap inline, and a note is a
+              block of prose that should not be squeezed between them. */}
+          {booking && (
+            <BookingStatusNote status={booking.status} note={booking.status_note} />
           )}
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>

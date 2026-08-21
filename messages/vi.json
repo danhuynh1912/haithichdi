@@ -429,7 +429,12 @@
     "prefix": "Trạng thái",
     "pending": "Chờ xác nhận",
     "confirmed": "Đã xác nhận",
+    "needs_contact_check": "Cần xác nhận lại thông tin liên hệ",
     "cancelled": "Đã hủy"
+  },
+  "bookingStatusNote": {
+    "heading": "Ghi chú từ Hải Thích Đi",
+    "needsContactHint": "Bọn mình chưa liên hệ được với bạn. Kiểm tra lại số điện thoại giúp bọn mình nhé."
   },
   "bookingErrors": {
     "TOUR_FULL": "Tour đã hết chỗ.",

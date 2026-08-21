@@ -429,7 +429,12 @@
     "prefix": "Status",
     "pending": "Awaiting confirmation",
     "confirmed": "Confirmed",
+    "needs_contact_check": "Please confirm your contact details",
     "cancelled": "Cancelled"
+  },
+  "bookingStatusNote": {
+    "heading": "A note from Hải Thích Đi",
+    "needsContactHint": "We could not reach you. Please double-check your phone number."
   },
   "bookingErrors": {
     "TOUR_FULL": "This tour is fully booked.",
