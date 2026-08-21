@@ -1,11 +1,12 @@
 'use client';
 
-import { Copy, Facebook, Mail, Phone, Ticket } from 'lucide-react';
+import { Copy, Facebook, Mail, MapPin, Phone, Ticket } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
 
 const HOTLINE = '0336594797';
-const EMAIL = 'quanghaibh98@gmail.com';
+const EMAIL = 'haithichdii@gmail.com';
+const ADDRESS = '47 hẻm 8/11/36 Phú Đô, Từ Liêm, Hà Nội';
 
 type CopyField = 'phone' | 'email' | null;
 
@@ -154,6 +155,15 @@ export default function SiteFooter() {
               copiedLabel={tCommon('copied')}
               onCopy={handleCopy}
             />
+            {/* Plain text, not a copy row: an address is read, not dialled or
+                pasted into a mail client like the two above it. */}
+            <p className='flex items-start gap-2'>
+              <MapPin size={16} className='mt-0.5 shrink-0 text-brand-soft-2' aria-hidden />
+              <span>
+                <span className='text-ink-3'>{t('address')}: </span>
+                {ADDRESS}
+              </span>
+            </p>
           </div>
         </section>
 
