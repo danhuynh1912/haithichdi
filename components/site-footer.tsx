@@ -176,7 +176,10 @@ export default function SiteFooter() {
               href='https://www.facebook.com/haithichdi'
               target='_blank'
               rel='noopener noreferrer'
-              className='inline-flex items-center gap-2 hover:text-brand-soft-2 transition-colors'
+              // `flex w-fit`, not `inline-flex`: the parent stacks its children
+              // with `space-y-*`, which does nothing to inline-level boxes, so
+              // the two links sat on one line.
+              className='flex w-fit items-center gap-2 hover:text-brand-soft-2 transition-colors'
             >
               <Facebook className='h-4 w-4 text-brand-soft' />
               {t('facebook')}
@@ -185,7 +188,10 @@ export default function SiteFooter() {
               href='https://www.tiktok.com/@haithichdii'
               target='_blank'
               rel='noopener noreferrer'
-              className='inline-flex items-center gap-2 hover:text-brand-soft-2 transition-colors'
+              // `flex w-fit`, not `inline-flex`: the parent stacks its children
+              // with `space-y-*`, which does nothing to inline-level boxes, so
+              // the two links sat on one line.
+              className='flex w-fit items-center gap-2 hover:text-brand-soft-2 transition-colors'
             >
               <svg
                 aria-hidden='true'
