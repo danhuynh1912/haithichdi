@@ -1,10 +1,11 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Home, Mountain, TicketCheck, Users } from 'lucide-react';
+import { Home, Mountain, Newspaper, TicketCheck, Users } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { useHideOnScrollDown } from '@/lib/hooks/use-hide-on-scroll-down';
+import { scrollToHash } from '@/lib/scroll-to-hash';
 
 const MOBILE_TABS = [
   {
@@ -26,8 +27,17 @@ const MOBILE_TABS = [
       pathname.startsWith('/locations'),
   },
   {
+    key: 'blog',
+    href: '/blog',
+    labelKey: 'blog',
+    Icon: Newspaper,
+    match: (pathname: string) => pathname === '/blog' || pathname.startsWith('/blog/'),
+  },
+  {
+    // The section on the home page, matching the desktop header. `/about` is a
+    // separate page that says the same thing twice.
     key: 'about',
-    href: '/about',
+    href: '/#about-us',
     labelKey: 'about',
     Icon: Users,
     match: (pathname: string) => pathname === '/about' || pathname.startsWith('/about/'),
@@ -61,7 +71,7 @@ export default function MobileBottomBar() {
         hidden && 'translate-y-full',
       )}
     >
-      <div className='mx-auto max-w-lg px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] grid grid-cols-4 gap-1'>
+      <div className='mx-auto max-w-lg px-3 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] grid grid-cols-5 gap-1'>
         {MOBILE_TABS.map(({ key, href, labelKey, Icon, match }) => {
           const active = match(pathname);
           return (
@@ -69,6 +79,12 @@ export default function MobileBottomBar() {
               key={key}
               href={href}
               aria-label={t(labelKey)}
+              onClick={(event) => {
+                // Already on the page that owns the section: scroll to it
+                // rather than asking the router to navigate to where we are.
+                const [, hash] = href.split('#');
+                if (hash && pathname === '/' && scrollToHash(hash)) event.preventDefault();
+              }}
               className={cn(
                 'h-12 rounded-2xl flex items-center justify-center transition-colors duration-150',
                 active

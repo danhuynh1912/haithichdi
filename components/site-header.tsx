@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useTranslations } from 'next-intl';
 import { TicketCheck } from 'lucide-react';
+import { scrollToHash } from '@/lib/scroll-to-hash';
 import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -165,10 +166,24 @@ export default function SiteHeader() {
           <Link href='/blog' className={navItemClass(isBlogActive)}>
             {t('blog')}
           </Link>
-          <Link href='/#about-us' className={navItemClass(isAboutActive)}>
+          {/* Both point at sections of the home page. When the reader is
+              already there, scroll instead of routing to where they are. */}
+          <Link
+            href='/#about-us'
+            onClick={(event) => {
+              if (pathname === '/' && scrollToHash('about-us')) event.preventDefault();
+            }}
+            className={navItemClass(isAboutActive)}
+          >
             {t('about')}
           </Link>
-          <Link href='/#site-footer' className={navItemClass(isContactActive)}>
+          <Link
+            href='/#site-footer'
+            onClick={(event) => {
+              if (scrollToHash('site-footer')) event.preventDefault();
+            }}
+            className={navItemClass(isContactActive)}
+          >
             {t('contact')}
           </Link>
           {showBookedToursItem && (

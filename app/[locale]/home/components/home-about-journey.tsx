@@ -16,41 +16,13 @@ import {
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { ANIMATION_EASE } from '@/lib/constants';
+import { scrollToHash } from '@/lib/scroll-to-hash';
 import { useFeaturedRoutesQuery } from '@/lib/services/queries';
 import { cn, slugify } from '@/lib/utils';
 import {
   buildHomeFeaturedRoutesViewModel,
   formatSuitableAudiences,
 } from './home-featured-routes-view-model';
-
-/**
- * Smooth-scrolls to an in-page section.
- *
- * The page no longer sets `scroll-behavior: smooth` globally — that turned
- * every route change into a long animation — so the one place that wants it
- * asks for it here, and steps aside for readers who prefer reduced motion.
- */
-function scrollToSection(event: React.MouseEvent<HTMLAnchorElement>, id: string) {
-  const target = document.getElementById(id);
-  if (!target) return;
-
-  event.preventDefault();
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const startedAt = window.scrollY;
-  target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-  window.history.pushState(null, '', `#${id}`);
-
-  // Some environments ignore smooth scrolling entirely — automation profiles
-  // and locked-down browsers among them. Since the default jump was cancelled
-  // above, that would leave the link doing nothing at all, so check that the
-  // page actually started moving and jump outright if it did not.
-  if (reduceMotion) return;
-  window.setTimeout(() => {
-    if (window.scrollY === startedAt) {
-      target.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }
-  }, 250);
-}
 
 /**
  * Layout-only config; every string comes from `home.intro` / `home.values`.
@@ -182,7 +154,11 @@ export function HomeAboutJourneySection() {
                       // override in globals.css, and works without JS.
                       <a
                         href={`#${valueSectionId(valueSection.key)}`}
-                        onClick={(event) => scrollToSection(event, valueSectionId(valueSection.key))}
+                        onClick={(event) => {
+                          if (scrollToHash(valueSectionId(valueSection.key))) {
+                            event.preventDefault();
+                          }
+                        }}
                         aria-label={`${tCommon('details')} — ${title}`}
                         className='group mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-soft transition-colors hover:text-brand'
                       >
