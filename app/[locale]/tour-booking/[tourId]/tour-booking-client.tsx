@@ -41,6 +41,7 @@ import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
 import { Expandable } from '@/components/expandable';
+import { PriceInclusions } from '@/components/price-inclusions';
 import { BookingJumpButton } from './components/booking-jump-button';
 import { BookingMobileCta } from './components/booking-mobile-cta';
 import { BookingFormModal } from './components/booking-form-modal';
@@ -203,6 +204,12 @@ export default function TourBookingClient({
                 emptyMessage={t('markdownEmpty')}
               />
             </Expandable>
+
+            {/* Inherited from the route — see PriceInclusions. */}
+            <PriceInclusions
+              includes={tour.price_includes}
+              excludes={tour.price_excludes}
+            />
           </div>
 
           {/* scroll-mt keeps the fixed header off the first field when the

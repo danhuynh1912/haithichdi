@@ -26,6 +26,8 @@ function createTourDetail(overrides: Partial<TourDetail> = {}): TourDetail {
     price: '3290000.00',
     description_md: '',
     summary: '',
+    price_includes: [],
+    price_excludes: [],
     images: [],
     itinerary_days: [],
     ...overrides,

@@ -5,6 +5,7 @@ import { Mountain, CalendarDays, WalletCards } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MarkdownContent } from '@/components/markdown-content';
 import { Expandable } from '@/components/expandable';
+import { PriceInclusions } from '@/components/price-inclusions';
 import { TourImageCollage } from '@/app/[locale]/tour-booking/[tourId]/components/tour-image-collage';
 import { ItineraryAccordion } from '@/app/[locale]/tour-booking/[tourId]/components/itinerary-accordion';
 import { TourCard } from '@/app/[locale]/tours/components/tour-card';
@@ -90,6 +91,14 @@ export function RouteDetailClient({ location }: { location: LocationDetail }) {
                 emptyMessage={tCommon('updating')}
               />
             </Expandable>
+
+            {/* Under the write-up but inside the same card as the price box:
+                the reader who scrolls past the description is still asking what
+                the number above buys. */}
+            <PriceInclusions
+              includes={location.price_includes}
+              excludes={location.price_excludes}
+            />
           </div>
 
           {/* Where the booking form sits on a tour page. A route cannot be

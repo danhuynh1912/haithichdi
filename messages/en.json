@@ -516,6 +516,10 @@
       "description": "Chat with Hải Thích Đi's AI assistant: trekking tour suggestions for your fitness and budget, itineraries, prices and booking."
     }
   },
+  "priceInclusions": {
+    "includedHeading": "The price covers",
+    "excludedHeading": "Not included"
+  },
   "routeDetail": {
     "descriptionHeading": "About this route",
     "itineraryHeading": "Typical itinerary",

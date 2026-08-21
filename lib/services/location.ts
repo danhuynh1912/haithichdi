@@ -15,6 +15,10 @@ export interface LocationDetail extends Location {
   default_price: number | null;
   default_trek_days: number;
   default_lead_nights: number;
+  /** What the route price covers, and what it does not. Route-level: the
+   *  package does not change with the departure date. */
+  price_includes: string[];
+  price_excludes: string[];
   images: TourImageItem[];
   itinerary_days: TourItineraryDay[];
 }
@@ -24,6 +28,8 @@ interface RawLocationDetail extends RawLocation {
   default_price: string | number | null;
   default_trek_days: number;
   default_lead_nights: number;
+  price_includes: string[] | null;
+  price_excludes: string[] | null;
   images: Array<{
     id: number;
     image_path: string | null;
@@ -60,6 +66,8 @@ export const locationService = {
       default_price: raw.default_price == null ? null : Number(raw.default_price),
       default_trek_days: raw.default_trek_days,
       default_lead_nights: raw.default_lead_nights,
+      price_includes: raw.price_includes ?? [],
+      price_excludes: raw.price_excludes ?? [],
       images: raw.images.map((img) => ({
         id: img.id,
         image_url: resolveMediaUrl(img.image_path, img.image_url),

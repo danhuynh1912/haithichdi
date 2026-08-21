@@ -16,6 +16,10 @@ export interface TourDetail {
   price: string | null;
   description_md: string;
   summary: string;
+  /** Inherited from the route: what the price covers is a property of the
+   *  service package, not of the date. */
+  price_includes: string[];
+  price_excludes: string[];
   images: TourImageItem[];
   itinerary_days: TourItineraryDay[];
 }
@@ -60,6 +64,8 @@ interface RawTourDetail extends RawTourCard {
   price: string | null;
   description_md: string;
   summary: string;
+  price_includes: string[] | null;
+  price_excludes: string[] | null;
   images: Array<{
     id: number;
     image_path: string | null;
@@ -77,6 +83,8 @@ function mapTourDetail(raw: RawTourDetail): TourDetail {
     price: raw.price,
     description_md: raw.description_md,
     summary: raw.summary,
+    price_includes: raw.price_includes ?? [],
+    price_excludes: raw.price_excludes ?? [],
     images: raw.images.map((img) => ({
       id: img.id,
       image_url: resolveMediaUrl(img.image_path, img.image_url),

@@ -516,6 +516,10 @@
       "description": "Hỏi đáp cùng trợ lý AI của Hải Thích Đi: gợi ý tour trekking hợp thể lực và ngân sách, lịch trình, giá và cách đặt chỗ."
     }
   },
+  "priceInclusions": {
+    "includedHeading": "Giá tour đã bao gồm",
+    "excludedHeading": "Chi phí chưa bao gồm"
+  },
   "routeDetail": {
     "descriptionHeading": "Giới thiệu cung",
     "itineraryHeading": "Lịch trình dự kiến",
