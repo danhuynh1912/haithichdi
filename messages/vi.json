@@ -514,5 +514,20 @@
       "title": "Trợ lý AI",
       "description": "Hỏi đáp cùng trợ lý AI của Hải Thích Đi: gợi ý tour trekking hợp thể lực và ngân sách, lịch trình, giá và cách đặt chỗ."
     }
+  },
+  "routeDetail": {
+    "descriptionHeading": "Giới thiệu cung",
+    "itineraryHeading": "Lịch trình dự kiến",
+    "itineraryHint": "Lịch trình chung của cung. Ngày cụ thể tuỳ theo chuyến bạn chọn.",
+    "departuresHeading": "Các chuyến sắp khởi hành",
+    "departuresHint": "Chọn một chuyến để xem lịch cụ thể và đăng ký.",
+    "departuresEmpty": "Cung này chưa có lịch khởi hành. Liên hệ để đặt lịch riêng.",
+    "priceLabel": "Giá tour",
+    "priceOnRequest": "Liên hệ",
+    "elevationLabel": "Độ cao",
+    "durationLabel": "Lịch trình",
+    "duration": "{days}N{nights}Đ",
+    "backToTours": "Xem tất cả tour",
+    "departuresSeeAll": "Xem tất cả {count} chuyến"
   }
 }

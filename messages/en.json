@@ -514,5 +514,20 @@
       "title": "AI Assistant",
       "description": "Chat with Hải Thích Đi's AI assistant: trekking tour suggestions for your fitness and budget, itineraries, prices and booking."
     }
+  },
+  "routeDetail": {
+    "descriptionHeading": "About this route",
+    "itineraryHeading": "Typical itinerary",
+    "itineraryHint": "The route's usual plan. Exact dates depend on the departure you pick.",
+    "departuresHeading": "Upcoming departures",
+    "departuresHint": "Pick a departure to see its dates and book.",
+    "departuresEmpty": "No departures scheduled yet. Get in touch to arrange one.",
+    "priceLabel": "Tour price",
+    "priceOnRequest": "On request",
+    "elevationLabel": "Elevation",
+    "durationLabel": "Length",
+    "duration": "{days}D{nights}N",
+    "backToTours": "See all tours",
+    "departuresSeeAll": "See all {count} departures"
   }
 }

@@ -103,9 +103,10 @@ function RouteTourCard({ location }: { location: Location }) {
 
   return (
     <Link
-      // Lands on the tours list with this route already ticked, so the reader
-      // sees its departures rather than a page they must filter themselves.
-      href={{ pathname: '/tours', query: { location: slugify(location.name) } }}
+      // The route's own page, not the filtered tour list: someone browsing the
+      // home page is still deciding which route, and that page answers it —
+      // write-up, gallery, itinerary — with the departures alongside.
+      href={`/locations/${slugify(location.name)}`}
       // A card-wide link rather than a link on the button alone: the whole card
       // already reads as one target, and `group` lets the button react to it.
       className='group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-elev-0 shadow-[var(--shadow-soft)] transition-all hover:border-brand/50 hover:shadow-[var(--shadow-medium)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
