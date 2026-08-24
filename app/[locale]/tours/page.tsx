@@ -5,6 +5,7 @@ import { createMetadata } from '@/lib/seo';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
 import { locationService } from '@/lib/services/location';
+import type { Location } from '@/lib/types';
 import { tourService, type TourQueryParams } from '@/lib/services/tour';
 import { slugify } from '@/lib/utils';
 import ToursRouteClient from './tours-route-client';
@@ -33,27 +34,49 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const t = await getTranslations({ locale, namespace: 'tours' });
 
-  const locations = await locationService.getLocations(locale).catch(() => []);
-  // Mirrors `findLocation` in locations/[slug]/page.tsx — the `?location=`
-  // param comes from the same slugs used there.
-  const matchedLocation = locationSlug
-    ? locations.find((location) => slugify(location.name) === locationSlug)
-    : undefined;
+  const queryClient = getQueryClient();
+  const locationsPromise = locationService.getLocations(locale).catch(() => []);
 
   // Matches tours-client.tsx's initial useState seeds, so the query key the
   // client renders with on its very first pass is the one prefetched here.
-  const filter: TourQueryParams = {
-    locationIds: matchedLocation ? [matchedLocation.id] : [],
+  const unfiltered: TourQueryParams = {
+    locationIds: [],
     search: '',
     sortUpcoming: true,
   };
 
-  const queryClient = getQueryClient();
+  let locations: Location[];
+  let filter: TourQueryParams;
+
+  if (locationSlug) {
+    // `?location=` names a route by slug, and only the routes themselves say
+    // which id that is — so this one case has to wait before it can ask for
+    // the right tours. Mirrors `findLocation` in locations/[slug]/page.tsx.
+    locations = await locationsPromise;
+    const matched = locations.find(
+      (location) => slugify(location.name) === locationSlug,
+    );
+    filter = matched ? { ...unfiltered, locationIds: [matched.id] } : unfiltered;
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.tours(locale, filter),
+      queryFn: () => tourService.getTours(locale, filter),
+    });
+  } else {
+    // Nothing to resolve, so the two reads have no reason to queue behind one
+    // another — and they were, which is most of the pause between clicking
+    // Tours in the menu and the page arriving.
+    filter = unfiltered;
+    const [resolved] = await Promise.all([
+      locationsPromise,
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.tours(locale, filter),
+        queryFn: () => tourService.getTours(locale, filter),
+      }),
+    ]);
+    locations = resolved;
+  }
+
   queryClient.setQueryData(queryKeys.locations(locale), locations);
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.tours(locale, filter),
-    queryFn: () => tourService.getTours(locale, filter),
-  });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

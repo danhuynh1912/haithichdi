@@ -61,20 +61,26 @@ export default async function Page({ params }: PageProps) {
   const { locale, tourId } = await params;
   setRequestLocale(locale);
 
-  const tour = await getTour(tourId, locale);
   const numericId = Number(tourId);
-
   const queryClient = getQueryClient();
+
+  // Related tours only need the id, so there is no reason for that read to
+  // queue behind the tour itself — and it was, which doubled the pause before
+  // this page appeared.
+  const [tour] = await Promise.all([
+    getTour(tourId, locale),
+    Number.isFinite(numericId)
+      ? queryClient.prefetchQuery({
+          queryKey: queryKeys.relatedTours(locale, numericId),
+          queryFn: () => tourService.getRelatedTours(numericId, locale),
+        })
+      : Promise.resolve(),
+  ]);
+
   // Seeds the cache with the value already fetched above instead of a second
   // `prefetchQuery` call, which would re-run the same RPC a second time.
   if (tour) {
     queryClient.setQueryData(queryKeys.tourDetail(locale, numericId), tour);
-  }
-  if (Number.isFinite(numericId)) {
-    await queryClient.prefetchQuery({
-      queryKey: queryKeys.relatedTours(locale, numericId),
-      queryFn: () => tourService.getRelatedTours(numericId, locale),
-    });
   }
 
   // Product + Offer is the schema pair Google shows a price for. The body of
