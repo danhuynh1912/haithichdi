@@ -45,6 +45,8 @@ export interface HomeMomentsGalleryImage {
   location_name: string;
   width: number | null;
   height: number | null;
+  /** `#rrggbb` to fill the tile with until the picture itself arrives. */
+  dominant_color: string | null;
 }
 
 export interface HomeMomentsGalleryResponse {
@@ -98,6 +100,7 @@ export const homeService = {
         location_name: img.location_name,
         width: img.width,
         height: img.height,
+        dominant_color: img.dominant_color,
       })),
     };
   },

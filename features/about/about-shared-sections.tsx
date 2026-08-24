@@ -202,6 +202,7 @@ export function MomentsGallerySection({
         id: image.id,
         url: image.image_url || FALLBACK_PHOTO,
         caption: getMomentLabel(image),
+        color: image.dominant_color,
       })),
     // `pool`, not the raw list: a card carries its position in whichever array
     // the columns were dealt from, and the lightbox opens on that index.
@@ -405,6 +406,7 @@ function MomentCard({
   onOpen: () => void;
 }) {
   const label = getMomentLabel(image);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <button
@@ -420,6 +422,12 @@ function MomentCard({
       // half a gap off and the loop would visibly jump every cycle.
       className='group/photo block shrink-0 mb-3 sm:mb-4 cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl border border-line bg-surface text-left shadow-[var(--shadow-medium)] transition-colors hover:border-brand/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
     >
+      {/* The photo's own average, so the card carries its colour before the
+          photo lands rather than sitting as an empty panel. */}
+      <span
+        className='block'
+        style={{ backgroundColor: image.dominant_color ?? undefined }}
+      >
       <Image
         src={image.image_url || '/images/haithichdi1.jpg'}
         alt={hidden ? '' : label}
@@ -433,12 +441,18 @@ function MomentCard({
         decoding='async'
         sizes={MOMENTS_SIZES}
         quality={MOMENTS_QUALITY}
-        className='w-full h-auto object-cover transition-transform duration-500 group-hover/photo:scale-[1.03]'
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+        className={cn(
+          'w-full h-auto object-cover transition-[opacity,transform] duration-500 group-hover/photo:scale-[1.03]',
+          loaded ? 'opacity-100' : 'opacity-0',
+        )}
         // Optimised, unlike the rest of the site: these originals run to
         // 2731x4096, roughly 45MB of bitmap each once decoded. At a column
         // width near 180px the resized copy is a rounding error, and it is the
         // difference between this section fitting in memory and not.
       />
+      </span>
       <span className='hidden sm:flex p-3 text-sm text-ink-2 items-center justify-between gap-3'>
         <span className='min-w-0 truncate'>{label}</span>
         <MapPin className='w-4 h-4 shrink-0 text-brand-soft-2' />

@@ -18,6 +18,8 @@ export interface GalleryPhoto {
   id: string | number;
   url: string;
   caption?: string;
+  /** `#rrggbb` painted in the tile until the picture has decoded. */
+  color?: string | null;
 }
 
 /** Wraps at both ends, so the arrows never dead-end. */
@@ -319,24 +321,16 @@ export function PhotoGallery({
                     // The intrinsic height keeps the scrollbar honest for the
                     // ones it skips; `auto` means a tile that has been on
                     // screen once is remembered at its real height.
-                    style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 220px' }}
+                    style={{
+                      contentVisibility: 'auto',
+                      containIntrinsicSize: 'auto 220px',
+                      // Falls back to the neutral tile colour for a picture
+                      // that has no stored average yet.
+                      backgroundColor: photo.color ?? undefined,
+                    }}
                     className='group relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-elev-3 transition-colors hover:border-brand/60'
                   >
-                    <Image
-                      src={photo.url}
-                      alt={photo.caption || ''}
-                      fill
-                      // Same values the blur-up reads back, so the two cannot
-                      // drift into asking the optimiser for different URLs.
-                      sizes={GRID_SIZES}
-                      quality={GRID_QUALITY}
-                      // A wall this long decodes many pictures in one scroll,
-                      // and decoding on the main thread is what makes the grid
-                      // sit still for half a second while the scrollbar keeps
-                      // travelling. Async hands that work to another thread.
-                      decoding='async'
-                      className='object-cover transition-transform duration-300 group-hover:scale-105'
-                    />
+                    <GridTileImage photo={photo} />
                   </button>
                 ))}
               </div>
@@ -345,6 +339,40 @@ export function PhotoGallery({
         </AnimatePresence>
       </div>
     </FullscreenModalShell>
+  );
+}
+
+/**
+ * A grid tile's picture, fading in over the tile's stored average colour.
+ *
+ * Its own component so that a picture arriving re-renders one tile rather
+ * than the whole wall — with 163 of them, lifting this flag into the gallery
+ * would turn every load into a full re-render.
+ */
+function GridTileImage({ photo }: { photo: GalleryPhoto }) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <Image
+      src={photo.url}
+      alt={photo.caption || ''}
+      fill
+      // Same values the blur-up reads back, so the two cannot drift into
+      // asking the optimiser for different URLs.
+      sizes={GRID_SIZES}
+      quality={GRID_QUALITY}
+      // A wall this long decodes many pictures in one scroll, and decoding on
+      // the main thread is what makes the grid sit still for half a second
+      // while the scrollbar keeps travelling. Async hands that work to
+      // another thread.
+      decoding='async'
+      onLoad={() => setLoaded(true)}
+      onError={() => setLoaded(true)}
+      className={cn(
+        'object-cover transition-[opacity,transform] duration-300 group-hover:scale-105',
+        loaded ? 'opacity-100' : 'opacity-0',
+      )}
+    />
   );
 }
 
