@@ -67,7 +67,10 @@ export function BookingJumpButton({
         // Desktop only. On a phone the form is reached from the CTA under the
         // title instead, and this would land on top of the tab bar.
         'hidden md:inline-flex',
-        'fixed right-4 z-[1100] items-center gap-2 rounded-full',
+        // Clear of the chat launcher, which is fixed at right-6 and 3.5rem
+        // wide on the same line — the two were landing on top of each other,
+        // and the launcher's higher z-index won.
+        'fixed right-24 z-[1100] items-center gap-2 rounded-full',
         'bg-brand px-5 py-3 text-sm font-semibold text-brand-ink',
         'shadow-[var(--shadow-soft)] hover:bg-brand-strong',
         'bottom-6',
