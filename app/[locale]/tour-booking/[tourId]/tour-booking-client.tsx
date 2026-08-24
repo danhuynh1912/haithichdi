@@ -15,6 +15,7 @@ import {
   Calendar,
   ChevronLeft,
   Clock3,
+  Gauge,
   LoaderCircle,
   Mail,
   MapPin,
@@ -36,7 +37,7 @@ import {
   useTourDetailQuery,
 } from '@/lib/services/queries';
 import { saveBookingId } from '@/lib/services/booking-storage';
-import { cn, formatDateDdMm } from '@/lib/utils';
+import { cn, formatDateDdMm, formatDifficulty } from '@/lib/utils';
 import { BookingFlowHeader } from '../components/booking-flow-header';
 import { ItineraryAccordion } from './components/itinerary-accordion';
 import { MarkdownContent } from '@/components/markdown-content';
@@ -166,6 +167,11 @@ export default function TourBookingClient({
               <InfoChip icon={<MapPin size={14} className='text-brand' />}>
                 {tour.location.name}
               </InfoChip>
+              {tour.location.difficulty != null && (
+                <InfoChip icon={<Gauge size={14} className='text-brand' />}>
+                  {tCommon('difficulty')}: {formatDifficulty(tour.location.difficulty)}/10
+                </InfoChip>
+              )}
               {tour.start_date && (
                 <InfoChip icon={<Calendar size={14} className='text-brand' />}>
                   {formatDateDdMm(tour.start_date)}

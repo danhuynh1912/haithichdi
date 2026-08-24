@@ -7,6 +7,8 @@ export interface Location {
   id: number;
   name: string;
   elevation_m: number;
+  /** How hard the route is, 1-10. Null when nobody has graded it yet. */
+  difficulty: number | null;
   description: string;
   full_image_url: string | null;
   quotation_file_url?: string | null;

@@ -36,3 +36,13 @@ export function buildGoogleViewerUrl(pdfUrl: string) {
 export function buildGoogleEmbeddedViewerUrl(pdfUrl: string) {
   return `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(pdfUrl)}`
 }
+
+/**
+ * "7.5" or "6" — never "6.0".
+ *
+ * The grades are stored with a half step, so a whole number reads as though
+ * someone measured it to one decimal when they did not.
+ */
+export function formatDifficulty(value: number): string {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Mountain, CalendarDays, WalletCards } from 'lucide-react';
+import { Mountain, CalendarDays, WalletCards, Gauge } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { MarkdownContent } from '@/components/markdown-content';
 import { Expandable } from '@/components/expandable';
@@ -11,7 +11,7 @@ import { ItineraryAccordion } from '@/app/[locale]/tour-booking/[tourId]/compone
 import { TourCard } from '@/app/[locale]/tours/components/tour-card';
 import { useLocationToursQuery } from '@/lib/services/queries';
 import type { LocationDetail } from '@/lib/services/location';
-import { slugify } from '@/lib/utils';
+import { formatDifficulty, slugify } from '@/lib/utils';
 
 /** Departures listed inline before the reader is sent to the full list. */
 const DEPARTURES_SHOWN = 5;
@@ -65,6 +65,11 @@ export function RouteDetailClient({ location }: { location: LocationDetail }) {
               {nights > 0 && (
                 <Chip icon={<CalendarDays size={14} className='text-brand' />}>
                   {t('durationLabel')}: {t('duration', { days: nights, nights })}
+                </Chip>
+              )}
+              {location.difficulty != null && (
+                <Chip icon={<Gauge size={14} className='text-brand' />}>
+                  {tCommon('difficulty')}: {formatDifficulty(location.difficulty)}/10
                 </Chip>
               )}
             </div>

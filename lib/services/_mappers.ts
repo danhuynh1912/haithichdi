@@ -11,6 +11,7 @@ export interface RawLocation {
   id: number;
   name: string;
   elevation_m: number;
+  difficulty: string | number | null;
   description: string;
   image_path: string | null;
   image_url: string | null;
@@ -38,6 +39,8 @@ export function mapLocation(raw: RawLocation): Location {
     id: raw.id,
     name: raw.name,
     elevation_m: raw.elevation_m,
+    // numeric arrives as a string over PostgREST, same as the price.
+    difficulty: raw.difficulty == null ? null : Number(raw.difficulty),
     description: raw.description,
     full_image_url: resolveMediaUrl(raw.image_path, raw.image_url),
     quotation_file_url: resolveMediaUrl(raw.quotation_path, null),

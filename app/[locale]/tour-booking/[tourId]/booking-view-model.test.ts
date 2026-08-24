@@ -16,6 +16,7 @@ function createTourDetail(overrides: Partial<TourDetail> = {}): TourDetail {
       id: 10,
       name: 'Ky Quan San',
       elevation_m: 3046,
+      difficulty: 7.5,
       description: '',
       full_image_url: null,
       quotation_file_url: null,

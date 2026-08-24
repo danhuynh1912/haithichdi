@@ -29,6 +29,7 @@ function createTour(id: number): TourListItem {
       id: id + 10,
       name: `Location ${id}`,
       elevation_m: 2500,
+      difficulty: null,
       description: '',
       full_image_url: null,
       quotation_file_url: null,
