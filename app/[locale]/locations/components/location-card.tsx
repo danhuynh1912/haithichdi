@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { formatDifficulty } from '@/lib/utils';
 import { memo, useMemo } from 'react';
 import { Location } from '@/lib/types';
 import { ANIMATION_EASE } from '@/lib/constants';
@@ -151,6 +152,13 @@ function LocationCardBase({
               transition={{ ease: ANIMATION_EASE, duration: 0.5 }}
               className='overflow-hidden'
             >
+              {location.difficulty != null && (
+                <p
+                  className={`mb-1 font-semibold text-white/85 ${compact ? 'text-[10px]' : 'text-xs'}`}
+                >
+                  {t('difficulty')} {formatDifficulty(location.difficulty)}/10
+                </p>
+              )}
               <p className={`text-ink-3 line-clamp-2 ${compact ? 'text-[11px]' : 'text-sm'}`}>
                 {location.description}
               </p>

@@ -4,12 +4,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
-import { ArrowRight, ChevronDown, Clock } from 'lucide-react';
+import { ArrowRight, ChevronDown, Clock, Gauge } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useLocationsQuery } from '@/lib/services/queries';
 import { type Location } from '@/lib/types';
 import { ANIMATION_EASE } from '@/lib/constants';
-import { cn, slugify } from '@/lib/utils';
+import { cn, formatDifficulty, slugify } from '@/lib/utils';
 
 /** Description lines a card shows before it clamps. */
 const DESCRIPTION_LINES = 3;
@@ -129,12 +129,22 @@ function RouteTourCard({ location }: { location: Location }) {
           </div>
         )}
 
-        {nights > 0 && (
-          <span className='absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm'>
-            <Clock className='size-3.5' />
-            {t('duration', { days: nights, nights })}
-          </span>
-        )}
+        {/* The blurb below used to open with "Độ khó 6.5/10 –". It reads
+            better as a badge, and it is now one field rather than prose. */}
+        <div className='absolute bottom-3 left-3 flex flex-wrap gap-1.5'>
+          {nights > 0 && (
+            <span className='inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm'>
+              <Clock className='size-3.5' />
+              {t('duration', { days: nights, nights })}
+            </span>
+          )}
+          {location.difficulty != null && (
+            <span className='inline-flex items-center gap-1.5 rounded-full bg-black/55 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm'>
+              <Gauge className='size-3.5' />
+              {formatDifficulty(location.difficulty)}/10
+            </span>
+          )}
+        </div>
       </div>
 
       <div className='flex flex-1 flex-col gap-3 p-4'>
