@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { TicketCheck } from 'lucide-react';
 import { scrollToHash } from '@/lib/scroll-to-hash';
 import { Link, usePathname } from '@/i18n/navigation';
+import { useLinkStatus } from 'next/link';
 import { cn } from '@/lib/utils';
 import {
   hasStoredBookingIds,
@@ -20,6 +21,37 @@ import { LOGO_INTRINSIC_PX } from '@/lib/constants';
 
 /** Tallest the bar gets (lg breakpoint), in px — used for the hero overlap test. */
 const HEADER_HEIGHT = 112;
+
+/**
+ * A menu item's label, with a sliver that runs along it while the page behind
+ * the link is being fetched.
+ *
+ * The tour pages read from the database before they can render, which is a few
+ * hundred milliseconds where a click looks like it did nothing. `useLinkStatus`
+ * reports that from inside the Link, so the feedback costs nothing but a class:
+ * no `loading.tsx`, and so no Suspense boundary — one of those would push the
+ * page's real content into a streamed chunk that only appears once JS has run,
+ * which is exactly what the server-rendering work was for.
+ *
+ * Rides the same underline slot the active state uses, so nothing moves.
+ */
+function NavLabel({ children }: { children: React.ReactNode }) {
+  const { pending } = useLinkStatus();
+
+  return (
+    <>
+      {children}
+      {pending ? (
+        <span
+          aria-hidden
+          className='absolute left-0 -bottom-1.5 h-[3px] w-full overflow-hidden rounded-full'
+        >
+          <span className='nav-pending-sweep block h-full w-1/2 rounded-full bg-brand [animation:nav-pending-sweep_0.9s_ease-in-out_infinite]' />
+        </span>
+      ) : null}
+    </>
+  );
+}
 
 export default function SiteHeader() {
   const t = useTranslations('nav');
@@ -156,16 +188,16 @@ export default function SiteHeader() {
         )}
         <nav className='hidden md:flex gap-8 lg:gap-12 text-sm lg:text-base'>
           <Link href='/' className={navItemClass(isHomeActive)}>
-            {t('home')}
+            <NavLabel>{t('home')}</NavLabel>
           </Link>
           <Link href='/locations' className={navItemClass(isLocationsActive)}>
-            {t('locations')}
+            <NavLabel>{t('locations')}</NavLabel>
           </Link>
           <Link href='/tours' className={navItemClass(isToursActive)}>
-            {t('tours')}
+            <NavLabel>{t('tours')}</NavLabel>
           </Link>
           <Link href='/blog' className={navItemClass(isBlogActive)}>
-            {t('blog')}
+            <NavLabel>{t('blog')}</NavLabel>
           </Link>
           {/* Both point at sections of the home page. When the reader is
               already there, scroll instead of routing to where they are. */}

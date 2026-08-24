@@ -427,3 +427,24 @@ input[type='date']::-webkit-date-and-time-value {
   }
 }
 
+
+/* The sliver that runs along a menu item while its page is being fetched.
+ * Travels the width of the item and back, so it reads as work in progress
+ * without claiming to know how far along it is — nothing here can know. */
+@keyframes nav-pending-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pending-sweep {
+    animation: none;
+    transform: none;
+    width: 100%;
+    opacity: 0.55;
+  }
+}
