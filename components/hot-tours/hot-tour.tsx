@@ -5,7 +5,8 @@ import { Calendar, Star, MoveRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import React, { forwardRef, memo, useMemo } from 'react';
-import { useRouter } from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
+import { LinkSpinner } from '@/components/link-spinner';
 import { Button } from '@/components/ui/button';
 import { formatDateDdMm } from '@/lib/utils';
 
@@ -43,7 +44,6 @@ const formatDateRange = (
 
 const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
   ({ className, tour, ...props }, ref) => {
-    const router = useRouter();
     const t = useTranslations('tours.hotPanel');
     const tCommon = useTranslations('common');
     const tbdLabel = t('dateTbd');
@@ -85,11 +85,12 @@ const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
           </div>
 
           <div className='flex gap-1'>
-            <Button
-              variant='outline'
-              onClick={() => router.push(`/tour-booking/${tour.id}`)}
-            >
-              {tCommon('details')} <MoveRight />
+            <Button variant='outline' asChild>
+              <Link href={`/tour-booking/${tour.id}`}>
+                {tCommon('details')}
+                <MoveRight />
+                <LinkSpinner size={15} />
+              </Link>
             </Button>
             <Button variant='outline'>
               <Star />

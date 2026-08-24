@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Calendar, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
-import { useRouter } from '@/i18n/navigation';
+import { Link } from '@/i18n/navigation';
+import { LinkSpinner } from '@/components/link-spinner';
 import type { TourListItem } from '@/lib/types';
 import { cn, formatDateDdMm } from '@/lib/utils';
 
@@ -35,7 +36,6 @@ function DateRange({ startDate, endDate }: { startDate: string | null; endDate: 
 
 export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
   const t = useTranslations('booking');
-  const router = useRouter();
 
   const trackRef = useRef<HTMLDivElement>(null);
   // Both true until measured, which keeps the arrows hidden on the first paint
@@ -128,13 +128,16 @@ export function RelatedToursCarousel({ tours }: RelatedToursCarouselProps) {
               </p>
             </div>
 
-            <button
-              type='button'
-              onClick={() => router.push(`/tour-booking/${tour.id}`)}
-              className='mt-1 w-full rounded-full border border-brand/60 bg-brand/10 px-4 py-2.5 text-sm font-semibold text-ink-1 transition-colors hover:bg-brand hover:text-brand-ink active:bg-brand-strong'
+            {/* A link, not a button with a router.push: this is how a
+                crawler reaches the tour, and it is what lets the spinner
+                report the wait. */}
+            <Link
+              href={`/tour-booking/${tour.id}`}
+              className='mt-1 flex w-full items-center justify-center gap-2 rounded-full border border-brand/60 bg-brand/10 px-4 py-2.5 text-sm font-semibold text-ink-1 transition-colors hover:bg-brand hover:text-brand-ink active:bg-brand-strong'
             >
               {t('relatedCta')}
-            </button>
+              <LinkSpinner size={15} />
+            </Link>
           </div>
         </article>
       ))}

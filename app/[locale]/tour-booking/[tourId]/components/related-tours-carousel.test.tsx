@@ -1,19 +1,14 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { renderIntl } from '@/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import type { TourListItem } from '@/lib/types';
 import { RelatedToursCarousel } from './related-tours-carousel';
 import viMessages from '@/messages/vi.json';
 
-const { pushMock } = vi.hoisted(() => ({
-  pushMock: vi.fn(),
-}));
-
 vi.mock('@/i18n/navigation', () => ({
-  useRouter: () => ({
-    push: pushMock,
-  }),
+  Link: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) =>
+    React.createElement('a', { href, ...rest }, children),
 }));
 
 function createTour(id: number): TourListItem {
@@ -44,15 +39,13 @@ describe('RelatedToursCarousel', () => {
     expect(screen.getByText(viMessages.booking.relatedEmpty)).toBeInTheDocument();
   });
 
-  it('navigates to booking page when clicking CTA button', () => {
-    pushMock.mockClear();
-
+  // A real anchor rather than a click handler: this is the link a crawler
+  // follows to the tour, so the href is the thing worth asserting.
+  it('links to the booking page', () => {
     renderIntl(<RelatedToursCarousel tours={[createTour(3)]} />);
 
-    fireEvent.click(
-      screen.getByRole('button', { name: viMessages.booking.relatedCta }),
-    );
-
-    expect(pushMock).toHaveBeenCalledWith('/tour-booking/3');
+    expect(
+      screen.getByRole('link', { name: viMessages.booking.relatedCta }),
+    ).toHaveAttribute('href', '/tour-booking/3');
   });
 });
