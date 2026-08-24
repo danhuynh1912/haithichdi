@@ -8,9 +8,18 @@ import {
 } from '@/i18n/routing';
 
 export const SITE_NAME = 'Hải Thích Đi';
+// Falls back to the production origin, matching robots.ts and sitemap.ts — a
+// missing env var must never ship localhost canonicals to production.
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-const DEFAULT_IMAGE = '/images/haithichdi1.webp';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://haithichdi.com';
+// JPG on purpose: Facebook and Zalo scrapers handle WebP unreliably, and
+// 1200×630 is the canonical share-card size. Derived from haithichdi1.webp,
+// which stays in /images as the homepage hero poster.
+const DEFAULT_IMAGE = {
+  url: '/images/og-default.jpg',
+  width: 1200,
+  height: 630,
+};
 const ICON_VERSION = '20260402';
 
 type SeoParams = {
@@ -20,6 +29,13 @@ type SeoParams = {
   title?: string;
   description?: string;
   images?: string[];
+  /**
+   * Keeps the page out of search results. Robots.txt must NOT also disallow a
+   * noindexed page — a crawler that cannot fetch the page never sees the tag.
+   * Canonical and hreflang are omitted too: they invite indexing of a page
+   * that is asking not to be indexed.
+   */
+  noindex?: boolean;
 };
 
 function absoluteUrl(pathname: string, locale: Locale) {
@@ -85,6 +101,7 @@ export async function createMetadata({
   title,
   description,
   images,
+  noindex,
 }: SeoParams): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
@@ -96,10 +113,18 @@ export async function createMetadata({
   return {
     title: metaTitle,
     description: metaDescription,
-    alternates: {
-      canonical: url,
-      languages: alternateLanguages(pathname),
-    },
+    ...(noindex
+      ? {
+          robots: { index: false, follow: true },
+          // Without this the root layout's canonical (the homepage) merges in.
+          alternates: null,
+        }
+      : {
+          alternates: {
+            canonical: url,
+            languages: alternateLanguages(pathname),
+          },
+        }),
     openGraph: {
       title: metaTitle,
       description: metaDescription,

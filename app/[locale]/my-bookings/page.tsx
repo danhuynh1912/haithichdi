@@ -14,6 +14,9 @@ export async function generateMetadata({ params }: PageProps) {
     pathname: '/my-bookings',
     title: t('title'),
     description: t('description'),
+    // Renders whatever booking ids the visitor's own browser is holding —
+    // there is nothing here for a search result to show.
+    noindex: true,
   });
 }
 

@@ -15,6 +15,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     pathname: `/tour-booking/${tourId}/success`,
     title: t('title', { id: tourId }),
     description: t('description'),
+    // Transactional confirmation step — the page search should land on is the
+    // tour detail one level up.
+    noindex: true,
   });
 }
 

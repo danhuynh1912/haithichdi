@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { createClient } from '@supabase/supabase-js';
-import { localizedPath, routing } from '@/i18n/routing';
+import { localizedPath, routing, type Locale } from '@/i18n/routing';
+import { slugify } from '@/lib/utils';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,22 +13,32 @@ const BASE = (
 ).replace(/\/+$/, '');
 
 type Entry = Omit<MetadataRoute.Sitemap[number], 'url' | 'alternates'> & {
-  /** Unprefixed app path — one sitemap row is emitted per locale. */
-  path: string;
+  /**
+   * Unprefixed app path — one sitemap row is emitted per locale. A plain
+   * string when the path is identical in every locale; a per-locale map when
+   * a segment is derived from translated content (location slugs).
+   */
+  path: string | Record<Locale, string>;
 };
 
-const url = (path: string, locale: (typeof routing.locales)[number]) =>
+const url = (path: string, locale: Locale) =>
   `${BASE}${localizedPath(path, locale)}`;
+
+const pathFor = (path: Entry['path'], locale: Locale) =>
+  typeof path === 'string' ? path : path[locale];
 
 /** One row per (page × locale), each cross-linking its siblings via hreflang. */
 function expand(entries: Entry[]): MetadataRoute.Sitemap {
   return entries.flatMap(({ path, ...rest }) =>
     routing.locales.map((locale) => ({
       ...rest,
-      url: url(path, locale),
+      url: url(pathFor(path, locale), locale),
       alternates: {
         languages: Object.fromEntries(
-          routing.locales.map((alternate) => [alternate, url(path, alternate)]),
+          routing.locales.map((alternate) => [
+            alternate,
+            url(pathFor(path, alternate), alternate),
+          ]),
         ),
       },
     })),
@@ -61,9 +72,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }));
 
-  // There is no per-location route: /locations is a single carousel screen and
-  // a route is opened as `?name=<slug>` on it, which is not its own document.
-  const locationPages: Entry[] = [];
+  // `/locations/:slug` slugs are derived from the route NAME, which the RPC
+  // localises — so each locale gets its own slug, matched across locales by
+  // the location id. Mirrors `findLocation` in locations/[slug]/page.tsx.
+  const locationsByLocale = Object.fromEntries(
+    await Promise.all(
+      routing.locales.map(async (locale) => {
+        const { data } = await supabase.rpc('locations_list', {
+          p_locale: locale,
+        });
+        return [locale, (data as { id: number; name: string }[]) ?? []];
+      }),
+    ),
+  ) as Record<Locale, { id: number; name: string }[]>;
+
+  const locationPages: Entry[] = locationsByLocale[routing.defaultLocale].map(
+    (location) => ({
+      path: Object.fromEntries(
+        routing.locales.map((locale) => {
+          const match =
+            locationsByLocale[locale].find((row) => row.id === location.id) ??
+            location;
+          return [locale, `/locations/${slugify(match.name)}`];
+        }),
+      ) as Record<Locale, string>,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    }),
+  );
 
   // Published only — the RLS policy on `blogs` already hides drafts from the
   // anon key, but the filter keeps that intent visible here too.

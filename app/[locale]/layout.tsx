@@ -4,7 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import '../globals.css';
 import Providers from './providers';
-import { createRootMetadata } from '@/lib/seo';
+import { createRootMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
 import { routing } from '@/i18n/routing';
 import SiteHeader from '@/components/site-header';
 import MobileBottomBar from '@/features/mobile/mobile-bottom-bar';
@@ -33,6 +33,21 @@ export async function generateMetadata({
   return createRootMetadata(locale);
 }
 
+// Tells Google who runs the site — the knowledge-panel / logo-in-results
+// signal. TravelAgency is the schema.org type for a tour operator; the social
+// profiles let Google tie the site to the accounts it already knows.
+const ORG_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelAgency',
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: new URL('/haithichdi-logo-red.png', SITE_URL).toString(),
+  sameAs: [
+    'https://www.facebook.com/haithichdi',
+    'https://www.tiktok.com/@haithichdii',
+  ],
+};
+
 export default async function RootLayout({
   children,
   params,
@@ -53,6 +68,10 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body className={`${beVietnamPro.className} antialiased relative`}>
+        <script
+          type='application/ld+json'
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
+        />
         <NextIntlClientProvider>
           <ThemeProvider>
             {/* <PageTransition /> */}

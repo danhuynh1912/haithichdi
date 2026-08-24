@@ -1,18 +1,18 @@
 import type { MetadataRoute } from 'next';
-import { localizedPath, routing } from '@/i18n/routing';
 
 /**
- * Private routes, blocked in every locale.
+ * Nothing is disallowed here, on purpose.
  *
- * `/tour-booking/:id` is deliberately NOT here despite the name: it is the tour
- * detail page — description, itinerary, gallery, price — with a booking form at
- * the bottom, and it is the page a search result or a shared link should land
- * on. Blocking it kept every tour out of Google and made Facebook refuse to
- * scrape it, which is what a link preview needs. `/my-bookings` stays blocked:
- * it renders whatever booking ids the visitor's own browser is holding.
+ * `/tour-booking/:id` must stay crawlable despite the name: it is the tour
+ * detail page — description, itinerary, gallery, price — and blocking it once
+ * kept every tour out of Google and made Facebook refuse to scrape previews.
+ *
+ * `/my-bookings` and `/tour-booking/:id/success` are kept out of search with a
+ * `noindex` meta tag (see their `createMetadata({ noindex: true })`) instead of
+ * a disallow rule: a crawler that is forbidden from fetching a page can never
+ * read its noindex, so the URL can still surface as a bare "blocked" result.
+ * Letting it crawl and read the tag is what actually removes it.
  */
-const PRIVATE_PATHS = ['/my-bookings'];
-
 export default function robots(): MetadataRoute.Robots {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://haithichdi.com';
 
@@ -20,9 +20,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: routing.locales.flatMap((locale) =>
-        PRIVATE_PATHS.map((path) => localizedPath(path, locale)),
-      ),
     },
     sitemap: `${base}/sitemap.xml`,
   };
