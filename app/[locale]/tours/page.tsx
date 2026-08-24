@@ -4,7 +4,7 @@ import type { Locale } from '@/i18n/routing';
 import { createMetadata } from '@/lib/seo';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
-import { locationService } from '@/lib/services/location';
+import { getCachedLocations } from '@/lib/services/locations-cached';
 import type { Location } from '@/lib/types';
 import { tourService, type TourQueryParams } from '@/lib/services/tour';
 import { slugify } from '@/lib/utils';
@@ -35,7 +35,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const t = await getTranslations({ locale, namespace: 'tours' });
 
   const queryClient = getQueryClient();
-  const locationsPromise = locationService.getLocations(locale).catch(() => []);
+  const locationsPromise = getCachedLocations(locale);
 
   // Matches tours-client.tsx's initial useState seeds, so the query key the
   // client renders with on its very first pass is the one prefetched here.

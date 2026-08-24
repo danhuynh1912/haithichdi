@@ -4,7 +4,7 @@ import type { Locale } from '@/i18n/routing';
 import { createMetadata } from '@/lib/seo';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
-import { locationService } from '@/lib/services/location';
+import { getCachedLocations } from '@/lib/services/locations-cached';
 import { tourService } from '@/lib/services/tour';
 import { homeService } from '@/lib/services/home';
 import HomeClient from './home-client';
@@ -32,7 +32,7 @@ export default async function Page({ params }: PageProps) {
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.locations(locale),
-      queryFn: () => locationService.getLocations(locale),
+      queryFn: () => getCachedLocations(locale),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.hotTours(locale),

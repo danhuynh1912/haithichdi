@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing, type Locale } from '@/i18n/routing';
 import { createMetadata } from '@/lib/seo';
 import { locationService } from '@/lib/services/location';
+import { getCachedLocations } from '@/lib/services/locations-cached';
 import { slugify } from '@/lib/utils';
 import { RouteDetailClient } from './route-detail-client';
 
@@ -11,11 +12,11 @@ type PageProps = { params: Promise<{ locale: Locale; slug: string }> };
 /**
  * Slugs are derived from the route name in JS, not stored, so resolution goes
  * through the same `slugify` the links are built with. `locations_list` is the
- * only query that returns every route, and it is already cached by the page's
- * own revalidation.
+ * only query that returns every route, and it is held between requests by
+ * `getCachedLocations`, so resolving a slug costs nothing most of the time.
  */
 async function findLocation(locale: Locale, slug: string) {
-  const locations = await locationService.getLocations(locale).catch(() => []);
+  const locations = await getCachedLocations(locale);
   return locations.find((location) => slugify(location.name) === slug) ?? null;
 }
 
