@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'motion/react';
 import { useTranslations } from 'next-intl';
 import { type ComponentType } from 'react';
 import {
@@ -15,7 +14,6 @@ import {
   Stars,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { ANIMATION_EASE } from '@/lib/constants';
 import { scrollToHash } from '@/lib/scroll-to-hash';
 import { useFeaturedRoutesQuery } from '@/lib/services/queries';
 import { cn, slugify } from '@/lib/utils';
@@ -49,17 +47,6 @@ const valueSectionId = (key: string) => `value-${key}`;
 type KeywordCard = { title: string; body: string };
 type Stat = { label: string; value: string };
 
-const sectionRevealInitial = {
-  opacity: 0,
-  y: 92,
-} as const;
-
-const sectionRevealTransition = {
-  duration: 1.5,
-  delay: 0.5,
-  ease: ANIMATION_EASE,
-} as const;
-
 export function HomeAboutJourneySection() {
   const t = useTranslations('home.intro');
   const tValues = useTranslations('home.values');
@@ -80,11 +67,7 @@ export function HomeAboutJourneySection() {
           <div className='absolute inset-0 bg-[radial-gradient(86%_72%_at_100%_100%,var(--brand-wash-soft)_0%,transparent_62%)]' />
         </div>
 
-        <motion.div
-          initial={sectionRevealInitial}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={sectionRevealTransition}
+        <div
           className='relative mx-auto grid w-full max-w-[1400px] gap-8 px-4 sm:px-8 lg:grid-cols-[1.08fr_0.92fr]'
         >
           <div className='space-y-7'>
@@ -135,12 +118,8 @@ export function HomeAboutJourneySection() {
               const Icon = KEYWORD_ICONS[index] ?? Mountain;
               const valueSection = VALUE_SECTIONS[index];
               return (
-                <motion.article
+                <article
                   key={title}
-                  initial={{ opacity: 0, y: 18 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.45, ease: ANIMATION_EASE, delay: index * 0.06 }}
                 >
                   <div className='h-full rounded-3xl bg-surface p-6 backdrop-blur-md'>
                     <div className='mb-4 inline-flex rounded-2xl border border-brand/35 bg-brand/15 p-3 text-brand-soft'>
@@ -167,11 +146,11 @@ export function HomeAboutJourneySection() {
                       </a>
                     ) : null}
                   </div>
-                </motion.article>
+                </article>
               );
             })}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {VALUE_SECTIONS.map((section, index) => {
@@ -189,11 +168,7 @@ export function HomeAboutJourneySection() {
               {tValues(`${section.key}.eyebrow`)}
             </p>
 
-            <motion.div
-              initial={sectionRevealInitial}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={sectionRevealTransition}
+            <div
               className={cn(
                 'relative mx-auto grid w-full max-w-[1400px] items-center gap-8 px-4 sm:px-8 lg:grid-cols-2',
                 index % 2 === 1 && 'lg:[&>*:first-child]:order-2',
@@ -244,11 +219,7 @@ export function HomeAboutJourneySection() {
                 </div>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.97, y: 18 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: ANIMATION_EASE }}
+              <div
                 className='relative overflow-hidden rounded-[30px] border border-line shadow-[var(--shadow-brand)]'
               >
                 <Image
@@ -271,8 +242,8 @@ export function HomeAboutJourneySection() {
                     {tValues(`${section.key}.title`)}
                   </p>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </section>
         );
       })}
@@ -294,11 +265,7 @@ export function HomeFeaturedRoutesSection() {
     <section className='relative border-t border-line/60 bg-gradient-to-b from-elev-2 via-elev-3 to-elev-4 py-14 sm:py-16 lg:py-20'>
       <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,var(--sheen)_0%,transparent_28%)]' />
       <div className='pointer-events-none absolute inset-0 opacity-65 bg-[radial-gradient(100%_86%_at_14%_10%,var(--brand-glow)_0%,transparent_58%)]' />
-      <motion.div
-        initial={sectionRevealInitial}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={sectionRevealTransition}
+      <div
         className='relative mx-auto w-full max-w-[1400px] space-y-10 px-4 sm:px-8'
       >
         <div className='space-y-4 max-w-4xl'>
@@ -354,13 +321,9 @@ export function HomeFeaturedRoutesSection() {
 
               <div className='grid gap-4 sm:grid-cols-2 lg:h-[600px] lg:grid-cols-1 lg:grid-rows-3'>
                 {sideRoutes.map((route, index) => (
-                  <motion.div
+                  <div
                     key={route.id}
                     className='h-full'
-                    initial={{ opacity: 0, y: 16 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.45, ease: ANIMATION_EASE, delay: index * 0.06 }}
                   >
                     <Link
                       href={`/tours?location=${slugify(route.name)}`}
@@ -381,7 +344,7 @@ export function HomeFeaturedRoutesSection() {
                         ) : null}
                       </div>
                     </Link>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -417,7 +380,7 @@ export function HomeFeaturedRoutesSection() {
         ) : (
           <HomeFeaturedRoutesEmptyState isError={isError} />
         )}
-      </motion.div>
+      </div>
     </section>
   );
 }
