@@ -44,6 +44,23 @@ export function PhotoGallery({
   const t = useTranslations('gallery');
   const [activeIndex, setActiveIndex] = useState<number | null>(initialIndex);
 
+  // Which full-size pictures the browser already holds. The optimiser
+  // re-encodes on a cache miss, so the first view of a photo can take seconds
+  // while every later one is instant — remembering them is what keeps the
+  // spinner from flashing over a picture that is already in hand.
+  const [loadedUrls, setLoadedUrls] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
+
+  const markSettled = useCallback((url: string) => {
+    setLoadedUrls((current) => {
+      if (current.has(url)) return current;
+      const next = new Set(current);
+      next.add(url);
+      return next;
+    });
+  }, []);
+
   // Re-opening should honour whatever the caller asked for this time, not the
   // picture that happened to be open when it was last closed.
   useEffect(() => {
@@ -93,6 +110,26 @@ export function PhotoGallery({
   }, [open]);
 
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
+  const activeSettled = activePhoto ? loadedUrls.has(activePhoto.url) : false;
+
+  /**
+   * The pictures either side, fetched once the current one is on screen — the
+   * same URLs the arrows will ask for, so stepping is instant rather than
+   * another wait on the optimiser. Deliberately not started before the current
+   * picture settles: three encodes at once would only slow down the one the
+   * reader is actually waiting for.
+   */
+  const neighbours =
+    activeIndex === null || !activeSettled || photos.length < 2
+      ? []
+      : Array.from(
+          new Set(
+            [1, -1]
+              .map((delta) => photos[stepIndex(activeIndex, delta, photos.length)])
+              .filter((photo) => photo && photo.url !== activePhoto?.url)
+              .map((photo) => photo.url),
+          ),
+        );
 
   return (
     <FullscreenModalShell
@@ -135,15 +172,51 @@ export function PhotoGallery({
               className='relative flex min-h-0 flex-1 flex-col'
             >
               <div className='relative min-h-0 flex-1'>
+                {activeSettled ? null : (
+                  <div
+                    role='status'
+                    aria-label={t('loading')}
+                    className='absolute inset-0 flex items-center justify-center'
+                  >
+                    <div className='h-12 w-12 animate-spin rounded-full border-4 border-brand border-t-transparent' />
+                  </div>
+                )}
+
                 <Image
+                  // Remounts per picture so `onLoad` fires again for the next
+                  // one instead of staying settled from the previous src.
+                  key={activePhoto.url}
                   src={activePhoto.url}
                   alt={activePhoto.caption || title}
                   fill
                   sizes='100vw'
                   quality={90}
-                  className='object-contain'
+                  onLoad={() => markSettled(activePhoto.url)}
+                  // A picture that cannot load must still stop the spinner.
+                  onError={() => markSettled(activePhoto.url)}
+                  className={cn(
+                    'object-contain transition-opacity duration-300',
+                    activeSettled ? 'opacity-100' : 'opacity-0',
+                  )}
                   priority
                 />
+              </div>
+
+              {/* Off-screen, and matching the visible image's sizes/quality so
+                  the browser lands on the very same optimiser URL. */}
+              <div aria-hidden className='pointer-events-none absolute h-px w-px overflow-hidden opacity-0'>
+                {neighbours.map((url) => (
+                  <Image
+                    key={url}
+                    src={url}
+                    alt=''
+                    width={1}
+                    height={1}
+                    sizes='100vw'
+                    quality={90}
+                    onLoad={() => markSettled(url)}
+                  />
+                ))}
               </div>
 
               {photos.length > 1 && (

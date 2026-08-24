@@ -29,7 +29,8 @@
     "previous": "Ảnh trước",
     "next": "Ảnh tiếp theo",
     "openPhoto": "Xem ảnh thứ {index}",
-    "viewAll": "Xem tất cả {count} ảnh"
+    "viewAll": "Xem tất cả {count} ảnh",
+    "loading": "Đang tải ảnh"
   },
   "nav": {
     "home": "Trang chủ",

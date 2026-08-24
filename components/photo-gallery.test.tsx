@@ -72,6 +72,33 @@ describe('PhotoGallery', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('spins until the photo loads, and not again when stepping back to it', () => {
+    renderIntl(
+      <PhotoGallery open onClose={vi.fn()} photos={photos(2)} title='Tour test' initialIndex={0} />,
+    );
+
+    expect(screen.getByRole('status', { name: 'Đang tải ảnh' })).toBeTruthy();
+    fireEvent.load(screen.getByAltText('Ảnh 1'));
+    expect(screen.queryByRole('status')).toBeNull();
+
+    // The next picture has not been fetched yet, so it spins again...
+    fireEvent.click(screen.getByRole('button', { name: 'Ảnh tiếp theo' }));
+    expect(screen.getByRole('status', { name: 'Đang tải ảnh' })).toBeTruthy();
+
+    // ...but the first one is in hand, and must not flash a spinner.
+    fireEvent.click(screen.getByRole('button', { name: 'Ảnh trước' }));
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
+  it('stops spinning when the photo fails to load', () => {
+    renderIntl(
+      <PhotoGallery open onClose={vi.fn()} photos={photos(1)} title='Tour test' initialIndex={0} />,
+    );
+
+    fireEvent.error(screen.getByAltText('Ảnh 1'));
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
   it('hides the arrows when there is only one photo', () => {
     renderIntl(
       <PhotoGallery open onClose={vi.fn()} photos={photos(1)} title='Tour test' initialIndex={0} />,

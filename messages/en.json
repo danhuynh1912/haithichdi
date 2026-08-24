@@ -29,7 +29,8 @@
     "previous": "Previous photo",
     "next": "Next photo",
     "openPhoto": "View photo {index}",
-    "viewAll": "View all {count} photos"
+    "viewAll": "View all {count} photos",
+    "loading": "Loading the photo"
   },
   "nav": {
     "home": "Home",
