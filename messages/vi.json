@@ -246,6 +246,7 @@
     }
   },
   "tours": {
+    "heading": "Tour Trekking & Leo Núi Việt Nam",
     "searchPlaceholder": "Tìm tour theo tên...",
     "loading": "Đang tải tours...",
     "empty": "Không tìm thấy tour phù hợp.",

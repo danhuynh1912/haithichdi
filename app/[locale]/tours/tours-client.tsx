@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { slugify } from '@/lib/utils';
@@ -25,30 +25,27 @@ export default function ToursClient({
   layout?: 'standalone' | 'embedded';
 }) {
   const t = useTranslations('tours');
-  const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
+  const { data: locations = [], isLoading: locationsLoading } = useLocationsQuery();
+
+  // `?location=<slug>` arrives from the home page's tour cards, and now also
+  // from the server-prefetched HTML for this exact URL (see page.tsx). Reading
+  // it in the lazy useState initializer — rather than an effect — means the
+  // very first render already reflects the filter, both during SSR and on the
+  // client's first paint before hydration finishes. `locations` is already
+  // populated at that point because the server hydrates it into the query
+  // cache before this component ever mounts.
+  const searchParams = useSearchParams();
+  const [selectedLocations, setSelectedLocations] = useState<number[]>(() => {
+    const slug = searchParams?.get('location') ?? null;
+    if (!slug) return [];
+    const match = locations.find((loc) => slugify(loc.name) === slug);
+    return match ? [match.id] : [];
+  });
   const [search, setSearch] = useState('');
   const [sortUpcoming, setSortUpcoming] = useState(true);
   const [view, setView] = useState<ToursView>('calendar');
 
   const debouncedSearch = useDebounce(search, 300);
-
-  const { data: locations = [], isLoading: locationsLoading } = useLocationsQuery();
-
-  // `?location=<slug>` arrives from the home page's tour cards. The routes are
-  // fetched, so the slug cannot be resolved until they land — hence an effect
-  // rather than a lazy initial state. It runs once and then gets out of the
-  // way: re-applying on every render would fight the reader trying to untick
-  // that very filter.
-  const searchParams = useSearchParams();
-  const locationParam = searchParams?.get('location') ?? null;
-  const paramApplied = useRef(false);
-
-  useEffect(() => {
-    if (paramApplied.current || !locationParam || !locations.length) return;
-    paramApplied.current = true;
-    const match = locations.find((loc) => slugify(loc.name) === locationParam);
-    if (match) setSelectedLocations([match.id]);
-  }, [locationParam, locations]);
 
   const { data: tours, isLoading: toursLoading } = useTours({
     locationIds: selectedLocations,

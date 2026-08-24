@@ -1,6 +1,12 @@
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
 import { createMetadata } from '@/lib/seo';
+import { getQueryClient } from '@/lib/get-query-client';
+import { queryKeys } from '@/lib/services/query-keys';
+import { locationService } from '@/lib/services/location';
+import { tourService } from '@/lib/services/tour';
+import { homeService } from '@/lib/services/home';
 import HomeClient from './home-client';
 
 type PageProps = { params: Promise<{ locale: Locale }> };
@@ -22,5 +28,29 @@ export default async function Page({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <HomeClient />;
+  const queryClient = getQueryClient();
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.locations(locale),
+      queryFn: () => locationService.getLocations(locale),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.hotTours(locale),
+      queryFn: () => tourService.getHotTours(locale),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.featuredRoutes(locale),
+      queryFn: () => homeService.getFeaturedRoutes(locale),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.momentsGallery(locale),
+      queryFn: () => homeService.getMomentsGallery(locale),
+    }),
+  ]);
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <HomeClient />
+    </HydrationBoundary>
+  );
 }

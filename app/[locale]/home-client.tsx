@@ -1,18 +1,17 @@
 'use client';
 
-import { Suspense, lazy } from 'react';
 import { useIsMobile } from '@/lib/hooks/use-is-mobile';
-import RouteSuspenseFallback from '@/components/route-suspense-fallback';
+import HomeDesktop from './home/home-desktop';
+import HomeMobile from './home/home-mobile';
 
-const HomeDesktop = lazy(() => import('./home/home-desktop'));
-const HomeMobile = lazy(() => import('./home/home-mobile'));
-
+// Not lazy-loaded on purpose: `lazy()` forces Next's streaming SSR to defer
+// this whole tree into a `hidden` chunk that only becomes visible once
+// client JS hydrates — invisible to any crawler that doesn't run JS. A plain
+// import renders inline in the server HTML instead. Since `useIsMobile()`
+// always resolves `false` during SSR, that server HTML is always the desktop
+// variant; a real mobile visitor swaps to the mobile variant on hydration.
 export default function HomeClient() {
   const isMobile = useIsMobile();
 
-  return (
-    <Suspense fallback={<RouteSuspenseFallback />}>
-      {isMobile ? <HomeMobile /> : <HomeDesktop />}
-    </Suspense>
-  );
+  return isMobile ? <HomeMobile /> : <HomeDesktop />;
 }

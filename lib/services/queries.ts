@@ -8,41 +8,18 @@ import { homeService } from './home';
 import { locationService } from './location';
 import { tourService, type TourQueryParams } from './tour';
 import { blogService, type BlogQueryParams } from './blog';
+import { queryKeys } from './query-keys';
 
 /**
  * Every server-state read in the app, with the active locale already bound —
  * both to the request and to the React Query cache key.
  *
- * The locale MUST be part of the key: without it, switching language would
- * serve the previous language's cached rows with no refetch, and nothing would
- * look broken until a user complained. Routing every read through these hooks
- * is what makes that impossible to forget — prefer adding a hook here over
- * calling `useQuery(...)` with a service function directly.
+ * Routing every read through these hooks is what makes it impossible to
+ * forget binding the locale — prefer adding a hook here over calling
+ * `useQuery(...)` with a service function directly.
  */
 
-/** Key factory — exported so tests and prefetches build identical keys. */
-export const queryKeys = {
-  locations: (locale: Locale) => ['locations', locale] as const,
-  locationTours: (locale: Locale, locationId: number) =>
-    ['location-tours', locale, locationId] as const,
-  tours: (locale: Locale, filter: TourQueryParams) =>
-    ['tours', locale, filter] as const,
-  hotTours: (locale: Locale) => ['hot-tours', locale] as const,
-  tourDetail: (locale: Locale, tourId: number) =>
-    ['tour-detail', locale, tourId] as const,
-  relatedTours: (locale: Locale, tourId: number) =>
-    ['tour-related', locale, tourId] as const,
-  featuredRoutes: (locale: Locale) => ['home-featured-routes', locale] as const,
-  momentsGallery: (locale: Locale) => ['home-moments-gallery', locale] as const,
-  bookingsByIds: (locale: Locale, ids: number[]) =>
-    ['bookings-by-ids', locale, ids.join(',')] as const,
-  bookingDetail: (locale: Locale, bookingId: number | null) =>
-    ['booking-detail', locale, bookingId] as const,
-  blogTags: (locale: Locale) => ['blog-tags', locale] as const,
-  blogPosts: (locale: Locale, filter: BlogQueryParams) =>
-    ['blog-posts', locale, filter] as const,
-  blogPost: (locale: Locale, slug: string) => ['blog-post', locale, slug] as const,
-};
+export { queryKeys };
 
 export function useLocationsQuery() {
   const locale = useLocale();

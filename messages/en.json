@@ -246,6 +246,7 @@
     }
   },
   "tours": {
+    "heading": "Vietnam Trekking Tours",
     "searchPlaceholder": "Search tours by name...",
     "loading": "Loading tours...",
     "empty": "No matching tours found.",
