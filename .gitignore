@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scripts/resize-oversized-media.mjs working directories — the untouched
+# originals it pulled down, and the shrunk copies waiting to be uploaded.
+# Keep the originals until the resized ones are live and look right.
+.media-backup
+.media-resized
