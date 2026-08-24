@@ -331,6 +331,8 @@
     "relatedHint": "More journeys currently open for booking.",
     "relatedEmpty": "No related tours to suggest yet.",
     "relatedCta": "Book this tour",
+    "relatedPrev": "Previous tours",
+    "relatedNext": "Next tours",
     "relatedDateTbd": "Dates coming soon",
     "form": {
       "title": "Book now",

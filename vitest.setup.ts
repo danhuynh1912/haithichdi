@@ -7,6 +7,16 @@ afterEach(() => {
   cleanup();
 });
 
+// jsdom ships no ResizeObserver. Components that re-measure on resize only
+// need it to exist and never fire — nothing here asserts on a resize.
+if (!('ResizeObserver' in globalThis)) {
+  globalThis.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver;
+}
+
 vi.mock('next/image', () => ({
   default: ({
     src,

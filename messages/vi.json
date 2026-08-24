@@ -331,6 +331,8 @@
     "relatedHint": "Gợi ý thêm các hành trình đang mở đăng ký.",
     "relatedEmpty": "Chưa có tour liên quan để gợi ý.",
     "relatedCta": "Đăng ký tour này",
+    "relatedPrev": "Xem tour trước",
+    "relatedNext": "Xem tour tiếp theo",
     "relatedDateTbd": "Đang cập nhật lịch",
     "form": {
       "title": "Đăng ký ngay",
