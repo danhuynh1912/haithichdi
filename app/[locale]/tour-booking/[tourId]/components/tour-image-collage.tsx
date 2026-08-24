@@ -58,6 +58,9 @@ export function resolveCollageSlots({
   }));
 }
 
+/** Shared with the gallery so its blur-up reuses the tile already loaded. */
+const COLLAGE_SIZES = '(max-width: 1024px) 100vw, 60vw';
+
 function CollageItem({
   slot,
   className,
@@ -98,7 +101,7 @@ function CollageItem({
         src={slot.src}
         alt={slot.alt}
         fill
-        sizes='(max-width: 1024px) 100vw, 60vw'
+        sizes={COLLAGE_SIZES}
         className={cn('object-cover', onOpen && 'transition-transform duration-500 group-hover:scale-105')}
       />
       <div className='absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10' />
@@ -164,6 +167,10 @@ export function TourImageCollage({ title, images, fallbackImageUrl, className }:
         photos={photos}
         title={title}
         initialIndex={openAt}
+        // Must stay in step with CollageItem's own Image, or opening a tile
+        // blurs up from a URL the browser has to fetch rather than the one
+        // already on screen.
+        thumbnail={{ sizes: COLLAGE_SIZES }}
       />
     </section>
   );

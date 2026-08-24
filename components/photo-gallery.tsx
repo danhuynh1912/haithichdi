@@ -26,12 +26,17 @@ export function stepIndex(current: number, delta: number, total: number): number
   return (current + delta + total) % total;
 }
 
+/** What the grid tiles here ask the optimiser for. */
+const GRID_SIZES = '(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw';
+const GRID_QUALITY = 82;
+
 export function PhotoGallery({
   open,
   onClose,
   photos,
   title,
   initialIndex = null,
+  thumbnail,
 }: {
   open: boolean;
   onClose: () => void;
@@ -40,6 +45,18 @@ export function PhotoGallery({
   title: string;
   /** Open straight onto one picture; null opens the grid. */
   initialIndex?: number | null;
+  /**
+   * What the caller's own thumbnails asked the optimiser for.
+   *
+   * Opening a picture blurs up from the thumbnail the reader just clicked,
+   * and that only costs nothing if the blurred copy resolves to the byte-identical
+   * URL the browser already holds. `sizes` is measured against the viewport
+   * rather than the element, so repeating the caller's string here lands on
+   * the same srcset candidate however the backdrop is laid out — but only if
+   * the numbers match, which is why they have to be passed in rather than
+   * guessed.
+   */
+  thumbnail?: { sizes: string; quality?: number };
 }) {
   const t = useTranslations('gallery');
   const [activeIndex, setActiveIndex] = useState<number | null>(initialIndex);
@@ -61,10 +78,22 @@ export function PhotoGallery({
     });
   }, []);
 
+  /**
+   * Whether the reader has been through the grid in here.
+   *
+   * It decides which cached thumbnail the blur-up can reach for: the grid's
+   * own tiles once it has been on screen, and otherwise the tile in the page
+   * behind that opened this picture directly.
+   */
+  const [gridSeen, setGridSeen] = useState(initialIndex === null);
+
   // Re-opening should honour whatever the caller asked for this time, not the
   // picture that happened to be open when it was last closed.
   useEffect(() => {
-    if (open) setActiveIndex(initialIndex);
+    if (open) {
+      setActiveIndex(initialIndex);
+      setGridSeen(initialIndex === null);
+    }
   }, [open, initialIndex]);
 
   const close = useCallback(() => {
@@ -86,7 +115,10 @@ export function PhotoGallery({
     const onKeyDown = (event: KeyboardEvent) => {
       // Escape backs out one level at a time: picture, then grid, then closed.
       if (event.key === 'Escape') {
-        if (activeIndex !== null) setActiveIndex(null);
+        if (activeIndex !== null) {
+          setActiveIndex(null);
+          setGridSeen(true);
+        }
         else close();
         return;
       }
@@ -111,6 +143,13 @@ export function PhotoGallery({
 
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
   const activeSettled = activePhoto ? loadedUrls.has(activePhoto.url) : false;
+
+  // Once the grid has been on screen its tiles are the cached ones; before
+  // that, the only thumbnail the reader has seen is the caller's.
+  const previewSizes = gridSeen ? GRID_SIZES : thumbnail?.sizes ?? GRID_SIZES;
+  const previewQuality = gridSeen
+    ? GRID_QUALITY
+    : thumbnail?.quality ?? GRID_QUALITY;
 
   /**
    * The pictures either side, fetched once the current one is on screen — the
@@ -145,7 +184,10 @@ export function PhotoGallery({
           {activePhoto ? (
             <button
               type='button'
-              onClick={() => setActiveIndex(null)}
+              onClick={() => {
+                setActiveIndex(null);
+                setGridSeen(true);
+              }}
               className='inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-sm font-medium text-ink-2 transition-colors hover:border-brand/60 hover:text-brand'
             >
               <LayoutGrid size={15} />
@@ -171,7 +213,32 @@ export function PhotoGallery({
               transition={{ duration: 0.18, ease: ANIMATION_EASE }}
               className='relative flex min-h-0 flex-1 flex-col'
             >
-              <div className='relative min-h-0 flex-1'>
+              <div className='relative min-h-0 flex-1 overflow-hidden'>
+                {/* The thumbnail the reader just clicked, blown up. It resolves
+                    to the URL the browser already holds, so it paints
+                    immediately and costs no request.
+
+                    Stays mounted underneath even after the full picture has
+                    arrived. Removing it the moment the real one *starts* its
+                    fade left 300ms with nothing fully opaque in between, and
+                    the background showing through read as a flash.
+
+                    Barely blurred: a heavy blur belongs to placeholders a few
+                    dozen pixels wide, where it hides the pixel grid. This is a
+                    real photo several hundred pixels across, and softening it
+                    that much throws away detail the reader could already be
+                    looking at. */}
+                <Image
+                  key={`preview-${activePhoto.url}`}
+                  src={activePhoto.url}
+                  alt=''
+                  aria-hidden
+                  fill
+                  sizes={previewSizes}
+                  quality={previewQuality}
+                  className='scale-[1.02] object-contain blur-[1px]'
+                />
+
                 {activeSettled ? null : (
                   <div
                     role='status'
@@ -246,14 +313,28 @@ export function PhotoGallery({
                     type='button'
                     onClick={() => setActiveIndex(index)}
                     aria-label={photo.caption || t('openPhoto', { index: index + 1 })}
+                    // `content-visibility` lets the browser skip laying out and
+                    // painting the tiles that are scrolled out of view — with
+                    // 163 of them that is most of the work in a fast scroll.
+                    // The intrinsic height keeps the scrollbar honest for the
+                    // ones it skips; `auto` means a tile that has been on
+                    // screen once is remembered at its real height.
+                    style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 220px' }}
                     className='group relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-elev-3 transition-colors hover:border-brand/60'
                   >
                     <Image
                       src={photo.url}
                       alt={photo.caption || ''}
                       fill
-                      sizes='(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw'
-                      quality={82}
+                      // Same values the blur-up reads back, so the two cannot
+                      // drift into asking the optimiser for different URLs.
+                      sizes={GRID_SIZES}
+                      quality={GRID_QUALITY}
+                      // A wall this long decodes many pictures in one scroll,
+                      // and decoding on the main thread is what makes the grid
+                      // sit still for half a second while the scrollbar keeps
+                      // travelling. Async hands that work to another thread.
+                      decoding='async'
                       className='object-cover transition-transform duration-300 group-hover:scale-105'
                     />
                   </button>

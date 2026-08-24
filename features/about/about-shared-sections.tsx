@@ -12,6 +12,10 @@ import { ANIMATION_EASE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Camera, MapPin } from 'lucide-react';
 
+/** Shared with the gallery so its blur-up reuses the tile already loaded. */
+const MOMENTS_SIZES = '(max-width: 640px) 50vw, 33vw';
+const MOMENTS_QUALITY = 82;
+
 const FALLBACK_PHOTO = '/images/haithichdi1.jpg';
 
 /**
@@ -272,6 +276,9 @@ export function MomentsGallerySection({
         photos={photos}
         title={t(`${variant}.title`)}
         initialIndex={openAt}
+        // Must match the wall's own tiles, or opening one blurs up from a URL
+        // the browser has to fetch rather than the one already on screen.
+        thumbnail={{ sizes: MOMENTS_SIZES, quality: MOMENTS_QUALITY }}
       />
     </section>
   );
@@ -424,8 +431,8 @@ function MomentCard({
         // Both copies of a photo share a URL, so this is one request each.
         loading='eager'
         decoding='async'
-        sizes='(max-width: 640px) 50vw, 33vw'
-        quality={82}
+        sizes={MOMENTS_SIZES}
+        quality={MOMENTS_QUALITY}
         className='w-full h-auto object-cover transition-transform duration-500 group-hover/photo:scale-[1.03]'
         // Optimised, unlike the rest of the site: these originals run to
         // 2731x4096, roughly 45MB of bitmap each once decoded. At a column
