@@ -16,6 +16,7 @@ import { useHideOnScrollDown } from '@/lib/hooks/use-hide-on-scroll-down';
 import LanguageSwitcher from '@/components/language-switcher';
 import ThemeToggle from '@/components/theme-toggle';
 import { getSiteHeroElement, subscribeSiteHero } from '@/lib/site-hero';
+import { LOGO_INTRINSIC_PX } from '@/lib/constants';
 
 /** Tallest the bar gets (lg breakpoint), in px — used for the hero overlap test. */
 const HEADER_HEIGHT = 112;
@@ -122,8 +123,8 @@ export default function SiteHeader() {
         <Image
           src='/haithichdi-logo-red.png'
           alt={tCommon('brand')}
-          width={2366}
-          height={2366}
+          width={LOGO_INTRINSIC_PX}
+          height={LOGO_INTRINSIC_PX}
           priority
           className={cn(
             'h-11 md:h-16 w-auto hover:opacity-85 transition-opacity',
@@ -134,8 +135,8 @@ export default function SiteHeader() {
           src='/haithichdi-logo-white.png'
           alt=''
           aria-hidden='true'
-          width={2366}
-          height={2366}
+          width={LOGO_INTRINSIC_PX}
+          height={LOGO_INTRINSIC_PX}
           priority
           className={cn(
             'h-11 md:h-16 w-auto hover:opacity-85 transition-opacity',

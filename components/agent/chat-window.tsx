@@ -12,6 +12,7 @@ import {
   fetchChatbotConfig,
   streamAgentChat,
 } from '@/lib/services/agent';
+import { LOGO_INTRINSIC_PX } from '@/lib/constants';
 import { loadChatDraft, saveChatDraft } from './chat-storage';
 import ChatMessage from './chat-message';
 
@@ -171,16 +172,16 @@ export default function ChatWindow({
               <Image
                 src='/haithichdi-logo-red.png'
                 alt={tCommon('brand')}
-                width={2366}
-                height={2366}
+                width={LOGO_INTRINSIC_PX}
+                height={LOGO_INTRINSIC_PX}
                 className='h-8 w-auto hover:opacity-85 transition-opacity dark:hidden'
               />
               <Image
                 src='/haithichdi-logo-white.png'
                 alt=''
                 aria-hidden='true'
-                width={2366}
-                height={2366}
+                width={LOGO_INTRINSIC_PX}
+                height={LOGO_INTRINSIC_PX}
                 className='h-8 w-auto hover:opacity-85 transition-opacity hidden dark:block'
               />
             </Link>
