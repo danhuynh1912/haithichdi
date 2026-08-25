@@ -28,7 +28,12 @@ type SeoParams = {
   pathname: string;
   title?: string;
   description?: string;
-  images?: string[];
+  /**
+   * `null` leaves og:image unset, for a page with its own
+   * `opengraph-image` file — naming one here would override what that
+   * generates. Omitted entirely falls back to the site-wide card.
+   */
+  images?: string[] | null;
   /**
    * Keeps the page out of search results. Robots.txt must NOT also disallow a
    * noindexed page — a crawler that cannot fetch the page never sees the tag.
@@ -108,7 +113,8 @@ export async function createMetadata({
   const url = absoluteUrl(pathname, locale);
   const metaTitle = title || SITE_NAME;
   const metaDescription = description || t('siteDescription');
-  const metaImages = images && images.length > 0 ? images : [DEFAULT_IMAGE];
+  const metaImages =
+    images === null ? null : images && images.length > 0 ? images : [DEFAULT_IMAGE];
 
   return {
     title: metaTitle,
@@ -130,7 +136,7 @@ export async function createMetadata({
       description: metaDescription,
       url,
       siteName: SITE_NAME,
-      images: metaImages,
+      ...(metaImages ? { images: metaImages } : {}),
       locale: OG_LOCALE[locale],
       type: 'website',
     },
@@ -138,7 +144,7 @@ export async function createMetadata({
       card: 'summary_large_image',
       title: metaTitle,
       description: metaDescription,
-      images: metaImages,
+      ...(metaImages ? { images: metaImages } : {}),
     },
   };
 }

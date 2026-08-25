@@ -44,12 +44,16 @@ export async function generateMetadata({ params }: PageProps) {
     });
   }
 
+  // No `images` here on purpose: opengraph-image.tsx beside this file supplies
+  // one, cropped to the shape Facebook needs before it will render the wide
+  // card. Naming the raw photo here would override it and hand back the
+  // portrait original that collapsed the preview in the first place.
   return createMetadata({
     locale,
     pathname: `/locations/${slug}`,
     title: `${location.name}${location.elevation_m > 0 ? ` ${location.elevation_m}m` : ''}`,
     description: location.description,
-    images: location.full_image_url ? [location.full_image_url] : undefined,
+    images: null,
   });
 }
 
