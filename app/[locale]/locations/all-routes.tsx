@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Gauge } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { getCachedLocations } from '@/lib/services/locations-cached';
-import { slugify } from '@/lib/utils';
+import { formatDifficulty, slugify } from '@/lib/utils';
 
 /** Same stand-in the home page uses when a route has no photo of its own. */
 const FALLBACK_IMAGE = '/images/tachinhu1.jpg';
@@ -23,9 +23,10 @@ const FALLBACK_IMAGE = '/images/tachinhu1.jpg';
  * rather than dragging a carousel thirteen times to see what is on offer.
  */
 export default async function AllRoutes({ locale }: { locale: Locale }) {
-  const [locations, t] = await Promise.all([
+  const [locations, t, tCommon] = await Promise.all([
     getCachedLocations(locale),
     getTranslations({ locale, namespace: 'locations.index' }),
+    getTranslations({ locale, namespace: 'common' }),
   ]);
 
   return (
@@ -59,6 +60,17 @@ export default async function AllRoutes({ locale }: { locale: Locale }) {
                     sizes='(min-width: 1280px) 22vw, (min-width: 768px) 30vw, 160px'
                     className='object-cover transition-transform duration-500 group-hover:scale-105'
                   />
+                  {location.difficulty != null && (
+                    // Same pill the route cards on the home page wear, and it
+                    // stays on the photo at every width: the icon and "7/10"
+                    // fit even the 128px thumbnail a phone gets.
+                    <span className='absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-black/55 px-2 py-1 text-[11px] font-semibold text-white backdrop-blur-sm md:gap-1.5 md:px-2.5 md:text-xs'>
+                      <Gauge className='size-3.5' />
+                      <span className='sr-only'>{tCommon('difficulty')}: </span>
+                      {formatDifficulty(location.difficulty)}/10
+                    </span>
+                  )}
+
                   {/* The name sits over the photo only where the photo is wide
                       enough to hold it; on a phone it moves beside it, below. */}
                   <span className='absolute inset-0 hidden bg-linear-to-t from-black/80 via-black/25 to-black/5 md:block' />
