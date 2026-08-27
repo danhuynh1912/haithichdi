@@ -52,9 +52,7 @@ export default async function Page({ params }: PageProps) {
           <LocationsClient />
         </Suspense>
       </div>
-      <div className='md:hidden'>
-        <AllRoutes locale={locale} />
-      </div>
+      <AllRoutes locale={locale} />
     </HydrationBoundary>
   );
 }
