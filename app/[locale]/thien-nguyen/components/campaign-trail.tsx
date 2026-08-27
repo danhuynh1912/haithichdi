@@ -242,23 +242,22 @@ function Dot() {
 
 function Stats({ stats }: { stats: { label: string; value: string }[] }) {
   const shown = stats.slice(0, 3);
-  // Columns follow how many figures there actually are. Fixed at three, two
-  // figures were being squeezed into two thirds of the card and a value like
-  // "35.488.000đ" ran out of its cell.
-  const columns =
-    shown.length === 1 ? 'grid-cols-1' : shown.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
-  // A money figure is several times longer than a count, so the type has to
-  // give way rather than the box.
+  // A money figure is several times longer than a count, so the type gives way
+  // rather than the box.
   const long = shown.some((stat) => stat.value.length > 6);
 
   return (
-    <dl className={`border-line/60 mt-5 grid ${columns} gap-3 rounded-2xl border border-dashed p-4`}>
+    // Flex, not a grid: equal columns gave "50" and "35.488.000đ" the same
+    // width, which left the long one filling its cell edge to edge while the
+    // short one sat in a pool of space. Each figure takes the room it needs and
+    // they share what is left.
+    <dl className='border-line/60 mt-5 flex flex-wrap items-start justify-around gap-x-6 gap-y-4 rounded-2xl border border-dashed px-5 py-5'>
       {shown.map((stat) => (
-        <div key={stat.label} className='min-w-0 text-center'>
+        <div key={stat.label} className='text-center'>
           <dt className='sr-only'>{stat.label}</dt>
           <dd
             className={[
-              'text-brand font-black tabular-nums',
+              'text-brand font-black whitespace-nowrap tabular-nums',
               long ? 'text-lg md:text-2xl' : 'text-xl md:text-3xl',
             ].join(' ')}
           >

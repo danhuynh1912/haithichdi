@@ -87,20 +87,14 @@ export function CampaignDetailView({ campaign }: { campaign: CampaignDetail }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: ANIMATION_EASE }}
-            className={`border-brand/25 bg-brand/5 mt-8 grid gap-4 rounded-3xl border p-5 md:p-8 ${
-              campaign.result_stats.length === 1
-                ? 'grid-cols-1'
-                : campaign.result_stats.length === 2
-                  ? 'grid-cols-2'
-                  : 'grid-cols-3'
-            }`}
+            className='border-brand/25 bg-brand/5 mt-8 flex flex-wrap items-start justify-around gap-x-8 gap-y-6 rounded-3xl border px-6 py-6 md:px-10 md:py-9'
           >
             {campaign.result_stats.slice(0, 3).map((stat) => (
-              <div key={stat.label} className='min-w-0 text-center'>
+              <div key={stat.label} className='text-center'>
                 <dt className='sr-only'>{stat.label}</dt>
                 <dd
                   className={[
-                    'text-brand font-black tabular-nums',
+                    'text-brand font-black whitespace-nowrap tabular-nums',
                     // A money figure needs the type to give way, not the box.
                     campaign.result_stats.some((s) => s.value.length > 6)
                       ? 'text-xl md:text-4xl'
