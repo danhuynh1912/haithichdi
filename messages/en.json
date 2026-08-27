@@ -582,6 +582,6 @@
     "goToCampaign": "Go to campaign {number}",
     "previousCampaign": "Previous campaign",
     "nextCampaign": "Next campaign",
-    "openCount": "{count} campaigns open now"
+    "hintLabel": "Upcoming campaign"
   }
 }
