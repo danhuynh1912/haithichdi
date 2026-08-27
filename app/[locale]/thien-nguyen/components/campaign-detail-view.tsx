@@ -87,12 +87,26 @@ export function CampaignDetailView({ campaign }: { campaign: CampaignDetail }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: ANIMATION_EASE }}
-            className='border-brand/25 bg-brand/5 mt-8 grid grid-cols-3 gap-4 rounded-3xl border p-5 md:p-8'
+            className={`border-brand/25 bg-brand/5 mt-8 grid gap-4 rounded-3xl border p-5 md:p-8 ${
+              campaign.result_stats.length === 1
+                ? 'grid-cols-1'
+                : campaign.result_stats.length === 2
+                  ? 'grid-cols-2'
+                  : 'grid-cols-3'
+            }`}
           >
             {campaign.result_stats.slice(0, 3).map((stat) => (
-              <div key={stat.label} className='text-center'>
+              <div key={stat.label} className='min-w-0 text-center'>
                 <dt className='sr-only'>{stat.label}</dt>
-                <dd className='text-brand text-2xl font-black tabular-nums md:text-5xl'>
+                <dd
+                  className={[
+                    'text-brand font-black tabular-nums',
+                    // A money figure needs the type to give way, not the box.
+                    campaign.result_stats.some((s) => s.value.length > 6)
+                      ? 'text-xl md:text-4xl'
+                      : 'text-2xl md:text-5xl',
+                  ].join(' ')}
+                >
                   <CountUp value={stat.value} />
                 </dd>
                 <p className='text-ink-3 mt-1 text-xs md:text-sm'>{stat.label}</p>

@@ -155,7 +155,7 @@ function Milestone({ campaign, index = 0 }: { campaign: CampaignCard; index?: nu
       transition={{ duration: 0.7, ease: ANIMATION_EASE }}
       className={[
         'relative pb-14 pl-12 md:pb-20 md:pl-0',
-        onLeft ? 'md:pr-[52%]' : 'md:pl-[52%]',
+        onLeft ? 'md:pr-[46%]' : 'md:pl-[46%]',
       ].join(' ')}
     >
       <Dot />
@@ -241,12 +241,27 @@ function Dot() {
 }
 
 function Stats({ stats }: { stats: { label: string; value: string }[] }) {
+  const shown = stats.slice(0, 3);
+  // Columns follow how many figures there actually are. Fixed at three, two
+  // figures were being squeezed into two thirds of the card and a value like
+  // "35.488.000đ" ran out of its cell.
+  const columns =
+    shown.length === 1 ? 'grid-cols-1' : shown.length === 2 ? 'grid-cols-2' : 'grid-cols-3';
+  // A money figure is several times longer than a count, so the type has to
+  // give way rather than the box.
+  const long = shown.some((stat) => stat.value.length > 6);
+
   return (
-    <dl className='border-line/60 mt-5 grid grid-cols-3 gap-3 rounded-2xl border border-dashed p-4'>
-      {stats.slice(0, 3).map((stat) => (
-        <div key={stat.label} className='text-center'>
+    <dl className={`border-line/60 mt-5 grid ${columns} gap-3 rounded-2xl border border-dashed p-4`}>
+      {shown.map((stat) => (
+        <div key={stat.label} className='min-w-0 text-center'>
           <dt className='sr-only'>{stat.label}</dt>
-          <dd className='text-brand text-xl font-black tabular-nums md:text-3xl'>
+          <dd
+            className={[
+              'text-brand font-black tabular-nums',
+              long ? 'text-lg md:text-2xl' : 'text-xl md:text-3xl',
+            ].join(' ')}
+          >
             <CountUp value={stat.value} />
           </dd>
           <p className='text-ink-4 mt-0.5 text-[11px] leading-tight md:text-xs'>{stat.label}</p>
