@@ -298,11 +298,6 @@
       "list": "Danh sách",
       "calendar": "Lịch",
       "aria": "Chọn kiểu hiển thị"
-    },
-    "departures": {
-      "heading": "Lịch khởi hành sắp tới",
-      "subheading": "Toàn bộ chuyến còn nhận khách, xếp theo ngày đi.",
-      "slotsLeft": "còn {count} chỗ"
     }
   },
   "blog": {

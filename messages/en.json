@@ -298,11 +298,6 @@
       "list": "List",
       "calendar": "Calendar",
       "aria": "Choose a view"
-    },
-    "departures": {
-      "heading": "Upcoming departures",
-      "subheading": "Every trip still taking bookings, by departure date.",
-      "slotsLeft": "{count} left"
     }
   },
   "blog": {

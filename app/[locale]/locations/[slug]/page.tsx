@@ -1,8 +1,11 @@
 import { notFound } from 'next/navigation';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing, type Locale } from '@/i18n/routing';
 import { createMetadata } from '@/lib/seo';
 import { locationService } from '@/lib/services/location';
+import { getQueryClient } from '@/lib/get-query-client';
+import { queryKeys } from '@/lib/services/query-keys';
 import { getCachedLocations } from '@/lib/services/locations-cached';
 import { slugify } from '@/lib/utils';
 import { RouteDetailClient } from './route-detail-client';
@@ -67,5 +70,19 @@ export default async function Page({ params }: PageProps) {
   const location = await locationService.getLocationDetail(summary.id, locale);
   if (!location) notFound();
 
-  return <RouteDetailClient location={location} />;
+  // The departures block is the natural home for a link to each trip on this
+  // route — and it was fetching in the browser, so the served HTML carried no
+  // link to any of them. A reader arriving from search sees the dates without
+  // waiting for a second round trip; a crawler sees them at all.
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.locationTours(locale, location.id),
+    queryFn: () => locationService.getToursByLocation(location.id, locale),
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <RouteDetailClient location={location} />
+    </HydrationBoundary>
+  );
 }
