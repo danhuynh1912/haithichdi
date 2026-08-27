@@ -18,7 +18,9 @@ export async function generateMetadata({ params }: PageProps) {
   return createMetadata({
     locale,
     pathname: '/',
-    // The root layout's `%s | Hải Thích Đi` template appends the site name.
+    // Carries the site name itself. `title.template` in the layout applies to
+    // child segments only, and the homepage is the layout's own segment — so
+    // the `%s | Hải Thích Đi` every other page gets never reaches this one.
     title: t('title'),
     description: t('description'),
   });
