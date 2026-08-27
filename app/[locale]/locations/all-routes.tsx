@@ -12,6 +12,10 @@ const FALLBACK_IMAGE = '/images/tachinhu1.jpg';
 /**
  * Every route, as a card, rendered on the server.
  *
+ * On a phone this is the whole screen: the carousel above it is hidden there,
+ * because three routes at a time behind a drag is a poor way to look through
+ * thirteen of them on a 375px screen. On a desktop it sits under the carousel.
+ *
  * This replaced a carousel that painted nothing until its query resolved in
  * the browser: what reached a crawler was a spinner — no heading, no text, and
  * not one link to any of the thirteen route pages, which were left to be found
@@ -30,14 +34,16 @@ export default async function AllRoutes({ locale }: { locale: Locale }) {
   ]);
 
   return (
-    <main className='min-h-screen bg-elev-0 px-4 pt-24 pb-16 md:px-8'>
+    // <section>, not <main>: the carousel this stands in for owns that role,
+    // and with it the page's <h1>.
+    <section className='min-h-screen bg-elev-0 px-4 pt-24 pb-16'>
       <div className='mx-auto max-w-[1400px]'>
         <p className='text-brand mb-1 text-[10px] font-bold tracking-[0.14em] uppercase md:text-sm md:tracking-[0.3em]'>
           {t('eyebrow')}
         </p>
-        <h1 className='text-ink-1 text-2xl font-black tracking-tight uppercase md:text-4xl'>
+        <h2 className='text-ink-1 text-2xl font-black tracking-tight uppercase md:text-4xl'>
           {t('heading')}
-        </h1>
+        </h2>
         <p className='text-ink-3 mt-3 max-w-2xl text-sm md:text-base'>
           {t('subheading')}
         </p>
@@ -45,7 +51,7 @@ export default async function AllRoutes({ locale }: { locale: Locale }) {
         {/* One flat row per route on a phone, where a grid of cards would make
             both the photo and the summary too small to be worth showing; the
             card grid returns once there is width for it. */}
-        <ul className='mt-8 grid grid-cols-1 gap-3 md:mt-10 md:grid-cols-3 md:gap-5 xl:grid-cols-4'>
+        <ul className='mt-8 grid grid-cols-1 gap-3'>
           {locations.map((location) => (
             <li key={location.id}>
               <Link
@@ -119,6 +125,6 @@ export default async function AllRoutes({ locale }: { locale: Locale }) {
           ))}
         </ul>
       </div>
-    </main>
+    </section>
   );
 }
