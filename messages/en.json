@@ -246,9 +246,11 @@
       "noTours": "No tours on this route yet."
     },
     "index": {
+      "eyebrow": "Hải Thích đi",
       "heading": "All trekking routes",
       "subheading": "Open a route for its day-by-day itinerary, difficulty, cost and upcoming departures.",
-      "elevation": "{value}m"
+      "elevation": "{value}m",
+      "viewMore": "View route"
     }
   },
   "tours": {

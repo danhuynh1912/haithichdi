@@ -246,9 +246,11 @@
       "noTours": "Hiện chưa có tour cho cung đường này."
     },
     "index": {
-      "heading": "Tất cả các cung trekking",
+      "eyebrow": "Hải Thích đi",
+      "heading": "Tất cả cung trekking",
       "subheading": "Chọn cung để xem lịch trình từng ngày, độ khó, chi phí và những chuyến sắp khởi hành.",
-      "elevation": "{value}m"
+      "elevation": "{value}m",
+      "viewMore": "Xem thêm"
     }
   },
   "tours": {
