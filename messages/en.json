@@ -581,6 +581,7 @@
     "joinTour": "Pick a trek to join",
     "goToCampaign": "Go to campaign {number}",
     "previousCampaign": "Previous campaign",
-    "nextCampaign": "Next campaign"
+    "nextCampaign": "Next campaign",
+    "openCount": "{count} campaigns open now"
   }
 }

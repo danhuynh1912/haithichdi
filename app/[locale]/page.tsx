@@ -7,6 +7,7 @@ import { queryKeys } from '@/lib/services/query-keys';
 import { getCachedLocations } from '@/lib/services/locations-cached';
 import { tourService } from '@/lib/services/tour';
 import { homeService } from '@/lib/services/home';
+import { campaignService } from '@/lib/services/campaign';
 import HomeClient from './home-client';
 
 type PageProps = { params: Promise<{ locale: Locale }> };
@@ -31,6 +32,10 @@ export default async function Page({ params }: PageProps) {
   setRequestLocale(locale);
 
   const queryClient = getQueryClient();
+  // Read here rather than through react-query: the strip is above the fold on
+  // the first screen, and it has to be in the served HTML.
+  const campaignsPromise = campaignService.getCampaigns(locale).catch(() => []);
+
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.locations(locale),
@@ -52,7 +57,7 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <HomeClient />
+      <HomeClient campaigns={await campaignsPromise} />
     </HydrationBoundary>
   );
 }

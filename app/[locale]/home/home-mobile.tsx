@@ -10,6 +10,8 @@ import { formatDateDdMm, slugify } from '@/lib/utils';
 import HomeMobileSectionSkeleton from './components/home-mobile-section-skeleton';
 import { HomeAboutJourneySection } from './components/home-about-journey';
 import LocationsSection from '@/app/[locale]/locations/locations-client';
+import { HomeCampaignHint } from './components/home-campaign-hint';
+import type { CampaignCard } from '@/lib/services/campaign';
 import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 import { HomeRouteTours } from './components/home-route-tours';
 
@@ -108,7 +110,7 @@ const HotTourFeatureCard = memo(function HotTourFeatureCard({
   );
 });
 
-export default function HomeMobile() {
+export default function HomeMobile({ campaigns }: { campaigns: CampaignCard[] }) {
   const router = useRouter();
   const t = useTranslations('home.mobile');
   const tCommon = useTranslations('common');
@@ -139,6 +141,8 @@ export default function HomeMobile() {
       </div>
 
       <div className='relative z-10 mx-auto max-w-lg px-4 flex flex-col gap-7'>
+        <HomeCampaignHint campaigns={campaigns} className='w-full [&>a]:w-full' />
+
         <section>
           <div className='h-11 rounded-2xl border border-line bg-surface px-4 flex items-center gap-2'>
             <Search size={16} className='text-ink-5' />

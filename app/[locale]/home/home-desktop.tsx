@@ -13,8 +13,10 @@ import LocationsSection from '@/app/[locale]/locations/locations-client';
 import { MomentsGallerySection } from '@/features/about/about-shared-sections';
 import { HomeRouteTours } from './components/home-route-tours';
 import { HeroVideo } from './components/hero-video';
+import { HomeCampaignHint } from './components/home-campaign-hint';
+import type { CampaignCard } from '@/lib/services/campaign';
 
-export default function HomeDesktop() {
+export default function HomeDesktop({ campaigns }: { campaigns: CampaignCard[] }) {
   const heroRef = useSiteHeroRef<HTMLElement>();
   const router = useRouter();
   const t = useTranslations('home.hero');
@@ -89,6 +91,8 @@ export default function HomeDesktop() {
                 <MoveRight className='ml-2' />
               </Button>
             </motion.div>
+
+            <HomeCampaignHint campaigns={campaigns} variant='onMedia' className='mt-6' />
           </div>
           <HotTours className='mt-16 max-w-[500px] w-[500px]' />
           <div className='pointer-events-none absolute h-[420px] bottom-0 left-0 right-0 bg-[image:var(--hero-fade)]' />

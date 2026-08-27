@@ -581,6 +581,7 @@
     "joinTour": "Chọn một chuyến để đi cùng",
     "goToCampaign": "Xem chiến dịch {number}",
     "previousCampaign": "Chiến dịch trước",
-    "nextCampaign": "Chiến dịch sau"
+    "nextCampaign": "Chiến dịch sau",
+    "openCount": "{count} chiến dịch đang kêu gọi"
   }
 }
