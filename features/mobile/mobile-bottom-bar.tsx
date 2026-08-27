@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Home, Mountain, Newspaper, TicketCheck, Users } from 'lucide-react';
+import { HeartHandshake, Home, Mountain, Newspaper, TicketCheck } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { useHideOnScrollDown } from '@/lib/hooks/use-hide-on-scroll-down';
@@ -34,13 +34,15 @@ const MOBILE_TABS = [
     match: (pathname: string) => pathname === '/blog' || pathname.startsWith('/blog/'),
   },
   {
-    // The section on the home page, matching the desktop header. `/about` is a
-    // separate page that says the same thing twice.
-    key: 'about',
-    href: '/#about-us',
-    labelKey: 'about',
-    Icon: Users,
-    match: (pathname: string) => pathname === '/about' || pathname.startsWith('/about/'),
+    // Five tabs is what 375px holds, so this slot is contested. "Về chúng tôi"
+    // gave it up: it is a page read once, while a campaign is time-boxed and
+    // is the thing worth tapping while it is open. The desktop header still
+    // carries both, and the campaigns page links back to the about section.
+    key: 'campaigns',
+    href: '/thien-nguyen',
+    labelKey: 'campaigns',
+    Icon: HeartHandshake,
+    match: (pathname: string) => pathname.startsWith('/thien-nguyen'),
   },
   {
     key: 'bookings',

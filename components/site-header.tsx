@@ -123,6 +123,7 @@ export default function SiteHeader() {
     pathname.startsWith('/tours/') ||
     pathname.startsWith('/tour-booking/');
   const isBlogActive = pathname === '/blog' || pathname.startsWith('/blog/');
+  const isCampaignsActive = pathname.startsWith('/thien-nguyen');
   const isAboutActive = pathname === '/about' || pathname.startsWith('/about/');
   const isContactActive = pathname === '/contact' || pathname.startsWith('/contact/');
   const isBookingsActive = pathname === '/my-bookings' || pathname.startsWith('/my-bookings/');
@@ -198,6 +199,9 @@ export default function SiteHeader() {
           </Link>
           <Link href='/blog' className={navItemClass(isBlogActive)}>
             <NavLabel>{t('blog')}</NavLabel>
+          </Link>
+          <Link href='/thien-nguyen' className={navItemClass(isCampaignsActive)}>
+            {t('campaigns')}
           </Link>
           {/* Both point at sections of the home page. When the reader is
               already there, scroll instead of routing to where they are. */}

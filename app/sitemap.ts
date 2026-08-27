@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/tours', lastModified: now, changeFrequency: 'daily', priority: 0.9 },
     { path: '/locations', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { path: '/blog', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { path: '/thien-nguyen', lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { path: '/about', lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { path: '/chatbot', lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
     { path: '/contact', lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
@@ -115,5 +116,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return expand([...staticPages, ...tourPages, ...locationPages, ...blogPages]);
+  // Published campaigns only, and read through the same RPC the site uses so
+  // an unpublished one cannot leak into the sitemap.
+  const { data: campaigns } = await supabase
+    .from('campaigns')
+    .select('slug, updated_at')
+    .eq('is_published', true);
+
+  const campaignPages: Entry[] = (campaigns ?? []).map((campaign) => ({
+    path: `/thien-nguyen/${campaign.slug}`,
+    lastModified: new Date(campaign.updated_at ?? now),
+    changeFrequency: 'weekly',
+    priority: 0.75,
+  }));
+
+  return expand([
+    ...staticPages,
+    ...tourPages,
+    ...locationPages,
+    ...blogPages,
+    ...campaignPages,
+  ]);
 }

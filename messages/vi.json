@@ -46,7 +46,8 @@
     "theme": "Giao diện",
     "switchToLight": "Chuyển sang giao diện sáng",
     "switchToDark": "Chuyển sang giao diện tối",
-    "blog": "Blogs"
+    "blog": "Blogs",
+    "campaigns": "Thiện nguyện"
   },
   "footer": {
     "description": "Chúng tôi tạo ra những hành trình trekking thật, nơi bạn vừa chinh phục giới hạn của bản thân, vừa kết nối cộng đồng và để lại giá trị tích cực trên từng cung đường.",
@@ -531,6 +532,10 @@
     "chatbot": {
       "title": "Trợ lý AI",
       "description": "Hỏi đáp cùng trợ lý AI của Hải Thích Đi: gợi ý tour trekking hợp thể lực và ngân sách, lịch trình, giá và cách đặt chỗ."
+    },
+    "campaigns": {
+      "title": "Trekking thiện nguyện – Mang quà về bản",
+      "description": "Những chiến dịch thiện nguyện của Hải Thích Đi: mỗi chuyến trekking góp một phần quà cho trẻ em vùng cao. Xem chiến dịch đang mở và kết quả những mùa đã qua."
     }
   },
   "priceInclusions": {
@@ -551,5 +556,31 @@
     "duration": "{days}N{nights}Đ",
     "backToTours": "Xem tất cả tour",
     "departuresSeeAll": "Xem tất cả {count} chuyến"
+  },
+  "campaigns": {
+    "eyebrow": "Hải Thích đi",
+    "heading": "Thiện nguyện",
+    "intro": "Mỗi mùa, một cung đường, một bản làng. Đây là những chuyến đi mà bước chân trên núi được đổi thành một phần quà dưới chân núi.",
+    "openHeading": "Đang kêu gọi",
+    "openNote": "Chiến dịch đang mở — bạn có thể đi cùng, hoặc góp cùng.",
+    "pastHeading": "Những mùa đã trao",
+    "pastNote": "Những chiến dịch đã khép lại, và những gì còn ở lại sau đó.",
+    "emptyOpen": "Hiện chưa có chiến dịch nào đang mở. Theo dõi Facebook của tụi mình để biết mùa tới nhé.",
+    "toursLabel": "Đi cùng chuyến",
+    "readMore": "Xem chiến dịch",
+    "readResult": "Xem kết quả",
+    "backToList": "Tất cả chiến dịch",
+    "donateHeading": "Cùng nhau ủng hộ",
+    "donateNote": "Không đi được vẫn góp được. Nhắn cho tụi mình để biết cần gì và gửi thế nào.",
+    "donateZalo": "Nhắn Zalo",
+    "donateFacebook": "Nhắn Facebook",
+    "resultHeading": "Kết quả",
+    "galleryHeading": "Khoảnh khắc",
+    "closedNote": "Chiến dịch này đã khép lại.",
+    "closedNoResult": "Chiến dịch đã khép lại. Tụi mình sẽ cập nhật kết quả sớm nhất có thể.",
+    "joinTour": "Chọn một chuyến để đi cùng",
+    "goToCampaign": "Xem chiến dịch {number}",
+    "previousCampaign": "Chiến dịch trước",
+    "nextCampaign": "Chiến dịch sau"
   }
 }

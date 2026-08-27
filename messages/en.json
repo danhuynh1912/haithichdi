@@ -46,7 +46,8 @@
     "theme": "Theme",
     "switchToLight": "Switch to light theme",
     "switchToDark": "Switch to dark theme",
-    "blog": "Blogs"
+    "blog": "Blogs",
+    "campaigns": "Giving back"
   },
   "footer": {
     "description": "We build real trekking journeys where you push past your own limits, connect with a community, and leave something positive behind on every trail.",
@@ -531,6 +532,10 @@
     "chatbot": {
       "title": "AI Assistant",
       "description": "Chat with Hải Thích Đi's AI assistant: trekking tour suggestions for your fitness and budget, itineraries, prices and booking."
+    },
+    "campaigns": {
+      "title": "Trekking that gives back",
+      "description": "Hải Thích Đi runs treks that fund gifts for children in the northern highlands. See the campaign that is open and what past seasons delivered."
     }
   },
   "priceInclusions": {
@@ -551,5 +556,31 @@
     "duration": "{days}D{nights}N",
     "backToTours": "See all tours",
     "departuresSeeAll": "See all {count} departures"
+  },
+  "campaigns": {
+    "eyebrow": "Hải Thích đi",
+    "heading": "Giving back",
+    "intro": "One season, one route, one village at a time. These are the treks where every step up the mountain turns into a gift at the foot of it.",
+    "openHeading": "Open now",
+    "openNote": "A campaign is running — you can walk with us, or give with us.",
+    "pastHeading": "Seasons already given",
+    "pastNote": "Campaigns that have closed, and what was left behind.",
+    "emptyOpen": "No campaign is open right now. Follow us on Facebook to hear about the next one.",
+    "toursLabel": "Walk with us",
+    "readMore": "View campaign",
+    "readResult": "See what happened",
+    "backToList": "All campaigns",
+    "donateHeading": "Give with us",
+    "donateNote": "You can help without walking. Message us to hear what is needed and how to send it.",
+    "donateZalo": "Message on Zalo",
+    "donateFacebook": "Message on Facebook",
+    "resultHeading": "What happened",
+    "galleryHeading": "Moments",
+    "closedNote": "This campaign has closed.",
+    "closedNoResult": "This campaign has closed. We will post what happened as soon as we can.",
+    "joinTour": "Pick a trek to join",
+    "goToCampaign": "Go to campaign {number}",
+    "previousCampaign": "Previous campaign",
+    "nextCampaign": "Next campaign"
   }
 }

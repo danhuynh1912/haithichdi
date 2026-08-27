@@ -4,7 +4,9 @@ import { Copy, Facebook, Mail, MapPin, Phone, Ticket } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
 
-const HOTLINE = '0336594797';
+import { FACEBOOK_URL, HOTLINE, TIKTOK_URL } from '@/lib/contact';
+
+
 const EMAIL = 'haithichdii@gmail.com';
 const ADDRESS = '47 hẻm 8/11/36 Phú Đô, Từ Liêm, Hà Nội';
 
@@ -173,7 +175,7 @@ export default function SiteFooter() {
           </h3>
           <div className='space-y-3 text-sm text-ink-2'>
             <a
-              href='https://www.facebook.com/haithichdi'
+              href={FACEBOOK_URL}
               target='_blank'
               rel='noopener noreferrer'
               // `flex w-fit`, not `inline-flex`: the parent stacks its children
@@ -185,7 +187,7 @@ export default function SiteFooter() {
               {t('facebook')}
             </a>
             <a
-              href='https://www.tiktok.com/@haithichdii'
+              href={TIKTOK_URL}
               target='_blank'
               rel='noopener noreferrer'
               // `flex w-fit`, not `inline-flex`: the parent stacks its children
