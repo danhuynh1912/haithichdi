@@ -43,6 +43,24 @@ type SeoParams = {
   noindex?: boolean;
 };
 
+/**
+ * Google renders roughly 155-160 characters of a description and drops the
+ * rest mid-word. Route and tour summaries are written for the page, not for a
+ * search result, and ran to 170-236 — so they are clipped here, on a word
+ * boundary, rather than by the search engine mid-syllable.
+ */
+const DESCRIPTION_LIMIT = 158;
+
+export function clampDescription(value: string): string {
+  const text = value.trim().replace(/\s+/g, ' ');
+  if (text.length <= DESCRIPTION_LIMIT) return text;
+
+  const cut = text.slice(0, DESCRIPTION_LIMIT - 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  // A single word longer than the limit has no boundary to fall back on.
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[,;:.\u2026-]+$/, '')}\u2026`;
+}
+
 function absoluteUrl(pathname: string, locale: Locale) {
   return new URL(localizedPath(pathname, locale), SITE_URL).toString();
 }
@@ -56,7 +74,7 @@ function alternateLanguages(pathname: string) {
 
 export async function createRootMetadata(locale: Locale): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'metadata' });
-  const description = t('siteDescription');
+  const description = clampDescription(t('siteDescription'));
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -112,7 +130,7 @@ export async function createMetadata({
 
   const url = absoluteUrl(pathname, locale);
   const metaTitle = title || SITE_NAME;
-  const metaDescription = description || t('siteDescription');
+  const metaDescription = clampDescription(description || t('siteDescription'));
   const metaImages =
     images === null ? null : images && images.length > 0 ? images : [DEFAULT_IMAGE];
 

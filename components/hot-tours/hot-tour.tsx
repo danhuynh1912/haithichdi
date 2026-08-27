@@ -75,7 +75,10 @@ const HotTourBase = forwardRef<HTMLDivElement, HotTourProps>(
         </div>
 
         <div className='flex flex-col gap-1 pt-2'>
-          <h1 className='text-xl font-bold leading-tight'>{tour.title}</h1>
+          {/* h3, under the section's own h2: a card title is not what the
+              page is about. As <h1> every card claimed to be, and the home
+              page shipped eleven of them. */}
+          <h3 className='text-xl font-bold leading-tight'>{tour.title}</h3>
 
           {/* <p className='text-sm text-ink-4'>{locationName}</p> */}
 

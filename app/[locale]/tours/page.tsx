@@ -9,6 +9,7 @@ import type { Location } from '@/lib/types';
 import { tourService, type TourQueryParams } from '@/lib/services/tour';
 import { slugify } from '@/lib/utils';
 import ToursRouteClient from './tours-route-client';
+import UpcomingDepartures from './upcoming-departures';
 
 type PageProps = {
   params: Promise<{ locale: Locale }>;
@@ -82,6 +83,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <h1 className='sr-only'>{t('heading')}</h1>
       <ToursRouteClient />
+      <UpcomingDepartures locale={locale} />
     </HydrationBoundary>
   );
 }

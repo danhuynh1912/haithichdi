@@ -244,6 +244,11 @@
       "quotationMobileCta": "View itinerary and pricing",
       "upcomingTours": "Upcoming tours",
       "noTours": "No tours on this route yet."
+    },
+    "index": {
+      "heading": "All trekking routes",
+      "subheading": "Open a route for its day-by-day itinerary, difficulty, cost and upcoming departures.",
+      "elevation": "{value}m"
     }
   },
   "tours": {
@@ -293,6 +298,11 @@
       "list": "List",
       "calendar": "Calendar",
       "aria": "Choose a view"
+    },
+    "departures": {
+      "heading": "Upcoming departures",
+      "subheading": "Every trip still taking bookings, by departure date.",
+      "slotsLeft": "{count} left"
     }
   },
   "blog": {
@@ -495,8 +505,8 @@
       "description": "Explore Hải Thích Đi's featured trekking routes, with full destination details and upcoming tours."
     },
     "tours": {
-      "title": "Tours",
-      "description": "Every Hải Thích Đi trekking tour, with search and location filters."
+      "title": "Upcoming trekking tour schedule",
+      "description": "Every departure for Ta Chi Nhu, Phu Sa Phin, Ky Quan San and more — dates, prices, remaining places, and online booking."
     },
     "myBookings": {
       "title": "Your bookings",
@@ -507,8 +517,8 @@
       "description": "Get in touch with Hải Thích Đi and we'll help you pick the right trek."
     },
     "tourBooking": {
-      "title": "Book the {tour} tour",
-      "titleFallback": "Book tour #{id}",
+      "title": "{tour}",
+      "titleFallback": "Tour #{id}",
       "description": "Book the {tour} tour in {location} with Hải Thích Đi.",
       "descriptionNoLocation": "Book the {tour} tour with Hải Thích Đi.",
       "descriptionFallback": "Book a trekking tour with Hải Thích Đi."
@@ -518,8 +528,8 @@
       "description": "Your booking is in. The Hải Thích Đi team will be in touch shortly to confirm your details."
     },
     "blog": {
-      "title": "Blog",
-      "description": "Trekking experience, gear and route reviews from Hải Thích Đi."
+      "title": "Trekking guides & route reviews",
+      "description": "Trekking for beginners, choosing boots and packs, training, the best months for a sea of cloud, and reviews of each northern route."
     },
     "chatbot": {
       "title": "AI Assistant",

@@ -244,6 +244,11 @@
       "quotationMobileCta": "Xem lịch trình và báo giá",
       "upcomingTours": "Tours sắp tới",
       "noTours": "Hiện chưa có tour cho cung đường này."
+    },
+    "index": {
+      "heading": "Tất cả các cung trekking",
+      "subheading": "Chọn cung để xem lịch trình từng ngày, độ khó, chi phí và những chuyến sắp khởi hành.",
+      "elevation": "{value}m"
     }
   },
   "tours": {
@@ -293,6 +298,11 @@
       "list": "Danh sách",
       "calendar": "Lịch",
       "aria": "Chọn kiểu hiển thị"
+    },
+    "departures": {
+      "heading": "Lịch khởi hành sắp tới",
+      "subheading": "Toàn bộ chuyến còn nhận khách, xếp theo ngày đi.",
+      "slotsLeft": "còn {count} chỗ"
     }
   },
   "blog": {
@@ -495,8 +505,8 @@
       "description": "Khám phá các cung đường trekking nổi bật cùng Hải Thích Đi, đầy đủ thông tin địa điểm và tour sắp diễn ra."
     },
     "tours": {
-      "title": "Tours",
-      "description": "Danh sách tour trekking Hải Thích Đi với bộ lọc địa điểm và tìm kiếm."
+      "title": "Lịch tour trekking, leo núi sắp khởi hành",
+      "description": "Toàn bộ lịch khởi hành tour trekking Tà Chì Nhù, Phu Sa Phìn, Ky Quan San, Lảo Thẩn… Xem ngày đi, giá, số chỗ còn lại và đặt chỗ trực tuyến."
     },
     "myBookings": {
       "title": "Tours bạn đã đặt",
@@ -507,8 +517,8 @@
       "description": "Liên hệ Hải Thích Đi để được tư vấn cung trekking phù hợp với bạn."
     },
     "tourBooking": {
-      "title": "Đăng ký tour {tour}",
-      "titleFallback": "Đăng ký tour #{id}",
+      "title": "{tour}",
+      "titleFallback": "Tour #{id}",
       "description": "Đăng ký tour {tour} - {location} cùng Hải Thích Đi.",
       "descriptionNoLocation": "Đăng ký tour {tour} cùng Hải Thích Đi.",
       "descriptionFallback": "Đăng ký tour trekking cùng Hải Thích Đi."
@@ -518,8 +528,8 @@
       "description": "Đăng ký tour thành công. Đội ngũ Hải Thích Đi sẽ sớm liên hệ để xác nhận thông tin của bạn."
     },
     "blog": {
-      "title": "Blog",
-      "description": "Kinh nghiệm trekking, thiết bị và review cung đường từ Hải Thích Đi."
+      "title": "Kinh nghiệm trekking & review cung đường",
+      "description": "Kinh nghiệm leo núi cho người mới, chọn giày và balo, tập thể lực, mùa săn mây đẹp nhất và review từng cung đường Tây Bắc."
     },
     "chatbot": {
       "title": "Trợ lý AI",
