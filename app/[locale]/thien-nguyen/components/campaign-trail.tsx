@@ -39,7 +39,7 @@ export function CampaignTrail({ campaigns }: { campaigns: CampaignCard[] }) {
   if (past.length === 0) return null;
 
   return (
-    <div className='mx-auto max-w-5xl px-4 pb-24 md:px-8'>
+    <div className='mx-auto max-w-6xl px-4 pb-24 md:px-8'>
       <PastTrail campaigns={past} />
     </div>
   );
@@ -155,7 +155,7 @@ function Milestone({ campaign, index = 0 }: { campaign: CampaignCard; index?: nu
       transition={{ duration: 0.7, ease: ANIMATION_EASE }}
       className={[
         'relative pb-14 pl-12 md:pb-20 md:pl-0',
-        onLeft ? 'md:pr-[46%]' : 'md:pl-[46%]',
+        onLeft ? 'md:pr-[52%]' : 'md:pl-[52%]',
       ].join(' ')}
     >
       <Dot />
