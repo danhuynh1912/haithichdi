@@ -8,6 +8,15 @@ import {
 } from '@/i18n/routing';
 
 export const SITE_NAME = 'Hải Thích Đi';
+/**
+ * The full brand, and what Google is being asked to print above the title in
+ * place of the bare domain. Deliberately not the same string as `SITE_NAME`:
+ * that one is the suffix on every page title, where the shorter form leaves
+ * more of the 60-odd characters Google shows for what the page is about.
+ * `websiteJsonLd` lists the short form as an `alternateName`, which is exactly
+ * what that field is for.
+ */
+export const SITE_BRAND = 'Hải Thích Đi Travel';
 // Falls back to the production origin, matching robots.ts and sitemap.ts — a
 // missing env var must never ship localhost canonicals to production.
 export const SITE_URL =
@@ -72,6 +81,57 @@ function alternateLanguages(pathname: string) {
   );
 }
 
+/**
+ * The site's own identity, for the line above the title in a search result.
+ *
+ * Google shows a domain there — "haithichdi.com" — until the homepage tells it
+ * what the site is called, and the type it reads for that is `WebSite`. The
+ * `TravelAgency` block in the layout says who runs the site, which is a
+ * different question and does not stand in for this one.
+ *
+ * Only the homepage counts: Google takes the site name from the root of the
+ * domain and applies it to every result beneath it.
+ */
+export function websiteJsonLd(locale: Locale) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_BRAND,
+    // Other forms Google may already have seen, the title suffix among them.
+    // These are weighed together with `og:site_name` and the homepage <title>,
+    // and a site that disagrees with itself keeps its domain.
+    alternateName: [SITE_NAME, 'Haithichdi', 'Hai Thich Di'],
+    url: absoluteUrl('/', locale),
+  };
+}
+
+/** One step of the trail, as a path this site actually serves. */
+export interface Crumb {
+  name: string;
+  /** Unprefixed app path; the last crumb may omit it. */
+  pathname?: string;
+}
+
+/**
+ * The trail Google prints in place of the raw URL — "Hải Thích Đi › Thiện
+ * nguyện" rather than "haithichdi.com › thien-ngu…".
+ *
+ * Without it Google guesses from the URL, which is why the path segment shows
+ * up truncated and unreadable.
+ */
+export function breadcrumbJsonLd(locale: Locale, crumbs: Crumb[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      ...(crumb.pathname ? { item: absoluteUrl(crumb.pathname, locale) } : {}),
+    })),
+  };
+}
+
 export async function createRootMetadata(locale: Locale): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: 'metadata' });
   const description = clampDescription(t('siteDescription'));
@@ -88,7 +148,7 @@ export async function createRootMetadata(locale: Locale): Promise<Metadata> {
       title: SITE_NAME,
       description,
       url: absoluteUrl('/', locale),
-      siteName: SITE_NAME,
+      siteName: SITE_BRAND,
       images: [DEFAULT_IMAGE],
       locale: OG_LOCALE[locale],
       type: 'website',
@@ -153,7 +213,7 @@ export async function createMetadata({
       title: metaTitle,
       description: metaDescription,
       url,
-      siteName: SITE_NAME,
+      siteName: SITE_BRAND,
       ...(metaImages ? { images: metaImages } : {}),
       locale: OG_LOCALE[locale],
       type: 'website',

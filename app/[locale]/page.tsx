@@ -1,7 +1,8 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
-import { createMetadata } from '@/lib/seo';
+import { createMetadata, websiteJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
 import { getCachedLocations } from '@/lib/services/locations-cached';
@@ -57,6 +58,9 @@ export default async function Page({ params }: PageProps) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* Only the homepage carries this: Google reads the site name from the
+          root of the domain and applies it to every result beneath it. */}
+      <JsonLd data={websiteJsonLd(locale)} />
       <HomeClient campaigns={await campaignsPromise} />
     </HydrationBoundary>
   );

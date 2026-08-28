@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
-import { createMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, createMetadata } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { campaignService } from '@/lib/services/campaign';
 import { CampaignDetailView } from '../components/campaign-detail-view';
 
@@ -45,5 +46,18 @@ export default async function Page({ params }: PageProps) {
   const campaign = await campaignService.getCampaign(locale, slug);
   if (!campaign) notFound();
 
-  return <CampaignDetailView campaign={campaign} />;
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
+
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav('home'), pathname: '/' },
+          { name: tNav('campaigns'), pathname: '/thien-nguyen' },
+          { name: campaign.title },
+        ])}
+      />
+      <CampaignDetailView campaign={campaign} />
+    </>
+  );
 }

@@ -4,7 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import '../globals.css';
 import Providers from './providers';
-import { createRootMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { createRootMetadata, SITE_BRAND, SITE_URL } from '@/lib/seo';
 import { routing } from '@/i18n/routing';
 import SiteHeader from '@/components/site-header';
 import MobileBottomBar from '@/features/mobile/mobile-bottom-bar';
@@ -39,7 +39,7 @@ export async function generateMetadata({
 const ORG_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'TravelAgency',
-  name: SITE_NAME,
+  name: SITE_BRAND,
   url: SITE_URL,
   logo: new URL('/haithichdi-logo-red.png', SITE_URL).toString(),
   sameAs: [

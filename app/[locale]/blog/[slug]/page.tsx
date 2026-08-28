@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { localizedPath, routing, type Locale } from '@/i18n/routing';
-import { createMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { breadcrumbJsonLd, createMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { blogService } from '@/lib/services/blog';
 import { MarkdownContent } from '@/components/markdown-content';
 
@@ -74,11 +75,20 @@ export default async function Page({ params }: PageProps) {
     ).toString(),
   };
 
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
+
   return (
     <main className='min-h-screen bg-elev-0 text-ink-1'>
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav('home'), pathname: '/' },
+          { name: tNav('blog'), pathname: '/blog' },
+          { name: post.title },
+        ])}
       />
 
       <article className='mx-auto max-w-3xl px-4 pt-24 pb-20 md:px-8'>

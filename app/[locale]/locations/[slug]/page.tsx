@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing, type Locale } from '@/i18n/routing';
-import { createMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, createMetadata } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { locationService } from '@/lib/services/location';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
@@ -80,8 +81,17 @@ export default async function Page({ params }: PageProps) {
     queryFn: () => locationService.getToursByLocation(location.id, locale),
   });
 
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav('home'), pathname: '/' },
+          { name: tNav('locations'), pathname: '/locations' },
+          { name: location.name },
+        ])}
+      />
       <RouteDetailClient location={location} />
     </HydrationBoundary>
   );

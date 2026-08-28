@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { localizedPath, type Locale } from '@/i18n/routing';
-import { createMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { breadcrumbJsonLd, createMetadata, SITE_NAME, SITE_URL } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { getQueryClient } from '@/lib/get-query-client';
 import { queryKeys } from '@/lib/services/query-keys';
 import { tourService } from '@/lib/services/tour';
@@ -131,8 +132,19 @@ export default async function Page({ params }: PageProps) {
       })()
     : null;
 
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
+
   return (
     <>
+      {tour && (
+        <JsonLd
+          data={breadcrumbJsonLd(locale, [
+            { name: tNav('home'), pathname: '/' },
+            { name: tNav('tours'), pathname: '/tours' },
+            { name: tour.title },
+          ])}
+        />
+      )}
       {jsonLd ? (
         <script
           type='application/ld+json'

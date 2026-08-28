@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
-import { createMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, createMetadata } from '@/lib/seo';
+import { JsonLd } from '@/components/json-ld';
 import { campaignService } from '@/lib/services/campaign';
 import { CampaignBillboard } from './components/campaign-billboard';
 import { CampaignTrail, QuietSeasonHero } from './components/campaign-trail';
@@ -37,9 +38,16 @@ export default async function Page({ params }: PageProps) {
   const campaigns = await campaignService.getCampaigns(locale).catch(() => []);
 
   const open = campaigns.filter((campaign) => campaign.is_open);
+  const tNav = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <main className='bg-elev-0 flex min-h-screen flex-col'>
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: tNav('home'), pathname: '/' },
+          { name: tNav('campaigns') },
+        ])}
+      />
       {/* Source order is the phone's order: the page says what it is, then
           shows what is running. A desktop puts the billboard first instead —
           it fills the screen, and a title above it would be a title nobody
