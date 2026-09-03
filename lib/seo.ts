@@ -29,7 +29,7 @@ const DEFAULT_IMAGE = {
   width: 1200,
   height: 630,
 };
-const ICON_VERSION = '20260402';
+const ICON_VERSION = '20260903';
 
 type SeoParams = {
   locale: Locale;
